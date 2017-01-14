@@ -6,7 +6,29 @@
 </head>
 <body>
   <script>
+    // 解决顺序问题:我们不用浏览器自带的事件池,而是自己模拟标准浏览器的事件池实现
 
+    // on:创建事件池,并且把需要给当前元素绑定的方法依次增加到事件池中
+    function on(curEle, eventType, eventFn) {
+
+    }
+    // off:在自己的事件池中,把某一个方法移除
+    function off(curEle, eventType, eventFn) {
+      var ary = curEle["myEvent"] + eventType;
+      // 属性不存在就创建
+      if (!ary) {
+        ary = [];
+      }
+      var len = ary.length;
+      // 事件存在就不增加
+      for (var i = 0; i < len; i++) {
+        var cur = ary[i];
+        if (cur === eventFn) {
+          return;
+        }
+      }
+      ary[ary.length] = eventFn;
+    }
 
   </script>
 </body>
