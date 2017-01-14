@@ -2441,7 +2441,7 @@
         }
 
         b.exports = e
-      }.call(this, a("C:\\Users\\forbes.lindesay\\Documents\\GitHub\\jade\\node_modules\\browserify\\node_modules\\insert-module-globals\\node_modules\\process\\browser.js"), "/..\\node_modules\\uglify-js\\node_modules\\source-map\\node_modules\\amdefine\\amdefine.js")
+      }.call(this, a("C:\\Users\\forbes.lindesay\\Documents\\GitHub\\jade\\node_modules\\browserify\\node_modules\\insert-module-globals\\node_modules\\process\\browser.js"), "/..\\node_modules\\uglify-source\\node_modules\\source-map\\node_modules\\amdefine\\amdefine.source")
     }, {
       "C:\\Users\\forbes.lindesay\\Documents\\GitHub\\jade\\node_modules\\browserify\\node_modules\\insert-module-globals\\node_modules\\process\\browser.js": 28,
       path: 29

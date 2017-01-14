@@ -226,7 +226,7 @@
           }
         }
       } catch (ex) {
-        console.warn("Touch.js is not supported by environment.");
+        console.warn("Touch.source is not supported by environment.");
       }
     },
     bind: function (el, evt, handler) {

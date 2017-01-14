@@ -19,8 +19,8 @@ ejs = (function () {
 
   require.resolve = function (path) {
     var orig = path
-      , reg = path + '.js'
-      , index = path + '/index.js';
+      , reg = path + '.source'
+      , index = path + '/index.source';
     return require.modules[reg] && reg
       || require.modules[index] && index
       || orig;
@@ -49,7 +49,7 @@ ejs = (function () {
   };
 
 
-  require.register("ejs.js", function (module, exports, require) {
+  require.register("ejs.source", function (module, exports, require) {
 
     /*!
      * EJS
@@ -61,7 +61,7 @@ ejs = (function () {
      * Module dependencies.
      */
 
-    var utils = require('./utils')
+    var utils = require('./../utils')
       , path = require('path')
       , dirname = path.dirname
       , extname = path.extname
@@ -78,7 +78,7 @@ ejs = (function () {
     var filters = exports.filters = require('./filters');
 
     /**
-     * Intermediate js cache.
+     * Intermediate source cache.
      *
      * @type Object
      */
@@ -86,7 +86,7 @@ ejs = (function () {
     var cache = {};
 
     /**
-     * Clear intermediate js cache.
+     * Clear intermediate source cache.
      *
      * @api public
      */
@@ -419,9 +419,9 @@ ejs = (function () {
       });
     }
 
-  }); // module: ejs.js
+  }); // module: ejs.source
 
-  require.register("filters.js", function (module, exports, require) {
+  require.register("filters.source", function (module, exports, require) {
     /*!
      * EJS - Filters
      * Copyright(c) 2010 TJ Holowaychuk <tj@vision-media.ca>
@@ -624,9 +624,9 @@ ejs = (function () {
       return JSON.stringify(obj);
     };
 
-  }); // module: filters.js
+  }); // module: filters.source
 
-  require.register("utils.js", function (module, exports, require) {
+  require.register("utils.source", function (module, exports, require) {
 
     /*!
      * EJS
@@ -652,7 +652,7 @@ ejs = (function () {
     };
 
 
-  }); // module: utils.js
+  }); // module: utils.source
 
   return require("ejs");
 })();

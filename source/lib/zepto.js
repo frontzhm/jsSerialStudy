@@ -622,7 +622,7 @@
           this.innerHTML = ''
         })
       },
-      // `pluck` is borrowed from Prototype.js
+      // `pluck` is borrowed from Prototype.source
       pluck: function (property) {
         return $.map(this, function (el) {
           return el[property]
@@ -1766,9 +1766,9 @@
   })()
   return Zepto
 }))
-//     Zepto.js
+//     Zepto.source
 //     (c) 2010-2016 Thomas Fuchs
-//     Zepto.js may be freely distributed under the MIT license.
+//     Zepto.source may be freely distributed under the MIT license.
 
 ;
 (function ($) {
@@ -1935,9 +1935,9 @@
     }
   })
 })(Zepto)
-//     Zepto.js
+//     Zepto.source
 //     (c) 2010-2016 Thomas Fuchs
-//     Zepto.js may be freely distributed under the MIT license.
+//     Zepto.source may be freely distributed under the MIT license.
 
 ;
 (function ($, undefined) {
