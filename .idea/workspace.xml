@@ -1,77 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f14e1c3a-1f63-47e8-8fc3-374060e68954" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/10.DOM零级和二级事件基础/jquery.js" afterPath="$PROJECT_DIR$/10.DOM零级和二级事件基础/jquery.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/11.移动端/10.slide/index.html" afterPath="$PROJECT_DIR$/11.移动端/10.slide/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/11.移动端/11.ejs.html" afterPath="$PROJECT_DIR$/11.移动端/11.ejs.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/11.移动端/11.本地存储.html" afterPath="$PROJECT_DIR$/11.移动端/11.本地存储.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/11.移动端/12.isSroll.html" afterPath="$PROJECT_DIR$/11.移动端/12.isSroll.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/11.移动端/2.liebao/index.html" afterPath="$PROJECT_DIR$/11.移动端/2.liebao/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/11.移动端/4.rem.html" afterPath="$PROJECT_DIR$/11.移动端/4.rem.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/11.移动端/6.wechatApply.html" afterPath="$PROJECT_DIR$/11.移动端/6.wechatApply.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/11.移动端/7.移动端事件.html" afterPath="$PROJECT_DIR$/11.移动端/7.移动端事件.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/11.移动端/8.移动端事件-touch.html" afterPath="$PROJECT_DIR$/11.移动端/8.移动端事件-touch.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/11.移动端/9.zepto.html" afterPath="$PROJECT_DIR$/11.移动端/9.zepto.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/11.移动端/webAppDemo1/index.html" afterPath="$PROJECT_DIR$/11.移动端/webAppDemo1/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/11.移动端/webAppDemo1/js/less.min.js" afterPath="$PROJECT_DIR$/11.移动端/webAppDemo1/js/less.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/2.单例模式.工厂模式.构造函数.原型链/3.构造函数模式.html" afterPath="$PROJECT_DIR$/2.单例模式.工厂模式.构造函数.原型链/3.构造函数模式.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/2.单例模式.工厂模式.构造函数.原型链/6.原型链扩展-this.html" afterPath="$PROJECT_DIR$/2.单例模式.工厂模式.构造函数.原型链/6.原型链扩展-this.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/2.单例模式.工厂模式.构造函数.原型链/7.原型链扩展-批量设置.html" afterPath="$PROJECT_DIR$/2.单例模式.工厂模式.构造函数.原型链/7.原型链扩展-批量设置.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/3.call.apply.表格排序.正则/10.json.html" afterPath="$PROJECT_DIR$/3.call.apply.表格排序.正则/10.json.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/3.call.apply.表格排序.正则/11.数据绑定和DOM回流.html" afterPath="$PROJECT_DIR$/3.call.apply.表格排序.正则/11.数据绑定和DOM回流.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/3.call.apply.表格排序.正则/12.简单的表格排序.html" afterPath="$PROJECT_DIR$/3.call.apply.表格排序.正则/12.简单的表格排序.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/3.call.apply.表格排序.正则/13.Dom的映射机制.html" afterPath="$PROJECT_DIR$/3.call.apply.表格排序.正则/13.Dom的映射机制.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/4.正则/9.正则捕获练习.html" afterPath="$PROJECT_DIR$/4.正则/9.正则捕获练习.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/6.DOM深入和DOM库/10.选项卡实现1.html" afterPath="$PROJECT_DIR$/6.DOM深入和DOM库/10.选项卡实现1.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/6.DOM深入和DOM库/11.选项卡实现2.html" afterPath="$PROJECT_DIR$/6.DOM深入和DOM库/11.选项卡实现2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/6.DOM深入和DOM库/12.选项卡之闭包.html" afterPath="$PROJECT_DIR$/6.DOM深入和DOM库/12.选项卡之闭包.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/6.DOM深入和DOM库/13.选项卡的事件委托.html" afterPath="$PROJECT_DIR$/6.DOM深入和DOM库/13.选项卡的事件委托.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/6.DOM深入和DOM库/14.选项卡之构造函数.html" afterPath="$PROJECT_DIR$/6.DOM深入和DOM库/14.选项卡之构造函数.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/6.DOM深入和DOM库/4.append(element).html" afterPath="$PROJECT_DIR$/6.DOM深入和DOM库/4.append(element).html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/6.DOM深入和DOM库/5.addClass(className).html" afterPath="$PROJECT_DIR$/6.DOM深入和DOM库/5.addClass(className).html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/6.DOM深入和DOM库/6.getElementsByElementByClassName(className).html" afterPath="$PROJECT_DIR$/6.DOM深入和DOM库/6.getElementsByElementByClassName(className).html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/6.DOM深入和DOM库/7.setCss(className).html" afterPath="$PROJECT_DIR$/6.DOM深入和DOM库/7.setCss(className).html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/6.DOM深入和DOM库/8.setCss(object).html" afterPath="$PROJECT_DIR$/6.DOM深入和DOM库/8.setCss(object).html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/6.DOM深入和DOM库/9.css(options).html" afterPath="$PROJECT_DIR$/6.DOM深入和DOM库/9.css(options).html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/6.DOM深入和DOM库/tabFn.html" afterPath="$PROJECT_DIR$/6.DOM深入和DOM库/tabFn.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/7.动画优化和tween库/1.指定时间实现单方向匀速运动的两种思想.html" afterPath="$PROJECT_DIR$/7.动画优化和tween库/1.指定时间实现单方向匀速运动的两种思想.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/7.动画优化和tween库/2.优化反弹效果的动画.html" afterPath="$PROJECT_DIR$/7.动画优化和tween库/2.优化反弹效果的动画.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/7.动画优化和tween库/2.反弹效果的动画.html" afterPath="$PROJECT_DIR$/7.动画优化和tween库/2.反弹效果的动画.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/7.动画优化和tween库/3.保证同一时间只能执行一个动画.html" afterPath="$PROJECT_DIR$/7.动画优化和tween库/3.保证同一时间只能执行一个动画.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/7.动画优化和tween库/4.实现左边和右边同时运动.html" afterPath="$PROJECT_DIR$/7.动画优化和tween库/4.实现左边和右边同时运动.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/7.动画优化和tween库/5.实现同时运动的函数.html" afterPath="$PROJECT_DIR$/7.动画优化和tween库/5.实现同时运动的函数.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/8.轮播图/1.轮播图之无缝滚动.html" afterPath="$PROJECT_DIR$/8.轮播图/1.轮播图之无缝滚动.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/8.轮播图/2.轮播图之渐隐渐现.html" afterPath="$PROJECT_DIR$/8.轮播图/2.轮播图之渐隐渐现.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/8.轮播图/3.轮播图插件.html" afterPath="$PROJECT_DIR$/8.轮播图/3.轮播图插件.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/8.轮播图/lb.html" afterPath="$PROJECT_DIR$/8.轮播图/lb.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/8.轮播图/test2.html" afterPath="$PROJECT_DIR$/8.轮播图/test2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/9.jq基础/7.选项卡.html" afterPath="$PROJECT_DIR$/9.jq基础/7.选项卡.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/9.jq基础/8.轮播/jquery.1.11.3.js" afterPath="$PROJECT_DIR$/9.jq基础/8.轮播/jquery.1.11.3.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/9.jq基础/jquery.js" afterPath="$PROJECT_DIR$/9.jq基础/jquery.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/banner.js" afterPath="$PROJECT_DIR$/source/banner.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/animate.css" afterPath="$PROJECT_DIR$/source/lib/animate.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/cookieRender.js" afterPath="$PROJECT_DIR$/source/cookieRender.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ejs.js" afterPath="$PROJECT_DIR$/source/lib/ejs.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/fastclick.js" afterPath="$PROJECT_DIR$/source/lib/fastclick.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/iscroll-infinite.js" afterPath="$PROJECT_DIR$/source/lib/iscroll-infinite.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/iscroll-lite.js" afterPath="$PROJECT_DIR$/source/lib/iscroll-lite.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/iscroll-probe.js" afterPath="$PROJECT_DIR$/source/lib/iscroll-probe.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/iscroll-zoom.js" afterPath="$PROJECT_DIR$/source/lib/iscroll-zoom.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/iscroll.js" afterPath="$PROJECT_DIR$/source/lib/iscroll.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/jade.js" afterPath="$PROJECT_DIR$/source/lib/jade.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/md5.js" afterPath="$PROJECT_DIR$/source/lib/md5.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/normalize.css" afterPath="$PROJECT_DIR$/source/lib/normalize.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/reset.css" afterPath="$PROJECT_DIR$/source/lib/reset.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/swiper.css" afterPath="$PROJECT_DIR$/source/lib/swiper.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/swiper.js" afterPath="$PROJECT_DIR$/source/lib/swiper.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/touch.0.2.14.js" afterPath="$PROJECT_DIR$/source/lib/touch.0.2.14.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/zepto.js" afterPath="$PROJECT_DIR$/source/lib/zepto.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/tween.js" afterPath="$PROJECT_DIR$/source/tween.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/usefulFn.js" afterPath="$PROJECT_DIR$/source/usefulFn.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/utils.js" afterPath="$PROJECT_DIR$/source/utils.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/utilsbak.js" afterPath="$PROJECT_DIR$/source/utilsbak.js" />
-    </list>
+    <list default="true" id="f14e1c3a-1f63-47e8-8fc3-374060e68954" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -277,15 +207,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1484371617530</updated>
-      <workItem from="1484371619665" duration="469000" />
+      <workItem from="1484371619665" duration="932000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="469000" />
+    <option name="totallyTimeSpent" value="932000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24963397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
