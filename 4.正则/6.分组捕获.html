@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<script>
+  // 正则分组:
+  // 1.改变优先级
+  // 2.分组引用
+  // \2代表和第二个分组出现一模一样的内容
+  // \1表示和第一个分组内容一模一样
+  // var reg = /^(\w)\1(\w)\2$/;
+  // console.log(reg.test("zzff"))
+  // 3.分组捕获->正则捕获的时候不仅把大正则匹配的内容捕获到还能把小正则的内容捕获到
+  // (?:)在分组中?:的意思是只匹配不捕获
+  // var reg = /^(\d{2})(\d{4})(\d{4})(\d{2})(\d{2})(?:\d{2})(\d)(?:\d|X)$/
+  // var str = "142726199009281211";
+  // console.log(reg.exec(str));//var arr = ["142726199009281211", "14", "2726", "1990", "09", "28", "12", "1", "1", index: 0, input: "142726199009281211"]
+  // // 数组中的第一项arr[0]大正则匹配的内容
+  // // arr[1]第一个分组捕获的内容
+  // // ...
+  // console.log(str.match(reg)) //同上
+  var reg = /huhua(\d+)/g;
+  var str = "huhua443huhua7899";
+  // 我们用exec执行2次 每一次不仅仅把大正则获取到还能获取小正则
+  console.log(reg.exec(str)) //["huhua443", "443", index: 0, input: "huhua443huhua7899"]
+  console.log(reg.exec(str)) // ["huhua7899", "7899", index: 8, input: "huhua443huhua7899"]
+  // match只能捕获大正则匹配的内容
+  console.log(str.match(reg)) // ["huhua443", "huhua7899"]
+
+</script>
+</body>
+</html>

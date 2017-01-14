@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<div id="box" name="huahua" index="0" class="hua"></div>
+<script>
+  function c(str) {
+    return console.log(str)
+  }
+  // 1.js盒子模型:通过js中提供的一系列属性和方法,获取页面中元素的样式信息值
+  var box = document.getElementById("box");
+  // #box有很多自己私有属性 -> HTMLDivElement.prototype ->HTMLElement.prototype  ->Element.prototype  ->Node.prototype  ->EventTarget.prototype  ->Object.prototype
+  // attributes ->NamedNodeMap.prototype// 属性集合
+  c(box.attributes) // NamedNodeMap {0: id, 1: name, 2: index, length: 3}
+  c(box.attributes.getNamedItem("name")) // name="huahua"
+  c(box.attributes.getNamedItem("index")) // index="0"
+  c(box.attributes.item(0)) //id="box"
+  c(box.attributes.item(2)) //index="0"
+  // classList -> DOMTokenList.prototype
+  c(box.classList)
+  c(box.classList.add("hua1"))
+  c(box.classList.remove("hua"))
+  c(box.classList)
+
+  // 内容的宽高:我们设置的width height这两个样式,如果没有设置height值,容器的高度会根据内容自适应,这样获取的值是真实内容的高,如果设置固定的高度,那么高度就是设定的高度,与内容真实高度无关
+  // 真实内容宽高:实际内容的宽高(和我们设置的height没有关系).eg:设置高度200px,如果内容有溢出,那么真实内容的高度就是把溢出的内容的高度加进来
+  //
+  // 1.client系列(当前元素的私有属性) clientHeight /clientWidth 内容宽高+padding(看上面 设置宽高的话就是设置的  不是设置的就是自适应的)
+  // 						clientLeft,clientTop 左,上边框的高
+  c(box.clientHeight)
+  c(box.contentEditable)
+  c(box.contentEditable)
+
+
+  // 2.offset系列
+  // offsetWidth/offsetHeight = clientWidth/clientHeight +边框 (和内容是否溢出无关)
+  // offsetParent  当前元素的父级参照物
+  // offsetLeft/offsetTop 当前元素的外边框距离父级参照物的内边框的偏移量
+
+
+  // 3.scroll系列
+  // scrollWidth/scrollHeight 和clientWidth/clientHeight一样(前提是 容器中内容没有溢出的情况)
+  // 如果容器内容的内容溢出 我们获取的结果是如下规则
+  // scrollWidth:真实内容宽+左边填充
+  // scrollHeight:真实内容高+上边填充
+  // 获取的结果都是约等于的值 因为同一个浏览器 我们是否设置overflowhidden对于最终的结果是有影响的,在不同的浏览器中 获取的结果也是不一样的
+  // scrollLeft/scrollTop :这个容器的滚动条卷去的宽度和高度
+
+
+  // 2.关于js盒子模型属性取值的问题
+  // 通过13个属性值获取的结果 永远是整数;浏览器在获取结果的时候,是四舍五入的
+
+
+  // 3.关于操作浏览器本身的盒子模型信息
+  // document.documentElment.clientWidth/clientHeight 当前浏览器的可视窗口的宽度和高度(就是一屏幕)
+  // document.documentElment.scrollWidth/scrollHeight 当前浏览器的真实的宽度和高度(就是所有屏加起来的宽高 约等于)
+  // document.body.scrollTop/scrollLeft 当前浏览器卷去的宽高
+  // 不管哪些属性 也不管浏览器 也不管获取还是设置,想要兼容的话 需要写两套
+  // 必须document.documentElement.clientWidth || document.body.clientWidth
+  // 编写一个关于操作浏览器盒子模型的方法
+  // 如果值传递attr只是获取值
+  // 传了两个是设置某一个样式属性的值
+  // 不严谨的说 有关于类的重载就是通过传递参数的不同实现不同的功能
+  function win(attr, value) {
+    if (typeof value === "undefined") {
+      return document.documentElement[attr] || document.body[attr];
+    }
+    document.documentElement[attr] = value;
+    document.body[attr] = value;
+
+
+  }
+
+</script>
+</body>
+</html>

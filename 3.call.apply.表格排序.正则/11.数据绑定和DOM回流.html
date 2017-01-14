@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    li {
+      /*省略号必须四个条件*/
+      width: 20em;
+      white-space: nowrap; /*强制不换行*/
+      overflow: hidden; /*溢出隐藏*/
+      text-overflow: ellipsis; /*截取后以... clip没有省略号*/
+    }
+  </style>
+</head>
+
+<body>
+<ol id="ol1">
+  <li>1今天是ChinaJoy 2016开幕第一天，除了游戏厂商外，不少PC厂商也首发了重磅新品</li>
+  <li>2今天上午，宏碁正式发布旗下最新的掠夺者Z271 27英寸曲面电竞显示器，定价3999元。作为一款主打电竞的产品</li>
+  <li>3宏碁掠夺者Z271有三个卖点：支持NVIDIA G-SYNC技术，屏幕刷新率达到144Hz）</li>
+</ol>
+</body>
+<script>
+  var data = [{
+    "title": "宏碁发布掠夺者Z271电竞曲面显示器",
+    "content": "今天是ChinaJoy 2016开幕第一天，除了游戏厂商外，不少PC厂商也首发了重磅新品。今天上午，宏碁正式发布旗下最新的掠夺者Z271 27英寸曲面电竞显示器，定价3999元。作为一款主打电竞的产品，宏碁掠夺者Z271有三个卖点：支持NVIDIA G-SYNC技术，屏幕刷新率达到144Hz，具备1800R超大曲率。以上三点均为游戏玩家提供了硬件规格保障。G-SYNC可以减少游戏画面撕裂，刷新率144Hz保证画面稳定和流畅，而1800R的曲率可以提高画面的临场感（比一般的3000R、4000R的曲面电视要弯很多）"
+  }, {
+    "title": "英雄体育完成6.4亿元融资 分众传媒领投",
+    "content": "分众传媒今日发布公告：旗下全资子公司分众创享与英雄互娱公司签署了《关于天津英雄体育管理有限公司之增资协议》及《补充协议》。分众传媒以3亿元领投英雄互娱旗下子公司天津英雄体育管理有限公司，此外，中信国安，光大印纪传媒，永桐基金跟投共计3.4亿元。至此，移动电竞赛事运营商—英雄体育完成首轮6.4亿元融资，并将深度战略联动分众传媒，共同发力互联网体育"
+  }, {
+    "title": "苹果前高管联合创办的“私人云”创企获7700万美元融资",
+    "content": "个人云存储服务平台Upthere获7700万美元投资。投资者坚信云端将会成为个人主要存储平台，而不仅仅是你保留备份文件或者跨设备同步数据的空间。公司新一轮融资由KPCB 、Western Digital领投，Floodgate、Elevation Partners、 GV、NTT Docomo Ventures和Square 1 Bank参投。Upthere目前适用于MacOS、Android和iOS，Windows和Web应用仍处于测试阶段。"
+  }]
+
+  var ool1 = document.getElementById("ol1");
+  var olis = document.getElementsByTagName("li");
+  for (var i = 0, l = olis.length; i < l; i++) {
+    olis[i].onmouseover = function () {
+      this.style.backgroundColor = "pink";
+    };
+    olis[i].onmouseout = function () {
+      this.style.backgroundColor = "white";
+    };
+  }
+  // 绑定数据方法1:利用动态创建元素节点和把它追加到页面中的方式实现绑定
+  // 优势:把需要动态绑定的内容一个个的追加到页面中,对原来的元素没有影响
+  // 弊端:浏览器 每创建一个li就添加到页面中引发DOM回流,最后引发回流次数过多,影响性能
+  // for(var i=0,l=data.length;i<l;i++){
+  //   var cur = data[i];
+  //   var oLi = document.createElement("li");
+  //   oLi.innerHTML = "<span>"+(i+4)+"</span>"+cur.title;
+  //   ool1.appendChild(oLi);
+  // }
+  // 绑定数据方法2:字符串拼接的方式:首先循环需要绑定的数据 然后把需要动态绑定的标签以字符串的方式拼接到一起,拼接完成之后 最后统一的添加页面中
+  // 字符串拼接绑定数据是以后工作中最常用的一种绑定数据的方式 ->模板引擎数据绑定(jade ktemplate angular.js,backbone.js.....) ->原理就是这个
+  // var str = "";
+  // for(var i=0,l=data.length;i<l;i++ ){
+  //   var cur = data[i];
+  //   str +="<li>";
+  //   str +="<span>"+(i+4)+"</span>"+cur.title;
+  //   str +="</li>";
+  // }
+  // ool1.innerHTML +=str;
+  // ool1.innerHTML = ool1.innerHTML+str(之前的li以字符串的形式获得到,拼接完成的整体还是字符串,最后把字符串统一的添加到页面中,浏览器还需要把字符串渲染成为对应的标签)
+  // 弊端:新拼接的字符串添加到oli1中 li的mouseover mouseout效果都消失了(原来标签绑定的事件都消失了)
+  // 优势:事先把内容拼接好,最后统一添加到页面中,只引发一次回流
+
+  // jsDOM深入的一些知识 :回流(reflow)和重绘(repaint)
+  // 回流:当html结构发生改变,增删元素 位置发生改变 等浏览器需要重新的计算一遍最新的DOM结构,重新的对当前的页面进行渲染
+  // 重绘:某一个元素的部分样式发生变化 浏览器只需要重新渲染当前元素
+  // 画画
+  // js优化: 1.内存手动释放 2.尽量减少回流(增删元素 改变元素位置)
+  // 
+  // 
+  // 
+  // 
+  // 绑定数据方法3:文档碎片:在有元素的情况下用文档碎片比方法一更好
+  var frg = document.createDocumentFragment();// 创建文档碎片,相当于临时创建一个容器
+  for (var i = 0, l = data.length; i < l; i++) {
+    var cur = data[i];
+    var oLi = document.createElement("li");
+    oLi.innerHTML = "<span>" + (i + 4) + "</span>" + cur.title;
+    frg.appendChild(oLi);
+  }
+  ool1.appendChild(frg);
+  // console.dir(frg)
+  frg = null;
+
+</script>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      font-family: "Microsoft Yahei";
+      font-size: 14px;
+    }
+
+    ul,
+    ol {
+      list-style: none;
+    }
+
+    .box {
+      margin: 20px auto;
+      width: 500px;
+    }
+
+    .box ul::after {
+      display: block;
+      content: "";
+      clear: both;
+    }
+
+    .box ul li {
+      float: left;
+      margin-right: 10px;
+      width: 100px;
+      height: 30px;
+      line-height: 30px;
+      border: 1px solid #999;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .box ul li.cur {
+      background-color: #ccf;
+      border-bottom-color: #ccf;
+    }
+
+    .box ol {
+      margin-top: -1px;
+    }
+
+    .box ol li {
+      height: 150px;
+      line-height: 150px;
+      text-align: center;
+      background-color: #ccf;
+      display: none;
+      border: 1px solid #999;
+    }
+
+    .box ol li.cur {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+<div class="box" id="tabFir">
+  <ul id="menu">
+    <li class="cur">页卡1</li>
+    <li>页卡2</li>
+    <li>页卡3</li>
+  </ul>
+  <ol id="content">
+    <li class="cur">内容1</li>
+    <li>内容2</li>
+    <li>内容3</li>
+  </ol>
+</div>
+<div class="box" id="">
+  <ul id="">
+    <li class="cur">页卡1</li>
+    <li>页卡2</li>
+    <li>页卡3</li>
+  </ul>
+  <ol id="">
+    <li class="cur">内容1</li>
+    <li>内容2</li>
+    <li>内容3</li>
+  </ol>
+</div>
+<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.js"></script>
+<script src="../utils.js"></script>
+<script>
+
+
+  function tabChange(boxSelector) {
+    var self = boxSelector;
+    var ulis = $("ul li", self);
+    var olis = $("ol li", self);
+    ulis.on('click', function () {
+      var self = $(this);
+      self.addClass('cur').siblings().removeClass("cur");
+      olis.eq(self.index()).addClass('cur').siblings().removeClass("cur");
+
+    })
+  }
+  var $boxs = $(".box");
+  $.each($boxs, function (index, item) {
+    tabChange($(this))
+  })
+</script>
+
+</body>
+
+</html>

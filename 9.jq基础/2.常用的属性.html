@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<div></div>
+<div id="div1">
+  <span><span class="o"></span></span>
+  <span></span>
+  <span></span>
+</div>
+<ul></ul>
+<div></div>
+<div></div>
+<ul>
+  <li>huahua</li>
+  <li>hua</li>
+  <li>h</li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.js"></script>
+
+<script>
+  // jQuery回调函数
+  // 创建一个回调函数的列表集合
+  var $calls = $.Callbacks();
+  // remove has add
+  function hua(val) {
+    console.log("hua" + val)
+  }
+  function guo(val) {
+    console.log("guo" + val)
+  }
+  // 向集合中添加hua
+  $calls.add(hua);
+  // 把回调函数集合中的方法执行,并且把参数值传递给对应方法
+  $calls.fire("100");
+  $calls.add(guo);
+  $calls.fire("200");
+  // 回调函数集合中移除hua
+  $calls.remove(hua);
+  $calls.fire("300");
+  // window.onload 页面的html结构 图片 文字等资源都加载完 才触发这个行为,并且在页面中只能执行一次,后面编写的会把前面的覆盖掉
+  // $(function(){..}) 只要html结构加载完成就会触发对应的行为,而且形成一个闭包
+  $(function () {
+
+  })
+  // 3.attr() ->get/setAttribute 适合自定义的属性
+  // prop()适合浏览器天生自带的属性,特别是表单元素
+  var $box = $("#box");
+  var $boxDiv = $("div", $box)// 上下文不传是document
+  var c = $("#box div")
+  // jQuery选择器获取到的集合 让集合直接调用jQuery中提供的方法,相当于给集合中每一个元素都调用了这个方法(jQuery的内置循环操作)
+</script>
+</body>
+</html>

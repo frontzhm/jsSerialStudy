@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    img {
+      display: block;
+      border: none;
+    }
+
+    .news {
+      padding: 10px;
+    }
+
+    .news li {
+      height: 60px;
+      padding: 10px 0;
+      border-bottom: 1px dashed #ccc;
+      position: relative;
+    }
+
+    .news li > div:nth-child(1) {
+      position: absolute;
+      top: 10px;
+      left: 0;
+      width: 75px;
+      height: 60px;
+      background: url(default.png) no-repeat;
+      background-size: 100%;
+    }
+
+    .news li > div:nth-child(1) img {
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+    }
+
+    .news li > div:nth-child(2) {
+      height: 60px;
+      margin-left: 80px;
+    }
+
+    .news li > div:nth-child(2) h2 {
+      height: 20px;
+      font-size: 14px;
+      line-height: 20px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .news li > div:nth-child(2) p {
+      color: #666;
+      font-size: 12px
+    }
+
+    /*最外层盒子不设定固定宽高*/
+  </style>
+</head>
+<body>
+<ul id="news" class="news">
+  <!-- <li>
+    <div><img src="" trueImg="jd.png" alt="">
+    </div>
+    <div>
+      <h2>网络时代的到来</h2>
+      <p>网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来</p>
+    </div>
+  </li> -->
+  <!-- <li><div><img src="" trueImg="jd.png" alt=""></div><div><h2>网络时代的到来</h2><p>网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来</p></div></li> -->
+</ul>
+<script></script>
+<script>
+  function win(attr, val) {
+    if (typeof val === "undefined") {
+      return document.documentElement[attr] || document.body[attr];
+    }
+    document.documentElement[attr] = val;
+    document.body[attr] = val;
+
+  }
+  function offset(obj) {
+    var par = obj.offsetParent;
+    var top = obj.offsetTop;
+    var left = obj.offsetLeft;
+    while (par) {
+      if (navigator.userAgent.indexOf("MSIE 8.0") === -1) {
+        top += par.clientTop;
+        left += par.clientLeft;
+      }
+      top += par.offsetTop;
+      left += par.offsetLeft;
+      par = par.offsetParent;
+    }
+    return {
+      top: top,
+      left: left
+    }
+  }
+  // // 1.新建ajax对象
+  // var xhr = new XMLHttpRequest;
+  // // 2.打开我们需要请求的文件地址
+  // xhr.open("get","data.txt",false);
+  // // 3.监听请求状态
+  // xhr.onreadystatechange = function(){
+  //   if(xhr.readyState===4&& /^2\d{2}$/.test(xhr.status)){
+  //     var data = xhr.responseText;
+  //     data = utils.zjsonParse(data);
+  //   }
+  // }
+  // // 4.发送请求
+  // xml.send(null)
+  // 1.获取需要绑定的数据
+  var data = [{
+    "title": "网络时代1",
+    "para": "网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来",
+    "img": "img/die.jpg"
+  }, {
+    "title": "网络时代2",
+    "para": "网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来",
+    "img": "img/compete.jpg"
+  }, {
+    "title": "网络时代3",
+    "para": "网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来",
+    "img": "img/heartbreak.jpg"
+  }, {
+    "title": "网络时代4",
+    "para": "网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来",
+    "img": "img/nowhere.jpg"
+  }, {
+    "title": "网络时代5",
+    "para": "网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来",
+    "img": "img/sea.jpg"
+  }, {
+    "title": "网络时代6",
+    "para": "网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来",
+    "img": "img/doubt.jpg"
+  }, {
+    "title": "网络时代7",
+    "para": "网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来",
+    "img": "img/false.jpg"
+  }, {"title": "网络时代8", "para": "网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来网络时代的到来", "img": "img/drink.jpg"}];
+  // 2.绑定数据
+  if (data) {
+    // 创建文档碎片
+    var frg = document.createDocumentFragment();
+    var html = "";
+    for (var i = 0, l = data.length; i < l; i++) {
+      var cur = data[i];
+      var li = document.createElement("li");
+      li.innerHTML = '<div><img src="" trueImg="' + cur.img + '" alt=""></div><div><h2>' + cur.title + '</h2><p>' + cur.para + '</p></div>';
+      frg.appendChild(li);
+    }
+    var news = document.getElementById("news");
+    news.appendChild(frg);
+    frg = null;
+
+  }
+  var lis = document.getElementsByTagName("li");
+  // 3.图片延迟加载
+  // 实现单张图片的延迟加载
+  function fadeIn(curImg) {
+    var duration = 500, interval = 10, target = 1;
+    var step = (target - 0) / duration * interval;
+
+    var timer = setInterval(function () {
+      var curOpacity = getComputedStyle(curImg, null).opacity;
+      if (curOpacity >= 1) {
+        curImg.style.opacity = 1;
+        clearInterval(timer);
+        return;
+      }
+      // 这里的opacity是字符串
+      curOpacity = curOpacity - 0 + step;
+      curImg.style.opacity = curOpacity;
+    }, interval);
+
+  }
+  function lazyImg(im) {
+    var oImg = new Image;
+    oImg.src = im.getAttribute("trueImg");
+    oImg.onload = function () {
+      im.src = this.src;
+      im.style.display = "block";
+      fadeIn(im);
+      oImg = null;
+    }
+    im.isLoad = true;
+  }
+
+  // 循环处理每张图片
+  function handleAllImg() {
+    for (var i = 0; i < lis.length; i++) {
+      var cur = lis[i].getElementsByTagName("img")[0];
+      // 当前图片处理过的话 就不需要进行处理了
+      if (cur.isLoad) {
+        continue;
+      }
+      // 只有a<b 才进行处理 当前图片是隐藏的,我们计算的a的值其实是计算他父亲(容器)的值隐藏状态的offsetHeight为0
+      var curPar = cur.parentNode;
+      var a = offset(curPar).top + curPar.offsetHeight;
+      var b = win("clientHeight") + win("scrollTop");
+      if (a <= b) {
+        lazyImg(cur)
+      }
+    }
+  }
+  // 4.开始的时候(过500ms加载第一屏幕的图片),滚动条滚动的时候加载其他图片
+
+  setTimeout(handleAllImg, 500);
+  window.onscroll = handleAllImg;
+
+  // function(){
+  //   var xhr = new XMLHttpRequest;
+  //   // url地址后面加的随机数是在清除每一次请求数据的时候(getq请求)产生的缓存
+  //   xhr.open("get","data.txt?_="+Math.random(),false);
+  //   xhr.onreaystatechange = function(){
+  //     if(xhr.readyState===4&&/^2\d{2}$/.test(xhr.status)){
+  //       var data = xhr.responseText;
+  //       data = utils.formatJson(data)
+  //     }
+  //   }
+  //   xhr.send(null)
+  //  }
+</script>
+
+</body>
+</html>

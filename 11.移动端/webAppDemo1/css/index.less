@@ -1,0 +1,199 @@
+@import (reference) "public";
+
+html {
+  font-size: 100px;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  font-size: 14px;
+  color: extract(@cL, 1);
+  background-color: extract(@cL, 3);
+}
+
+a, a:active, a:visited, a:hover, a:target {
+  display: block;
+  color: extract(@cL, 1);
+}
+
+h1 {
+  font-size: 14px;
+}
+
+.main {
+  margin: 0 auto;
+  //max-width:6.4rem;
+}
+
+/*HEADER*/
+.header {
+  /*CON*/
+  .con {
+    height: .88rem;
+    line-height: .88rem;
+    background-color: extract(@cL, 5);
+    color: extract(@cL, 4);
+    font-size: .32rem;
+    .logo, .type {
+      float: left;
+    }
+    .login, .menu {
+      float: right;
+    }
+    .logo {
+      padding: 0;
+      margin: 0;
+      font-size: .32rem;
+      font-weight: normal;
+      padding-left: .8rem;
+      width: 2.14rem;
+      background: url('{@url}/logo_sports.png') no-repeat .1rem center;
+      background-size: 2.28rem;
+      border-right: 1px solid #066dc4;
+    }
+    .type {
+      padding: 0 .2rem;
+      border-left: .2rem solid #fff;
+    }
+    .login {
+      padding: 0 .3rem;
+    }
+    .menu {
+      width: .22rem;
+      height: .16rem;
+      background: url('{@url}/icon.png') no-repeat;
+      background-size: .48rem .48rem;
+    }
+  }
+  /*NAV*/
+  .nav {
+    padding: 0 0; /*.1rem 0*/
+    height: 0; /*2.22rem*/
+    overflow: hidden;
+    .transition(@duration:.3s,@property:height);
+    a {
+      font-size: .32rem;
+      float: left;
+      height: .74rem;
+      line-height: .74rem;
+      text-align: center;
+      width: 16%;
+      &:nth-of-type(6n+1) {
+        margin-left: 2%;
+      }
+    }
+
+  }
+
+}
+
+/*VIDEO*/
+.videoArea {
+  height: 3.6rem;
+  background-color: #000;
+  video {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/*MATCH INFO*/
+.matchInfo {
+  background-color: extract(@cL, 4);
+  padding: .3rem;
+  height: 2.04rem;
+  overflow: hidden;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  .top {
+    height: .6rem;
+    line-height: .6rem;
+    .home, .away {
+      float: left;
+      width: 34%;
+      img {
+        width: .64rem;
+        height: .6rem;
+        display: block;
+        // 防止被撑开
+        vertical-align: top;
+      }
+      span {
+        font-size: .4rem;
+        display: inline-block;
+        vertical-align: top;
+      }
+    }
+    .home {
+      span {
+        margin-left: .24rem;
+      }
+    }
+    .away {
+      text-align: center;
+      span {
+        margin-left: .24rem;
+        span {
+          margin-right: .24rem;
+        }
+      }
+    }
+    .time {
+      float: left;
+      width: 32%;
+      font-size: .24rem;
+      color: extract(@cL, 2);
+      text-align: center;
+    }
+  }
+  .middle {
+    position: relative;
+    height: .4rem;
+    background-color: extract(@cL, 5);
+    margin: .2rem 0;
+    span {
+
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: .04rem;
+      background-color: extract(@cL, 6);
+      .transition(@duration:.5s);
+    }
+
+  }
+  .bottom {
+    height: .4rem;
+    line-height: .4rem;
+    text-align: center;
+    span {
+      float: left;
+      width: 34%;
+      font-size: .24rem;
+      color: extract(@cL, 2);
+    }
+    .type {
+      width: .32%;
+
+    }
+    .home {
+      background: url("@url/support-left.png") no-repeat left center;
+      background-size: .24rem;
+      &.bg {
+        color: extract(@cL, 6);
+        background-image: url("@url/support-red.png");
+      }
+    }
+    .away {
+      background: url("@url/support-right.png") no-repeat right center;
+      background-size: .24rem;
+      &.bg {
+        color: extract(@cL, 5);
+        background-image: url("@url/support-blue.png");
+      }
+    }
+  }
+
+}

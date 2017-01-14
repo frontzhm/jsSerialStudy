@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    ol,
+    ul {
+      list-style: none;
+    }
+
+    .box {
+    }
+
+    .banner {
+      margin: 50px auto;
+      width: 300px;
+      height: 200px;
+      position: relative;
+    }
+
+    .slidelist {
+      height: inherit;
+      background: #ccc url(img/load1.gif) no-repeat center center;
+    }
+
+    .slidelist > li,
+    .slidelist > li > a,
+    .slidelist > li img {
+      display: block;
+      width: inherit;
+      height: inherit;
+    }
+
+    .slidelist > li {
+      position: absolute;
+      z-index: 0;
+      /*开始是隐藏状态*/
+      opacity: 0;
+      filter: alpha(opacity=0);
+      /*动画到opacity1*/
+    }
+
+    .slidelist > li.cur {
+      z-index: 1;
+    }
+
+    .slidelist > li img {
+      display: none;
+    }
+
+    /*小索引*/
+
+    .tiplist {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      font-size: 0;
+      z-index: 2;
+    }
+
+    .tiplist > li {
+      display: inline-block;
+      cursor: pointer;
+      width: 10px;
+      height: 10px;
+      border-radius: 100px;
+      background-color: #fff;
+      -webkit-box-shadow: 1px 1px 2px #999;
+      box-shadow: 1px 1px 2px #999;
+      margin-left: 10px;
+    }
+
+    .tiplist > li.cur {
+      background-color: #c99;
+    }
+
+    /*左右箭头*/
+
+    .arrleft,
+    .arrright {
+      position: absolute;
+      top: 50%;
+      margin-top: -35px;
+      width: 40px;
+      height: 70px;
+      background-image: url(img/arr.png);
+      opacity: .5;
+      filter: alpha(opacity=50);
+      display: none;
+      z-index: 2;
+    }
+
+    .arrleft:hover,
+    .arrright:hover {
+      opacity: 1;
+      filter: alpha(opacity=100);
+    }
+
+    .arrright {
+      right: 0;
+      background-position: -41px 0;
+    }
+  </style>
+</head>
+
+<body>
+<div class="box">
+  <div class="banner" id="banner">
+    <!-- 轮播图的幻灯片 -->
+    <ul class="slidelist">
+    </ul>
+    <!-- 小索引 -->
+    <ol class="tiplist">
+    </ol>
+    <!-- 左右箭头 -->
+    <a href="javascript:;" class="arrleft"></a>
+    <a href="javascript:;" class="arrright"></a>
+  </div>
+</div>
+<script src="../utils.js"></script>
+<script src="../tween.js"></script>
+<!-- <script>
+var banner = document.getElementById("banner");
+// 0
+var slidelist = utils.getElementsByClass("slidelist", banner)[0];
+var tiplist = utils.getElementsByClass("tiplist", banner)[0];
+var arrleft = utils.getElementsByClass("arrleft", banner)[0];
+var arrright = utils.getElementsByClass("arrright", banner)[0];
+var slides = slidelist.getElementsByTagName("li");
+var imgs = slidelist.getElementsByTagName("img");
+var tips = tiplist.getElementsByTagName("li");
+var jsonData = null;
+var len = 0;
+var curIndex = 0;
+var delay = 2000;
+// 1.获取数据
+~ function() {
+  // var xml = new XMLHTTPRequest;
+  // xml.open("get","data.txt?_="+Math.random(),false);
+  // xml.onreadystatechange = function () {
+  // 	 if(xml.readyState===4&&/^2\d{2}$/.test(xml.status)){
+  // 	 	jsonData = formatJSON(xml.responseText);
+  // 	 }
+  // }
+  // xml.send(null);
+  jsonData = [{
+    "img": "img/01.jpg",
+    "desc": "2016新世界",
+    "url": "http://www.baidu.com"
+  }, {
+    "img": "img/02.jpg",
+    "desc": "2016新世界",
+    "url": "http://www.baidu.com"
+  }, {
+    "img": "img/03.jpg",
+    "desc": "2016新世界",
+    "url": "http://www.baidu.com"
+  }, {
+    "img": "img/04.jpg",
+    "desc": "2016新世界",
+    "url": "http://www.baidu.com"
+  }];
+  len = jsonData.length;
+}()
+// 2.绑定数据
+~ function() {
+  var str = "",
+    str1 = "",
+    className = "";
+  for (var i = 0; i < len; i++) {
+    var cur = jsonData[i];
+    className = i === 0 ? ' class="cur"' : "";
+    str += '<li' + className + '><a href="' + cur.url + '"><img trueImg="' + cur.img + '" src="" alt="' + cur.desc + '" title="' + cur.desc + '"></a></li>';
+    str1 += '<li' + className + '></li>';
+  }
+  slidelist.innerHTML = str;
+  tiplist.innerHTML = str1;
+}()
+// 3.懒加载
+var lazyTimer = window.setTimeout(lazyImg, 500);
+// 首张图片需要动画,其他的都是把img的路径绑定上去
+function lazyImg() {
+  for (var i = 0; i < len; i++) {
+    ~ function(i) {
+      var cur = imgs[i];
+      var oImg = new Image;
+      oImg.src = cur.getAttribute("trueImg");
+      oImg.onload = function() {
+        cur.src = this.src;
+        cur.style.display = "block";
+        oImg = null;
+      }
+    }(i)
+  }
+  animate(slides[0], {
+    opacity: 1
+  }, 300)
+  clearTimeout(lazyTimer)
+}
+// 4.播放到哪一张
+// 淡入淡出逻辑:播放到哪张,哪张的zindex 1,其他的都是 zindex 0,然后哪张的opacity动画变到1,然后其他的都变成0
+// 小索引的类名跟着变化,当前的加类名 否则删类名
+function playWhich(n) {
+  // n是正数,curIndex<len,n=len的时候相当于第一张也就是0...
+  // n是负数,n=-1的时候是最后一张,也就是len-1
+  curIndex = (n + len) % len;
+  for (var i = 0; i < len; i++) {
+    if (i === curIndex) {
+      utils.addClass(slides[i], "cur")
+    } else {
+      utils.removeClass(slides[i], "cur")
+    }
+  }
+  // 小索引
+  for (i = 0; i < len; i++) {
+    if (i === curIndex) {
+      utils.addClass(tips[i], "cur")
+    } else {
+      utils.removeClass(tips[i], "cur")
+    }
+  }
+  animate(slides[curIndex], {
+    opacity: 1
+  }, 300, function() {
+    for (var i = 0; i < len; i++) {
+      if (i !== curIndex) {
+        utils.css(slides[i], "opacity", 0)
+      }
+    }
+  })
+}
+
+function playNext() {
+  playWhich(++curIndex)
+}
+
+function playPrev() {
+  playWhich(--curIndex)
+}
+
+// 5.自动轮播,相当于curIndex隔一段时间+1
+var autoPlayTimer = window.setInterval(function() {
+    playNext();
+  }, delay)
+  // 6.停止和播放轮播
+function pause() {
+  clearInterval(autoPlayTimer)
+}
+
+function play() {
+  autoPlayTimer = window.setInterval(function() {
+    playNext();
+  }, delay)
+}
+// 6.鼠标放在banner图上
+banner.onmouseover = function() {
+  pause();
+  arrleft.style.display = arrright.style.display = "block";
+}
+banner.onmouseout = function() {
+    play();
+    arrleft.style.display = arrright.style.display = "none";
+  }
+  // 7.点击箭头
+arrright.onclick = playNext;
+arrleft.onclick = playPrev;
+</script> -->
+<script>
+  ~function () {
+    function Banner(banner, dataUrl, delay) {
+      // 全局变量变成私有属性
+      this.banner = banner;
+      // 0
+      this.slidelist = utils.getElementsByClass("slidelist", this.banner)[0];
+      this.tiplist = utils.getElementsByClass("tiplist", this.banner)[0];
+      this.arrleft = utils.getElementsByClass("arrleft", this.banner)[0];
+      this.arrright = utils.getElementsByClass("arrright", this.banner)[0];
+      this.slides = this.slidelist.getElementsByTagName("li");
+      this.imgs = this.slidelist.getElementsByTagName("img");
+      this.tips = this.tiplist.getElementsByTagName("li");
+      this.jsonData = null;
+      this.len = null;
+      this.curIndex = 0;
+      this.delay = delay || 3000;
+      this.lazyTimer = null
+      this.autoPlayTimer = null;
+      // init是唯一入口
+      this.init();
+    }
+
+    Banner.prototype = {
+      // 这个必须写,且放在第一个位置,这样就不会忘
+      constructor: Banner,
+      // 方法变成公共的,注意this
+      // 特别是onclick,setInterval里面的this
+      // 确保大部分this指向当前实例
+      getData: function () {
+        // var xml = new XMLHTTPRequest;
+        // xml.open("get","data.txt?_="+Math.random(),false);
+        // xml.onreadystatechange = function () {
+        // 	 if(xml.readyState===4&&/^2\d{2}$/.test(xml.status)){
+        // 	 	jsonData = formatJSON(xml.responseText);
+        // 	 }
+        // }
+        // xml.send(null);
+        this.jsonData = [{
+          "img": "img/01.jpg",
+          "desc": "2016新世界",
+          "url": "http://www.baidu.com"
+        }, {
+          "img": "img/02.jpg",
+          "desc": "2016新世界",
+          "url": "http://www.baidu.com"
+        }, {
+          "img": "img/03.jpg",
+          "desc": "2016新世界",
+          "url": "http://www.baidu.com"
+        }, {
+          "img": "img/04.jpg",
+          "desc": "2016新世界",
+          "url": "http://www.baidu.com"
+        }];
+        this.len = this.jsonData.length;
+      },
+      bindData: function () {
+        var str = "",
+          str1 = "",
+          className = "";
+        for (var i = 0; i < this.len; i++) {
+          var cur = this.jsonData[i];
+          className = i === 0 ? ' class="cur"' : "";
+          str += '<li' + className + '><a href="' + cur.url + '"><img trueImg="' + cur.img + '" src="" alt="' + cur.desc + '" title="' + cur.desc + '"></a></li>';
+          str1 += '<li' + className + '></li>';
+        }
+        this.slidelist.innerHTML = str;
+        this.tiplist.innerHTML = str1;
+      },
+      lazyImg: function () {
+        var _this = this;
+        for (var i = 0; i < this.len; i++) {
+          ~function (i) {
+            var cur = _this.imgs[i];
+            var oImg = new Image;
+            oImg.src = cur.getAttribute("trueImg");
+            oImg.onload = function () {
+              cur.src = this.src;
+              cur.style.display = "block";
+              oImg = null;
+            }
+          }(i)
+        }
+        animate(this.slides[0], {
+          opacity: 1
+        }, 300)
+        window.clearTimeout(this.lazyTimer)
+      },
+      playWhich: function (n) {
+        // n是正数,curIndex<len,n=len的时候相当于第一张也就是0...
+        // n是负数,n=-1的时候是最后一张,也就是len-1
+        this.curIndex = (n + this.len) % this.len;
+        for (var i = 0; i < this.len; i++) {
+          if (i === this.curIndex) {
+            utils.addClass(this.slides[i], "cur")
+          } else {
+            utils.removeClass(this.slides[i], "cur")
+          }
+        }
+        // 小索引
+        for (i = 0; i < this.len; i++) {
+          if (i === this.curIndex) {
+            utils.addClass(this.tips[i], "cur")
+          } else {
+            utils.removeClass(this.tips[i], "cur")
+          }
+        }
+        var _this = this;
+        animate(this.slides[this.curIndex], {
+          opacity: 1
+        }, 300, function () {
+          for (var i = 0; i < _this.len; i++) {
+            if (i !== _this.curIndex) {
+              utils.css(_this.slides[i], "opacity", 0)
+            }
+          }
+        })
+      },
+      playNext: function () {
+        this.playWhich(++this.curIndex);
+      },
+      playPrev: function () {
+        this.playWhich(--this.curIndex);
+      },
+      play: function () {
+        var _this = this;
+        this.autoPlayTimer = window.setInterval(function () {
+          _this.playNext();
+        }, _this.delay)
+      },
+      pause: function () {
+        window.clearInterval(this.autoPlayTimer)
+      },
+      hoverBanner: function () {
+        var _this = this;
+        this.banner.onmouseover = function () {
+          _this.pause();
+          _this.arrleft.style.display = _this.arrright.style.display = "block";
+        }
+        this.banner.onmouseout = function () {
+          _this.play();
+          _this.arrleft.style.display = _this.arrright.style.display = "none";
+        }
+      },
+      clickArr: function () {
+        // 这是不行的 this
+        // this.arrright.onclick = this.playNext;
+        var _this = this;
+        this.arrright.onclick = function () {
+          _this.playNext();
+        };
+        this.arrleft.onclick = function () {
+          _this.playPrev();
+        };
+      },
+      init: function () {
+        var _this = this;
+        this.getData();
+        this.bindData();
+        this.lazyTimer = window.setTimeout(function () {
+          _this.lazyImg();
+        }, 500);
+        this.autoPlayTimer = window.setInterval(function () {
+          _this.playNext();
+        }, this.delay);
+        this.hoverBanner();
+        this.clickArr();
+      }
+
+    }
+    window.Banner = Banner;
+  }()
+  var banner = new Banner(document.getElementById("banner"))
+</script>
+</body>
+
+</html>

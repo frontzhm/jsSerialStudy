@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>enumerable</title>
+</head>
+
+<body>
+<script>
+  Object.prototype.a = function () {
+  }
+  var obj = {
+    name: "hua",
+    age: 12
+  }
+
+  for (var key in obj) {
+    // for in循环在遍历的时候,默认的话可以把自己私有的额和它所属类原型上扩展的属性和方法都可以遍历到,但是我们一般只想要私有属性,可以进过下面的判断:
+    // if (obj.propertyIsEnumerable(key)) {
+    //   console.log(key)
+
+    // }
+    if (obj.hasOwnProperty(key)) {
+      console.log(key)
+    }
+  }
+  console.log(obj.propertyIsEnumerable("a"))
+</script>
+</body>
+
+</html>

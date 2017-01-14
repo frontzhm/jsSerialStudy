@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+<div id="box"></div>
+<script>
+  // 回调函数
+  // map replace
+  var ary = [12, 3, 32, 45, 65, 36];
+  // forEach遍历数组中每一项
+  // 匿名函数执行的次数 = 数组的长度
+  // 每次执行匿名函数的时候,传递了三个参数值 item,index,原始数组input
+  // 理论上 没有返回值,但是可以在函数内部手动修改
+  // 这样做会对原来的数组产生改变
+  // var k = ary.forEach(function(item, index,input) {
+  //  input[index]=item*10
+  //  console.log(arguments)
+  // });
+  // console.log(k) // undefined
+  // console.log(ary) // undefined
+  // map:和foreach相似,遍历数组的每一个值
+  // 1)map的回调函数支持return返回值,return 啥当前项就是啥,但不影响原来的数组,只是相当于把原数组克隆一份,把克隆的这一份的数组中的对应项改变了
+  // 
+  // var l = ary.map(function (item, index,input) {
+  //   return item*10
+  //   console.log(arguments)
+  // })
+  // console.log(ary)
+  // console.log(l)
+
+
+  // var obj = {name:"huahua"}
+  // forEach方法中的this是ary,匿名回调函数中的this默认是window
+  // 那么想要this变成obj呢?
+  // 这样是不行的 执行匿名函数的时候虽然this是obj但是匿名函数的返回结果undefined赋值给了forEach
+  // ary.forEach(function(item,index,input){
+  //  console.log(this)
+  // }.call(obj))
+  // 需要这样
+  // forEach和map都支持第二个参数,就是匿名函数中的this进行修改
+  // ary.forEach(function(item,index,input){
+  //  console.log(this)
+  // },obj)
+  // // sort,replace也不行哟
+  // // 但是可以用bind,如果不考虑兼容的话
+  // ary.sort(function(){
+  //  console.log(this)
+  // },obj)
+  // "777".replace(/\w/g,function () {
+  //   console.log(this) 
+  // })
+  // forEach map bind ie6-8不兼容
+
+
+  Array.prototype.zforEach = function zforEach(callback, context) {
+    context = context || window;
+    if ("forEach" in Array.prototype) {
+      this.forEach(callback, context);
+      return;
+    }
+    // ie6-8 自己编写回调执行的逻辑 
+    for (var i = 0, len = this.length; i < len; i++) {
+      typeof callback === "function" && callback.call(context, this[i], i, this);
+    }
+  }
+  Array.prototype.zmap = function zmap(callback, context) {
+    context = context || window;
+    if ("map" in Array.prototype) {
+      this.map(callback, context);
+    }
+    // ie6-8 自己编写回调执行的逻辑
+    var result = [];
+    for (var i = 0, len = this.length; i < len; i++) {
+      if (typeof callback === "function") {
+        var val = callback.call(context, this[i], i, this);
+        result[result.length] = val;
+      }
+    }
+    return result;
+  }
+  var arr1 = [1, 2, 3];
+  arr1.zforEach(function () {
+    console.dir(arguments)
+  })
+  var arr2 = arr1.zmap(function (item) {
+    return item * 10
+  })
+  console.log(arr2)
+  console.log(arr1)
+</script>
+</body>
+
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    ul,
+    ol {
+      list-style: none;
+    }
+
+    img {
+      display: block;
+      border: none;
+    }
+
+    a,
+    a:hover,
+    a.active,
+    a:visited {
+      color: #000;
+      text-decoration: none;
+    }
+
+    .banner {
+      height: 200px;
+      margin: 100px auto;
+      width: 300px;
+      position: relative;
+    }
+
+    .slideList {
+      height: 100%;
+      background: #ccc url(img/load1.gif) no-repeat center center;
+    }
+
+    .slideList > li {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      z-index: 0;
+      opacity: 0;
+      filter: alpha(opacity=0);
+    }
+
+    .slideList > li.cur {
+      z-index: 1;
+    }
+
+    .slideList > li > a,
+    .slideList > li img {
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
+
+    .slideList > li img {
+      /*图片正常加载才显示*/
+      display: none;
+    }
+
+    /*索引*/
+
+    .indexList {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      z-index: 2;
+      font-size: 0;
+    }
+
+    .indexList > li {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 20px;
+      margin-right: 10px;
+      background-color: #fff;
+      box-shadow: 1px 1px 2px #999;
+    }
+
+    .indexList > li.cur {
+      background-color: #f99;
+    }
+
+    /*箭头*/
+
+    .arrLeft,
+    .arrRight {
+      display: inline-block;
+      width: 40px;
+      height: 70px;
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      margin-top: -35px;
+      background-image: url(img/arr.png);
+      opacity: 0.5;
+      filter: alpha(opacity=50);
+      display: none;
+    }
+
+    .arrRight {
+      right: 0;
+      background-position: -41px 0;
+    }
+
+    .arrLeft:hover,
+    .arrRight:hover {
+      opacity: 1;
+      filter: alpha(opacity=100);
+    }
+  </style>
+</head>
+
+<body>
+<div class="banner" id="banner">
+  <!-- 主幻灯片 -->
+  <ul class="slideList" id="inner">
+    <!-- <li class="cur">
+      <a href="http://www.baidu.com" target="_blank"><img src="" trueImg="img/01.jpg" alt=""></a>
+    </li>
+    <li>
+      <a href="http://www.baidu.com" target="_blank"><img src="" trueImg="img/02.jpg" alt=""></a>
+    </li>
+    <li>
+      <a href="http://www.baidu.com" target="_blank"><img src="" trueImg="img/03.jpg" alt=""></a>
+    </li>
+    <li> <a href="http://www.baidu.com" target="_blank"><img src="" trueImg="img/04.jpg" alt=""></a> </li> --> </ul>
+  <!-- 索引列表 -->
+  <ol class="indexList">
+    <li class="cur"></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ol>
+  <!-- 箭头 -->
+  <a href="javascript:;" class="arrLeft"></a>
+  <a href="javascript:;" class="arrRight"></a>
+</div>
+<script src="../utils.js"></script>
+<script src="../tween.js"></script>
+<script>
+  // 轮播图原理
+  // 首先四张图片叠加到一起 默认所有图片的z-index都是0,opacity=0,但是开始让第一张图的z-index=1,opacity=1;
+  // 3s秒后,让第二张图的z-index=1,opacity=1,其余的z-index=0,opacity=0
+  // 也就是想让哪张显示 先z-Index=0 然后透明度变成1,让其余的z-index=0,opacity=0
+  var banner = document.getElementById("banner");
+  var slideList = utils.getElementsByClass("slideList", banner)[0];
+  var indexList = utils.getElementsByClass("indexList", banner)[0];
+  var slides = slideList.getElementsByTagName("li");
+  var imgs = slideList.getElementsByTagName("img");
+  var indexs = indexList.getElementsByTagName("li");
+  var arrLeft = utils.getElementsByClass("arrLeft", banner)[0];
+  var arrRight = utils.getElementsByClass("arrRight", banner)[0];
+
+  // 1.获取数据
+  var jsonData = null;
+  // ~function(){
+  //   var xml = new XMLHTTPRequest;
+  //   xml.open("get","data.txt?_="+Math.random(),false);
+  //   xml.onreadystatechange = function () {
+  //      if(xml.readyState===4&&/^2\d{2}$/.test(xhr.status)){
+  //       var data = utils.formatJSON(xhr.responseText)
+  //      } 
+  //   }
+  //   xml.send(null);
+  // }()
+  jsonData = [{
+    "img": "img/01.jpg",
+    "desc": "2016新世界",
+    "url": "http://www.baidu.com"
+  }, {
+    "img": "img/02.jpg",
+    "desc": "2016新世界",
+    "url": "http://www.baidu.com"
+  }, {
+    "img": "img/03.jpg",
+    "desc": "2016新世界",
+    "url": "http://www.baidu.com"
+  }, {
+    "img": "img/04.jpg",
+    "desc": "2016新世界",
+    "url": "http://www.baidu.com"
+  }];
+
+  // 2.数据绑定
+  var len = jsonData.length;
+  ~function () {
+    var str = "", str2 = "";
+    for (var i = 0; i < len; i++) {
+      var cur = jsonData[i];
+      str += '<li><a href="' + cur.url + '" target="_blank"><img src="" trueImg="' + cur.img + '" alt="' + cur.desc + '"></a></li>';
+      if (i === 0) {
+        str2 += '<li class="cur"></li>'
+      } else {
+        str2 += '<li></li>'
+      }
+    }
+    slideList.innerHTML = str;
+    indexList.innerHTML = str2;
+  }()
+  // 3.图片的延时加载
+  window.setTimeout(lazy, 500)
+  function lazy() {
+    // function lazyImg(img) {
+    //   var oImg = new Image;
+    //   oImg.src = img.getAttribute("trueImg");
+    //   oImg.onload = function () {
+    //      img.src = this.src;
+    //      img.style.display = "block";
+    //      oImg = null;
+    //   }
+    // }
+    for (var i = 0; i < len; i++) {
+      ~function (i) {
+        var img = imgs[i];
+        var oImg = new Image;
+        oImg.src = img.getAttribute("trueImg");
+        oImg.onload = function () {
+          img.src = this.src;
+          img.style.display = "block";
+          if (i === 0) {
+            var slide = slides[0];
+            slide.style.zIndex = 1;
+            animate(slide, {opacity: 1}, 300)
+          }
+          oImg = null;
+        }
+      }(i)
+    }
+  }
+  // 4.实现自动轮播和小索引对齐
+  var interval = 1000; // 多长时间轮播一次
+  var curIndex = 0; // 当前展示的索引
+  var autoTimer = window.setInterval(autoPlay, interval)
+  function autoPlay() {
+    // 当最后一张显示完了,也就是curindex=leng-1 就要重新展示第一张
+    if (curIndex === len - 1) {
+      curIndex = -1;
+    }
+    curIndex++;
+    setBanner();
+  }
+  // 实现轮播图切换效果的代码
+  // 就是让某一张显示
+  function setBanner() {
+    // a.让索引对应的zindex=1,其余的zidnex=0
+    for (var i = 0; i < len; i++) {
+      var curSlide = slides[i]
+      if (i === curIndex) {
+        curSlide.style.zIndex = 1;
+        // b.让当前的透明度0->1,当动画结束,我们需要让其他的slide透明度变成0
+        animate(curSlide, {opacity: 1}, 300, function () {
+          var siblings = utils.siblings(this);
+          for (var i = 0; i < len - 1; i++) {
+            utils.css(siblings[i], {opacity: 0})
+          }
+        });
+      } else {
+        curSlide.style.zIndex = 0;
+        // utils.css(curSlide,{zIndex:0,opacity:0})
+      }
+    }
+    // c.实现焦点对齐
+    for (i = 0; i < len; i++) {
+      var cur = indexs[i];
+      i === curIndex ? utils.addClass(cur, "cur") : utils.removeClass(cur, "cur")
+    }
+
+  }
+  // 5.实现鼠标悬停和离开的而效果
+  banner.onmouseover = function () {
+    clearInterval(autoTimer);
+    arrLeft.style.display = arrRight.style.display = "block";
+  }
+  banner.onmouseout = function () {
+    autoTimer = window.setInterval(autoPlay, interval);
+    arrLeft.style.display = arrRight.style.display = "none";
+  }
+  // 6.点击焦点切换
+  ~function () {
+    for (var i = 0; i < len; i++) {
+      var cur = indexs[i];
+      cur.index = i;
+      cur.onclick = function () {
+        curIndex = this.index;
+        setBanner();
+      }
+    }
+  }();
+  // 7.实现左右切换
+  arrRight.onclick = autoPlay;
+  arrLeft.onclick = function () {
+    if (curIndex === 0) {
+      curIndex = len;
+    }
+    curIndex--;
+    setBanner();
+  }
+
+</script>
+
+</body>
+
+</html>

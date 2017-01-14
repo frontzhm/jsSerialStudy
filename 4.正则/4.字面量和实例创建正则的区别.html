@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<script>
+  var name = "huahau"
+  var str = "2014" + name + "2019"
+  // z字面量方式中 我们//抱起来的所有内容都是元字符,有的代表特殊意义,大部分代表本身含义的普通的元字符
+  var reg = /^\d+"+name+"\d+$/;
+  // 2015"""nameeee"2016
+  // 对于这样的需求,我们只能使用实例创建的方式(字符串拼接)
+  var reg = new RegExp("^\\d+" + name + "\d+$")
+  // 2013huahua2044
+  // 字面量方式和实例创建的方式在正则中的区别:
+  // 1)字面量方式中出现的一切都是元字符,所以不能进行变量值拼接,但是实例是可以的
+  // 2)字面量方式中直接\d就可以但是实例中必须\\d
+</script>
+</body>
+</html>

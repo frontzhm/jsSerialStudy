@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+<script>
+  // replace(regexp|substr, 'string')
+  // 1.将小写的数字转换成大写的中文数字
+  // ...
+  // 2.获取一个字符串中出现最多次数的字符,并且获取出现的次数
+  var str = "minveryxiHuandabaozi";
+  var obj = {};
+  // exec
+  // var reg = /[a-z]/g;
+  // var res = reg.exec(str);
+  // while(res){
+  //  if(obj[res[0]]){
+  //      obj[res[0]]++;
+  //  }else{
+  //      obj[res[0]] = 1;
+  //  }
+  //  // 千万别忘记这里重新赋值
+  //  res = reg.exec(str);
+  // }
+  // console.log(obj)
+  // replace
+  // 1)获取每个字符出现的次数
+  str.replace(/[a-z]/gi, function () {
+    // var k = obj[arguments[0]];
+    // 这里是值和引用的关系 所以不能这样用k
+    var k = arguments[0];
+    // if (obj[arguments[0]]) {
+    //     obj[arguments[0]]++;
+    // } else {
+    //     obj[arguments[0]] = 1;
+    // }
+    // obj[arguments[0]]?obj[arguments[0]]++:obj[arguments[0]]=1;
+    obj[k] ? obj[k]++ : obj[k] = 1;
+
+  })
+  console.log(obj)
+  // 2)获取最多的次数
+  var max = 0;
+  for (var key in obj) {
+    obj[key] > max && (max = obj[key]);
+
+  }
+  console.log(max)
+  // 3)把所有符合出现max获取到
+  var arr = [];
+  for (var key in obj) {
+    obj[key] === max && arr.push(key)
+  }
+  console.log('出现最多的字符是' + arr.join("和") + ",出现了" + max + "次数")
+  // 思考题
+  // 1."2015-9-22 13:10:0" -> 2015年09月22日 13时10分00秒
+  // 2.把一个字符串所有单词的首字母大写"hua hua hao hao "
+  // 3.上面的三个步骤合成一个
+
+
+  // 4) 需求 queryURLParameter
+  var str = "http://kbs.sports.qq.com/kbsweb/game.html?mid=100000&cid=1467086&app=1.0"
+  // 变成obj={
+  //  mid:"100000",
+  //  cid:"1467086",
+  //  app:"1.0"
+  // }
+  var reg = /([^?=&]+)=([^?=&]+)/g;
+  var res = reg.exec(str);
+  var obj = {};
+  // while(res){
+  //     obj[res[1]] = res[2];
+  //     res = reg.exec(str);
+  // }
+  // console.log(obj)
+  // replace本身有遍历的功能
+  str.replace(reg, function () {
+    obj[arguments[1]] = arguments[2]
+  })
+  console.log(obj)
+</script>
+</body>
+
+</html>

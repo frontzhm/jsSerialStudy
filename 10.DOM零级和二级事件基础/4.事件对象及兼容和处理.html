@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      margin-top: 1000px;
+    }
+  </style>
+</head>
+<body>
+<input type="text" id="input1">
+<div class="box" id="box">
+  <span>hua</span>
+</div>
+<script>
+  var oDiv = document.getElementById("box");
+  // 我们是把匿名函数定义的部分当做一个赋值给oDiv的点击行为(函数表达式)
+  // 当我们触发div的点击行为的时候,会执行对应绑定上的方法
+  // 重要:不仅仅是把绑定的方法执行了,而且浏览器还默认的给这个方法传递了一个参数值:MouseEvent鼠标事件对象
+  // 1.它是一个对象数据类型值,里面包含了很多的属性名和属性值,这些都是用来记录当前鼠标的相关信息
+  // 2.MouseEvent->UIEvent->Event->Object
+  // 3.MouseEvent记录的是页面中唯一一个鼠标每一次触发时候的相关信息,和到底在哪个元素上触发的没有关系
+  oDiv.onclick = function () {
+    console.log(arguments)
+    // 当我们触发oDiv的click行为的时候,会把绑定的这个函数执行
+
+  }
+  // clientX
+  document.body.onclick = function (e) {
+    e = e || window.event
+    console.log(e)
+    console.log(e.target || e.scrElement) // 在span上点击的话就是span,按照最近的元素
+    console.log(e.clientY) // 239
+    console.log(e.pageY)
+// 1026
+  }
+  // 关于事件对象MouseEvent的兼容问题
+  // 1.事件对象本身的获取存在兼容问题:标准浏览器中是浏览器给方法传递的参数,我们只需要定义形参e就可以获取到;在ie6-8下,浏览器不会给方法传递参数,如果我们需要,只能window.event
+  // e = e||window.event
+  // e.type:存储的是当前鼠标触发的行为类型,如"click"
+  // e.clientX/clientY :当前鼠标触发点距离当前屏幕左上角X/Y轴的坐标
+  // e.pageX/e.pageY:当前鼠标触发点距离body左上角(整体的滚了好几屏的)的X/Y轴的坐标,但是ie6-8又不支持,我们通过使用clientY+滚动条滚去的高度来获取
+  // e.pageX = e.pageX||(e.clientX+document.documentElment.scrollLeft||document.body.scrollLeft)
+  // e.pageY = e.pageY || (e.clientY+document.documentElement.scrollTop||document.body.scrollTop)
+  // e.target :事件源,当前鼠标触发的是哪个元素,那么他存储的就是哪个元素,但是ie6-8不存在,如果我们需要,window.event.srcElement
+  // e.target = e.target || window.event.srcElement
+  // e.preventDefault():阻止浏览器的默认行为,ie6-8不支持,用e.returnValue=false
+  // e.preventFault?e.preventDefault():e.returnValue=false;
+  // a标签的默认行为是跳转页面,但有时候我们不想他跳转,于是阻止a连接跳转有三种方法
+  // 1.href="javascript:;"
+  // 2.return false
+  // 3.e.preventFault?e.preventDefault():e.returnValue=false;
+  // e.stopPropagation():阻止事件的冒泡传播,在ie6-8中不支持,用e.cancelBubble = true来代替
+  // e.stopPropagation?e.stopPropagation():e.cancelBubble = true;
+  // e.keyCode
+  var input1 = document.getElementById("input1");
+  input1.onkeyup = function (e) {
+    e = e || window.event;
+    // e此时是KeyBoardEvent
+    // e.keyCode当前键盘上每一个键对应的值
+    // 空格(space):32 回退(backspace):8 回车(enter):13 delete:46 四个方向键:左边37上38右39下40
+    console.log(e)
+  }
+  document.body.onkeyup = function (e) {
+    e = e || window.event;
+    console.log(e.keyCode)
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .box {
+      width: 200px;
+      height: 300px;
+      margin: 20px;
+      padding: 30px;
+      border: 1px dashed #ccc;
+    }
+
+    .box p {
+      line-height: 30px;
+    }
+
+    .box p::before, .box p::after {
+      display: block;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      content: "花花1";
+      background-color: lightblue;
+    }
+
+    .box p::after {
+      background-color: #f96;
+    }
+
+    .clearfix:before,
+    .clearfix:after {
+      content: "";
+      display: table;
+    }
+
+    .clearfix:after {
+      clear: both;
+    }
+
+    .clearfix {
+      *zoom: 1;
+    }
+
+    /*before after 在元素标签的前面后者后面创建虚拟的标签 我们给这个虚拟的标签添加样式 也可以添加内容等*/
+    #list {
+      width: 300px;
+      margin: 100px;
+      list-style: none;
+    }
+
+    #list li {
+      width: 100px;
+      height: 100px;
+      float: left;
+    }
+
+    #list li:nth-child(4n+1) {
+      background-color: lightblue;
+    }
+
+    #list li:nth-child(4n+2) {
+      background-color: lightgreen;
+    }
+
+    #list li:nth-child(4n+3) {
+      background-color: lightpink;
+    }
+
+    #list li:nth-child(4n+4) {
+      background-color: #ccc;
+    }
+  </style>
+</head>
+
+<body>
+<div>
+  <div class="box">
+    <p id="box">
+      魔鬼猫/休闲男士/运动服饰运动套装 当前版权方:魔萌动漫文化传播（深圳）有限公司 查看版权证书:魔鬼猫版权证书 是否提供工业设计图:否 授权价格:￥200.00
+      企业
+      IP :魔鬼猫
+
+    </p>
+  </div>
+</div>
+<ul id="list">
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+<script>
+  // window.getComputedStyle(box,null).width
+  // box.currentStyle.width
+  // 移动端可以不管ie6-8
+  // 伪类 :hover :before :after :nth-child
+  var box = document.getElementById("box");
+  console.log(window.getComputedStyle(box, "before").content)
+</script>
+</body>
+
+</html>

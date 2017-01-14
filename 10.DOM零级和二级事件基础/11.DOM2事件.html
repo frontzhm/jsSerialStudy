@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    #box {
+      width: 200px;
+      height: 200px;
+      margin: 20px auto;
+      background-color: darkseagreen;
+    }
+  </style>
+</head>
+
+<body>
+<div id="box"></div>
+<script>
+  // dom0级事件类似于 box.onclick=function(){},同个对象同个事件只能绑定一个,因为属性值会被覆盖,这是这个对象的私有属性
+  // box.addEventListener(...),addEventListener是原型链上EventTarget上的属性,一层层往上找,因为是共有的属性
+  // ->我们使用DOM2事件绑定,其实是让box通过原型链一直找到EventTarget这个内置类原型上的addEventListener方法实现的
+  // ->DOM0级事件绑定,只能给一个元素的某一个行为绑定一次方法,第二次绑定的会把前面的覆盖掉
+  var box = document.getElementById("box");
+  box.onclick = function () {
+    console.log(1)
+  }
+  box.onclick = function () {
+    console.log(2)
+  }
+  //  true是在捕获阶段 false是在冒泡阶段
+  //  DOM2:可以给某一个元素的同个行为绑定多个不同的方法
+  box.addEventListener("click", function (e) {
+    console.log(1)
+  }, false)
+  box.addEventListener("click", function (e) {
+    console.log(2)
+  }, false)
+  // ->DOM2:DOM0的行为类型,我们用DOM2一样可以绑定,而DOM2中还提供了一些DOM0中没有的行为类型 ->如DOMContentLoaded:当页面中的DOM结构或HTML结构加载完成触发的行为
+  //  box.addEventListener("DOMContentLoaded", function () {
+  //    //    box里面的结构加载完
+  //  }, false)
+  // 2.window.onload = function(){} -> 当页面中的所有资源都加载完成(图片,html结构,音视频)才会执行后面的函数,并且在一个页面中只能用一次,后面再写会把前面的覆盖掉 -> 因为其实DOM0事件绑定,所以只能绑定一次
+  // jQuery $(document).ready(function(){}) ->$(function(){})只要当页面中的HTML结构加载完成就会执行对应的函数,并且在同一个页面出现多次
+  // DOM2事件绑定
+  // 并且绑定的行为是DOM2中新增加的那个DOMContentLoaded
+  // 3.DOM2
+  //  function fn1() {
+  //    console.log(this);
+  //  }
+  //  box.addEventListener("click", fn1, false);
+  //  移除的时候需要保证三个参数:行为,方法,哪个阶段发生,一点都不能差->在DOM2绑定的时候,我们一般绑定实名函数,以方便移除
+  //  box.removeEventListener("click", fn1, false);
+  // 4.只能给某个元素的同一个行为绑定多个"不同"的方法(如果方法相同,只能留一个)
+  // 当行为触发,会按照绑定的先后顺序依次执行绑定的方法
+  //  执行的方法中的this是当前被绑定事件的元素本身
+  function fn1() {
+    console.log(1)
+  }
+  function fn2() {
+    console.log(2)
+  }
+  function fn3() {
+    console.log(3)
+  }
+  function fn4() {
+    console.log(4)
+  }
+  function fn5() {
+    console.log(5)
+  }
+  function fn6() {
+    console.log(6)
+  }
+  box.addEventListener("click", fn6, false)
+  box.addEventListener("click", fn1, false)
+  box.addEventListener("click", fn1, false)
+  box.addEventListener("click", fn2, false)
+  box.addEventListener("click", fn3, false)
+  box.addEventListener("click", fn5, false)
+  box.addEventListener("click", fn4, false)
+
+  //  事件池:用来存储当前元素行为绑定的方法的,这是浏览器自带的机制
+
+  //  在ie6-8 不支持addeventlistener,只能用attachEvent()/detachEvent
+  //  只有两个参数,"onclick" fn,只能在冒泡阶段发生
+  //  行为需要"on"(和DOM0特别的类似)
+  box.attachEvent("onclick", fn1)
+  box.attachEvent("onclick", fn1)
+  box.attachEvent("onclick", fn2)
+  box.attachEvent("onclick", fn3)
+  box.attachEvent("onclick", fn4)
+  // 和标准的浏览器事件池机制对比
+  // 1.顺序问题:attchEvent,执行的 时候顺序是混乱的,而addEventListener是按绑定的顺序
+  //  2.重复问题:attachEvent可以给相同元素相同行为绑定多个相同的函数,addEventListner不能
+  // 3.this问题: attachEvent的方法执行的时候,this的值是window,addEventListner中的this是当前元素
+</script>
+</body>
+
+</html>

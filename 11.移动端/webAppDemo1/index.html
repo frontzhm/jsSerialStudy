@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>tc</title>
+  <link rel="stylesheet" href="../../js/normalize.css">
+  <link rel="stylesheet/less" type="text/css" href="css/index.less"/>
+  <script src="js/less.min.js"></script>
+</head>
+
+<body>
+<section class="main" id="main">
+  <!--HEADER-->
+  <header class="header">
+    <div class="con">
+      <h1 class="logo">m</h1>
+      <span class="type">NBA</span>
+      <span class="login">登录</span>
+      <span class="menu">菜单</span>
+    </div>
+    <nav>
+      <a href="">NBA</a>
+      <a href="">CBA</a>
+      <a href="">英超</a>
+      <a href="">欧冠</a>
+      <a href="">亚冠</a>
+      <a href="">西甲</a>
+      <a href="">意甲</a>
+      <a href="">法甲</a>
+      <a href="">中超</a>
+      <a href="">NFL</a>
+      <a href="">综合</a>
+      <a href="">欧洲</a>
+      <a href="">社区</a>
+      <a href="">下载</a>
+    </nav>
+  </header>
+  <!--VIDEO-->
+  <section class="videoArea">
+    <!--真实项目一般都是mp4-->
+    <!--只有preload=none ,poster才有效-->
+    <video
+      src="http://59.108.138.12/sports.tc.qq.com/v00220o22i9.m401.mp4?vkey=8A12F9F3790DF41AFA015D1A93499F7F166C38429E864878F9ACD18897BB25A497A6B9B096CB3240D68C0C41F671FE86064E8072441210F2DCABEF5F979AF6093FBBA408D3FA0696D9558CCBDCC7C8DD61C62699332F75EC&br=35&platform=2&fmt=auto&level=0&sdtfrom=v3010&guid=3bf9f8e599e04dbaa3d145866b8700a2"
+      controls preload="none" poster="img/0.jpg">
+    </video>
+  </section>
+  <!--MATCH INFO-->
+  <section class="matchInfo">
+    <div class="top">
+      <div class="home">
+        <img src="img/left.png" alt="left">
+        <span>96</span>
+      </div>
+      <div class="time">06月09日 09:00</div>
+      <div class="away">
+        <span>96</span>
+        <img src="img/right.png" alt="right">
+      </div>
+    </div>
+    <div class="middle">
+      <span></span>
+    </div>
+    <div class="bottom">
+      <span class="home">3637820</span><span class="type">NBA季后赛</span><span class="away">441366</span>
+    </div>
+  </section>
+</section>
+<script src="../../js/zepto.js"></script>
+<script src="../../js/iscroll.js"></script>
+<script src="../../js/ejs.js"></script>
+<script src="js/index.js"></script>
+<script>
+  var t = new IScroll('nav');
+  console.log(t)
+</script>
+</body>
+
+</html>

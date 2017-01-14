@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 100px;
+      height: 100px;
+      background-color: #f99;
+      position: absolute;
+      left: 50px;
+      top: 0;
+    }
+
+    .btn {
+      position: absolute;
+      left: 100px;
+      top: 200px;
+    }
+
+    .btn input {
+      outline: none;
+      display: inline-block;
+      margin-left: 50px;
+      width: 100px;
+      height: 50px;
+      border: 1px solid #9a9;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<div id="box" class="box"></div>
+
+<script src="../utils.js"></script>
+<script>
+  function linear(begin, distance, duration, time) {
+    // start 开始位置
+    // target 目标位置
+    // duration 总时间
+    // time 走过的时间
+    // 返回 过了time之后的位置
+    return distance / duration * time + begin
+  }
+  var oBox = document.getElementById("box");
+  var beginLeft = utils.css(oBox, "left");
+  var beginTop = utils.css(oBox, "top");
+  var targetLeft = 1000;
+  var targetTop = 500;
+  var distanceLeft = targetLeft - beginLeft;
+  var distanceTop = targetTop - beginTop;
+  var duration = 1000;
+  var time = 0;
+  var delay = 10;
+  oBox.timer = window.setInterval(function () {
+    time += delay;
+    // 到了时间就停止定时器 让盒子到目标那
+    if (time >= duration) {
+      utils.css(oBox, {left: targetLeft, top: targetTop});
+      clearInterval(oBox.timer)
+    }
+    var left = linear(beginLeft, distanceLeft, duration, time);
+    var top = linear(beginTop, distanceTop, duration, time);
+    utils.css(oBox, {left: left, top: top});
+  }, delay)
+  // 动画优化的四大法则:
+  // 1.边界判断和步长
+  // 2.清除不需要的定时器
+  // 3.作用域过多的问题需要小move
+  // 4.定时器的返回值放在自定义属性上
+</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    div {
+      margin: 50px;
+      width: 100px;
+      height: 100px;
+      background-color: #f99;
+      border: 1px solid #669;
+
+    }
+  </style>
+</head>
+<body>
+<button id="btn">点我<span>111111</span></button>
+<button id="btn2">操作动画</button>
+<div id="box">
+
+</div>
+
+
+<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.js"></script>
+
+<script>
+  // $就是jQuery
+  // $.ajax({
+  // 	url:"json/test.txt?_"+Math.random(),
+  // 	type:"get",
+  // 	dataType:"text",// jsonp,html,text
+  // 	success:function(data){
+  // 		console.log(data)
+  // 	}
+  // })
+  var btn = $("#btn")
+  // 用on的话不会覆盖会继续执行
+  btn.on("click", function () {
+    console.log(1)
+  })
+  btn.on("click", function () {
+    console.log(2)
+  })
+  btn.on("mouseover", function () {
+    console.log(3)
+  })
+  btn.on("mouseover", "span", function () {
+    console.log(this)
+  })
+
+  // $.browser.msie safari mozilla opera
+  $.each({w: 1, e: 2}, function (index, item) {
+    console.log(index)
+    console.log(item)
+  })
+  // $.makeArray() 类数组转换成数组
+  //
+  // 动画
+  // $("").animate({
+  // 	left:'+=10',
+  // 	width:'toggle'
+  // },duration,'linear',function(){})
+  // stop() 结束当前的动画开始下一个动画
+  // delay()
+  // finish()
+  //
+  // show hide toggle
+  // fadeIn fadeOut fadeToggle
+  // slideUp slideDown slideToggle
+  var box = $("#box");
+  var btn2 = $("#btn2");
+
+  btn2.on('click', function () {
+    box.stop().delay(1000).animate({width: 'toggle', borderWidth: '+=3'}, 'swing')
+    // box.slideUp(500).hide(500)
+    // box.slideUp(5000).stop().hide(500)
+
+    // box.slideUp(500).finish().hide(500)
+    // stop() 结束上一个动画 下一个动画紧接着当前位置开始运动
+    // finish() 结束上一个动画 并且让元素快速到达目标位置 在开始下一个动画
+  })
+</script>
+</body>
+</html>

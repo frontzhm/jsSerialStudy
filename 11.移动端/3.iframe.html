@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    html, body {
+      height: 100%;
+    }
+
+    iframe {
+      height: 100%;
+      background-color: #ff9;
+    }
+  </style>
+</head>
+<body>
+<iframe src="1.media.html" frameborder="0" scrolling="no" id="external-frame" onload="setIframeHeight(this)"></iframe>
+<script>
+
+  // document.domain = "caibaojian.com";
+  function setIframeHeight(iframe) {
+    if (iframe) {
+      var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+      if (iframeWin.document.body) {
+        iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+      }
+    }
+  }
+  ;
+
+  window.onload = function () {
+    setIframeHeight(document.getElementById('external-frame'));
+  };
+</script>
+</body>
+</html>

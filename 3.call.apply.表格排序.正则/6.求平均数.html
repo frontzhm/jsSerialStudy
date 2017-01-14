@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    a {
+      width: 100px;
+      height: 100px;
+      padding: 10px;
+
+    }
+  </style>
+</head>
+<body>
+<div>
+  <a class="hua1 hua2 " id="link" charset="o"
+     href="https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&tn=baidu&wd=%E4%BA%8C%E6%AC%A1%E5%85%83%E7%95%8C&oq=%E7%86%8A%E7%8C%AB&rsv_pq=e02d935100042013&rsv_t=91e91Aif1FLXtDuGe7z025CF9K57Ys4ZY2sht%2BM1CGdNArWcINDiTlsVhvs&rqlang=cn&rsv_enter=1&rsv_sug3=13&rsv_sug1=1&rsv_sug7=100&rsv_sug2=0&inputT=2705&rsv_sug4=2706"
+     accesskey="b" data-name="hua" data-age="25" dir="rtl" download="j"
+     draggable="false">0<span>1</span><span>2 <strong>3</strong></span>4</a>
+  <p>d</p>
+</div>
+<script>
+
+  function sum() {
+    return eval([].join.call(arguments, "+"))
+  }
+  function avg() {
+    arguments = Array.prototype.slice.call(arguments);
+    var max = Math.max.apply(null, arguments);
+    var min = Math.min.apply(null, arguments);
+    return ((eval(arguments.join("+"))) - max - min) / (arguments.length - 2).toFixed(2)
+
+  }
+
+  console.log(avg(12, 13, 14, 15, 16))
+  console.log(sum(12, 13, 14, 15, 16))
+
+  // call,apply,bind  使用定义在内置原型链上的方法,比如类数组使用数组的方法,因为想用的方法逻辑是一样的,所以可以借用
+
+
+  // 然后看下a
+  var link = document.getElementById("link");
+  console.log(link.baseURI)
+
+
+</script>
+</body>
+</html>

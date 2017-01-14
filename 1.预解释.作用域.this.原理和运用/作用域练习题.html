@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<script>
+  // 函数执行 每次和每次是没有关系的  每次都会产生一个新的作用域
+  function fn() {
+    var i = 10;
+    return function (n) {
+      console.log(n + (++i))
+    }
+  }
+  var f = fn();
+  f(10)
+  f(20)
+  fn()(10)
+  fn()(20)
+
+
+  function fnn(i) {
+    return function (n) {
+      console.log(n + (i++))
+    }
+  }
+  var ff = fnn(13);
+  ff(12)
+  ff(14)
+  fnn(15)(12)
+  fnn(16)(13)
+  // ++i i++  都是自身加1,在和其他值运算的时候有区别的
+  // i++  先拿i的值运算,在自身加1
+  // ++i  先拿自身加1的值,再参加运算
+  var i = 8, j = 8;
+  console.log(1 + (i++))  // i=8 运算就是9 然后i=9
+  console.log(1 + (++j))  // i=9 运算就是10
+</script>
+</body>
+</html>

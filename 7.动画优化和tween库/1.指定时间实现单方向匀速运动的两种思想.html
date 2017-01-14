@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    #box {
+      width: 100px;
+      height: 100px;
+      background-color: #f99;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+  </style>
+</head>
+
+<body>
+<div id="box"></div>
+<script src="../utils.js"></script>
+<script>
+  // var box = document.getElementById("box");
+  // var duration = 500,
+  //     target = utils.win("clientWidth")-box.offsetWidth,
+  //     delay = 1,
+  //     step = target / duration * delay;
+  // var left = null;
+
+  // var timer = setInterval(function() {
+  // 	left=utils.css(box, "left");
+  //     if (left >= target) {
+  //         clearInterval(timer);
+  //         timer = null;
+  //         return;
+  //     }
+  //     left += step;
+  //     utils.css(box, "left", left)
+  // }, delay)
+  // 实现一个匀速运动的第二个思想:
+  // 自己写动画公式,根据走了的时间,总时间t,起始时间b,总距离c,计算我们所在的位置
+  // function linear (time,begin,distance,duration) {
+  // 	 return distance/duration*time+begin;
+  // }
+  // var box = document.getElementById("box");
+  // var duration = 500,
+  //     change = utils.win("clientWidth") - box.offsetWidth,
+  //     delay = 10;
+  // var time=0;
+  // var begin = utils.css(box,"left");
+  // var curPos = 0;
+  // var timer = setInterval(function () {
+  // 	if(curPos>=change){
+  // 		clearInterval(timer);
+  // 		timer=null;
+  // 		return;
+  // 	}
+  // 	 time+=delay;
+  // 	 curPos = linear(time,begin,change,duration);
+
+  // 	 utils.css(box,"left",curPos);
+  // }, delay);
+
+
+  // 第三种:当总距离/我们设定的步长=不是一个整数,少走会差点 多走会超出,
+  // 只规定步长的话
+  // 在进行边界判断的时候 加上步长来进行处理
+  // var box = document.getElementById("box");
+  // var step = 5;
+  // var maxLeft = utils.win("clientWidth") - box.offsetWidth;
+  // var timer = setInterval(function () {
+  // 	 var curLeft = utils.css(box,"left");
+  // 	 curLeft+=step;// 先判断迈出去的话 会不会超过边界 超的话直接等于边界 不超出的话就寻常走
+  // 	 if(curLeft>=maxLeft) {
+  // 	 	utils.css(box,"left",maxLeft)
+  // 	 	clearInterval(timer);
+  // 	 	timer = null;
+  // 	 	return;
+  // 	 }
+  // 	 utils.css(box,"left",curLeft)
+  // }, 10)
+  // 用setTimeout
+  var box = document.getElementById("box");
+  var step = 5;
+  var maxLeft = utils.win("clientWidth") - box.offsetWidth;
+  // 使用递归思想完成setTimeout循环动画
+  // 必须记住:每次在执行动画之前 首先清除之前的定时器 节约内存
+  var timer = null;  // 必须是全局的  私有的话 下次清除不了上次的timer 因为每次timer都是独立的
+  function fn() {
+    clearTimeout(timer)
+    var curLeft = utils.css(box, "left");
+    curLeft += step; // 先判断迈出去的话 会不会超过边界 超的话直接等于边界 不超出的话就寻常走
+    if (curLeft >= maxLeft) {
+      utils.css(box, "left", maxLeft);
+      timer = null;
+      return;
+    }
+    utils.css(box, "left", curLeft)
+    timer = setTimeout(fn, 10)
+  }
+  fn();
+
+</script>
+</body>
+
+</html>

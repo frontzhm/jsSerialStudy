@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<script>
+  var jsPerson1 = {
+    name: "花花",
+    age: 12,
+    writeJs: function () {
+      console.log("my name is " + this.name);
+    }
+  }
+  var jsPerson2 = {
+    name: "花花花",
+    age: 122,
+    writeJs: function () {
+      console.log("my name is " + this.name);
+    }
+  }
+  // .......
+  // 单例模式虽然解决了分组的模式,但是不能批量生产,属于手工作业模式,于是有了工厂模式
+  // 工厂模式:把实现同一件事情的相同代码,放到一个函数中,如果再想实现这个功能,就不需要重新编写代码,执行当前的代码就可以了 ->函数的封装 ->低耦合 高内聚(减少页面中的冗余代码,提高代码的重复利用率)
+  function createJs(name, age) {
+    var obj = {};
+    obj.name = name;
+    obj.age = age;
+    obj.writeJs = function () {
+      console.log('name is ' + this.name)
+    }
+  }
+  var p1 = createJs("小花", 12);
+  p1.writeJs();
+  var p2 = createJs("小花花", 122);
+  p2.writeJs();
+
+  // js是轻量级编程语言,(html,css是标记语言)
+  // .net,java,c#,php,object-c,c++,...
+  // 所有编程语言都是面向对象开发的 -> 类的继承 封装 多态
+  // 封装:把实现同一件事情的相同代码,放到一个函数中,如果再想实现这个功能,就不需要重新编写代码,执行当前的代码就可以了
+  // 继承:子类继承父类中的属性和方法
+  // 多态:当前方法的多种形态 ->后台语言中:多态包含重载(方法名相同,参数不一样的两个方法)和重写
+  // "js中不存在重载",方法名一样的话,后面的会把前面的覆盖掉,最后只保留一个-->因为js中函数只能定义一次 但是其他语言不是
+  // js有个操作可以类似重载,我们可以根据传递参数不一样,实现不同功能
+  function sum(num) {
+    if (typeof num == "undefined") {
+      return 0
+    }
+    return num;
+  }
+
+  sum(100)
+  sum()
+  // 重写:子类重写父类的方法
+  //
+
+
+</script>
+</body>
+</html>

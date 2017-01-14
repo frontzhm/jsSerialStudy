@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    .box {
+      width: 200px;
+      height: 200px;
+      background: url(default.png) no-repeat;
+      background-size: 100%;
+      margin-top: 1500px;
+    }
+
+    img {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<div class="box" id="box">
+  <img id="img" src="" trueImg="jd.png" alt="">
+</div>
+<script>
+  // 首屏加载 过500ms就加载图片
+  // var timer = setInterval(function(){
+  //   var fimg = new Image;
+  //   fimg.src=img.getAttribute("trueImg");
+  //   fimg.onload = function(){
+  //     img.src=this.src;
+  //     img.style.display = "block";
+
+  //   }
+  //   clearInterval(timer);
+  // },500)
+
+
+  // 第二屏 滚动到图片底部的时候 加载图片
+  // 假设图片的div是imgBox  win("scrollTop")+win("clientHeight")>imgBox.offset().top+imgBox.offsetHeight才加载图片
+  window.onscroll = function () {
+    if (win("scrollTop") + win("clientHeight") >= offset(box).top + box.offsetHeight) {
+      var fimg = new Image;
+      fimg.src = img.getAttribute("trueImg");
+      fimg.onload = function () {
+        img.src = this.src;
+        img.style.display = "block";
+      }
+      box.isLoad = true;
+      window.onscroll = null;
+    }
+  }
+  function offset(ele) {
+    var left = null, top = null, par = ele.offsetParent;
+    left += ele.offsetLeft;
+    top += ele.offsetTop;
+    // 只要没有找到body 我们就把父级参照物的边框和偏移进行累加
+    while (par) {
+      if (navigator.userAgent.indexOf("MSIE 8.0") !== -1) {
+        // 父级参照物的边框
+        left += par.clientLeft;
+        top += par.clientTop;
+      } else {
+        // 父级参照物本身的偏移
+        left += par.offsetLeft;
+        top += par.offsetTop;
+        par = par.offsetParent;
+      }
+
+    }
+    return {
+      left: left,
+      top: top
+    };
+  }
+  function win(attr, value) {
+    if (typeof value === "undefined") {
+      return document.documentElement[attr] || document.body[attr];
+    }
+    document.documentElement[attr] = value;
+    document.body[attr] = value;
+
+
+  }
+</script>
+</body>
+</html>

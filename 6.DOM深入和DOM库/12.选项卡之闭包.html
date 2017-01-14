@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      font-family: "Microsoft Yahei";
+      font-size: 14px;
+    }
+
+    ul,
+    ol {
+      list-style: none;
+    }
+
+    .box {
+      margin: 20px auto;
+      width: 500px;
+    }
+
+    .box ul::after {
+      display: block;
+      content: "";
+      clear: both;
+    }
+
+    .box ul li {
+      float: left;
+      margin-right: 10px;
+      width: 100px;
+      height: 30px;
+      line-height: 30px;
+      border: 1px solid #999;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .box ul li.cur {
+      background-color: #ccf;
+      border-bottom-color: #ccf;
+    }
+
+    .box ol {
+      margin-top: -1px;
+    }
+
+    .box ol li {
+      height: 150px;
+      line-height: 150px;
+      text-align: center;
+      background-color: #ccf;
+      display: none;
+      border: 1px solid #999;
+    }
+
+    .box ol li.cur {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+<div class="box">
+  <ul>
+    <li>页卡1</li>
+    <li>页卡2</li>
+    <li>页卡3</li>
+  </ul>
+  <ol>
+    <li>内容1</li>
+    <li>
+      2
+    </li>
+    <li>内容3</li>
+  </ol>
+</div>
+<div class="box">
+  <ul>
+    <li>页卡1</li>
+    <li>页卡2</li>
+    <li>页卡3</li>
+  </ul>
+  <ol>
+    <li>内容1</li>
+    <li>
+      2
+    </li>
+    <li>内容3</li>
+  </ol>
+</div>
+<div class="box">
+  <ul>
+    <li>页卡1</li>
+    <li>页卡2</li>
+    <li>页卡3</li>
+    <li>页卡4</li>
+  </ul>
+  <ol>
+    <li>内容1</li>
+    <li>
+      2
+    </li>
+    <li>内容3</li>
+    <li>内容4</li>
+  </ol>
+</div>
+<script src="../utils.js"></script>
+<script>
+  // 实现一个选项卡封装:我们可以分析出,只要多个选项卡的主体结构一致,那么实现的思想是一样的,唯一不一样的就是最外层的盒子不一样
+  ~function () {
+    /**
+     * [tabChange 封装一个选项卡的插件,只要大结构保持统一,以后实现选项卡功能,只需要调取这个方法执行即可实现]
+     * @param  {[type]} container    [当前要实现选项卡的容器]
+     * @param  {[type]} defaultIndex [默认选中项的索引]
+     * @return {[type]}              []
+     */
+    function tabChange(container, defaultIndex) {
+      var menu = utils.firstChild(container);
+      var content = utils.next(menu);
+      var oms = utils.children(menu, "li");
+      var ocs = utils.children(content, "li");
+      // 默认选中项
+      utils.addClass(oms[defaultIndex], "cur");
+      utils.addClass(ocs[defaultIndex], "cur");
+      // 点击每个菜单项 实现具体切换的功能
+      for (var i = 0; i < oms.length; i++) {
+        oms[i].onclick = function () {
+          for (var i = 0; i < oms.length; i++) {
+            utils.removeClass(oms[i], "cur");
+            utils.removeClass(ocs[i], "cur");
+          }
+          // 在让当前点击的这个元素有选中的样式
+          utils.addClass(this, "cur")
+          utils.addClass(ocs[utils.index(this)], "cur")
+        }
+
+      }
+    }
+
+    window.ztab = tabChange;
+  }()
+
+  var boxList = utils.getElementsByClass("box");
+  for (var i = 0; i < boxList.length; i++) {
+    // 哪个不用的话
+    // if(i===boxList.length-1){
+    //     continue;
+    // }
+    ztab(boxList[i], i);
+  }
+</script>
+</body>
+
+</html>

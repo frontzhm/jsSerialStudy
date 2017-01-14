@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+<script>
+  // 1.小写数字换成大写汉字
+  ~function () {
+    var arr = ["零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"];
+    var str = "832848732-17"
+    str = str.replace(/\d/g, function () {
+      return arr[arguments[0]];
+    })
+    console.log(str);
+  }()
+
+  // 2.获取一个字符串中出现最多次数的字符,并且获取出现的次数
+  !function () {
+    var str = "i love Eating fruits,but you love playing games."
+    // 获得各个字符串
+    var obj = {}; // obj={a:2,b:3}
+    // for (var i = 0, l = str.length; i < l; i++) {
+    //   var cur = str[i].toLowerCase();
+    //   // obj[a]存不存在 存在 数字加1  不存在增加属性并使值为1
+    //   if (/[a-z]/i.test(cur)) {
+    //     obj[cur] ? obj[cur]++ : (obj[cur] = 1);
+    //   }
+    // }
+    // replace既能查找 也能替换
+    str.replace(/[a-z]/gi, function () {
+      var cur = arguments[0].toLowerCase();
+      obj[cur] ? obj[cur]++ : (obj[cur] = 1);
+    })
+    console.log(obj) // {i: 4, l: 3, o: 3, v: 2, e: 4…}
+    // 求最大值
+    var max = 0
+    for (var key in obj) {
+      obj[key] > max && (max = obj[key]);
+    }
+    console.log(max) // 4
+    // 在去找 有这个次数的所有字母 放进数组里
+    var arr = [];
+    for (key in obj) {
+      obj[key] === max && arr.push(key);
+    }
+    console.log(arr) // ["i", "e"]
+  }()
+  // 2.1升级版 
+  !function () {
+    // var str = "i love Eating fruits,but you love playing games.";
+    // var obj={};
+    // var max = 0;
+    // var arr = [];
+    var exp = '35553853335';
+    var expCounts = {};
+    var maxKey = '';
+    for (var i = 0; i < exp.length; i++) {
+      var key = exp[i];
+      if (!expCounts[key]) {
+        expCounts[key] = 0;
+      }
+      expCounts[key]++;
+      if (maxKey == '' || expCounts[key] > expCounts[maxKey]) {
+        maxKey = key;
+      }
+    }
+
+    console.debug(maxKey + ":" + expCounts[maxKey]);
+
+  }()
+
+  // 3.var str = "http://kbs.sports.qq.com/kbsweb/game.html?mid=100000&cid=1467086&app=1.0"
+  // 变成obj={mid:"100000",cid:"1467086",app:"1.0"}
+  !function () {
+    var str = "game.html?mid=100000&cid=1467086&app=1.0";
+    // mid=100000 这是一个要找的  然后找mid 和 10000
+    var reg = /([^?=&]+)=([^?=&]+)/g;
+    var obj = {};
+    str.replace(reg, function () {
+      console.log(arguments)
+      obj[arguments[1]] = arguments[2];
+    })
+    console.log(obj)
+  }()
+  // 4."2015-9-22 13:10:0" -> 2015年09月22日 13时10分00秒
+  !function () {
+
+    var str = "2015-9-22 13:10:0";
+    // 设定好时间格式 把数组中对应的项 替换到指定的区域
+    var resStr = "{0}年{1}月{2}日 {3}时{4}分{5}秒";
+    // 下面的数组通过正则捕获到
+    var arr = ["2015", "9", "22", "13", "10", "0"];
+    resStr = resStr.replace(/{([\d]+)}/g, function () {
+      var val = arr[arguments[1]];
+      return val.length === 1 ? "0" + val : val;
+    })
+    console.log(resStr);
+    var reg = /(\d{4})[-/](\d{1,2})[-/](\d{1,2}) +(\d{1,2}):(\d{1,2}):(\d{1,2})/;
+    var arr2 = [];
+    str.replace(reg, function () {
+      arr2 = [].slice.call(arguments).slice(1, -2); // ["2015","9","22","13","10","0"];
+    })
+    // \1是一模一样  也就是12 就是12  \d != /d
+    // str = str.replace(/(\d{4})[-/](\d{1,2})[-/](\d{1,2}) +(\d{1,2}):(\d{1,2}):(\d{1,2})/, function() {
+    //   console.log(arguments);
+    //   for (var i = 2, l = arguments.length; i < l; i++) {
+    //     arguments[i] = ("0"+arguments[i]).slice(-2);
+    //   }
+    //   return  arguments[1]+"年"+arguments[2]+"月"+arguments[3]+"日 "+arguments[4]+"时"+arguments[5]+"分"+arguments[6]+"秒";
+    // })
+    console.log(str);
+  }()
+  // 5.把一个字符串所有单词的首字母大写"hua hua hao hao "
+  !function () {
+    var str = "i love Eating fruits,but you love playing games.";
+    str = str.replace(/([a-z])([a-z]*)\b/gi, function () {
+      console.log(arguments);
+      return arguments[1].toUpperCase() + arguments[2];
+    })
+    console.log(str); // I Love Eating Fruits,But You Love Playing Games.
+  }()
+  // 验证
+  // 1.有效数字的正则 正数负数0小数
+  // 12.3 -12.4 +23 0 
+  // 1)可以出现小数点也可以不出现 但出现的话前后必须有数字
+  // 2)最开头可以有+-
+  // 3)整数部分,一位数可以是0-9的一个,多位数不能以0开头
+  // 思路 +- 整数部分 小数部分
+  var reg1 = /^[+-]?(\d)|([1-9]\d+)(\.\d+)?$/
+  // 整数部分/^(\d)|([1-9]\d+)$/
+  var reg = /^18|19$/ // 表示119 189 18 19 1819 819 181  以1开头9结尾 18开头的 19结尾的...
+
+  // 2.年龄在18-65之间 18-19 20-59 60-65
+  var reg2 = /^([2-5][0-9]|1[8-9]|6[0-5])$/
+  // 3.验证邮箱的正则 1222e@qq.com.cn
+  // 以@拆分两部分
+  // 左边:数字字母下划线中杠
+  var reg3 = /^[\w.-]+@[0-9a-zA-Z]+(\.[a-zA-Z]{2,4}){1,2}$/
+  // 4.中国标准真实姓名 2-4位汉字
+  var reg4 = /^[\u4e00-\u9fa5]{2,4}$/;
+  // 5.身份证号码 
+  // var reg5 = /^\d{17}[0-9X]$/
+  // 13 0828 1990 12 04 06 1 7
+  var reg5 = /^(\d{2})(\d{4})(\d{4})(\d{2})(\d{2})(\d{2})(\d)(\d|X)$/
+
+
+  // 格式化字符串
+  ~function () {
+    // "2015-7-9 13:9:10".zformatTime("{0}年{1}月{2}日 {3}时{4}分{5}秒");
+    String.prototype.zformatTime = function zformatTime(formatStr) {
+      var reg = /^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})\s+(\d{1,2}):(\d{1,2}):(\d{1,2})$/;
+      var arr = reg.exec(this).slice(1); // reg.exec(this)的最后的index和input不是数组的项
+      // arr = ["2015", "7", "9", "13", "9", "10"]
+      formatStr = formatStr || "{0}年{1}月{2}日 {3}:{4}:{5}";
+      formatStr = formatStr.replace(/{([\d]+)}/g, function () {
+        var val = arr[arguments[1]];
+        return val.length === 1 ? "0" + val : val;
+      })
+      return formatStr;
+    }
+    var d = "2015-7-9 13:9:10".zformatTime("{0}年{1}月{2}日 {3}时{4}分{5}秒");
+    console.log(d)
+  }();
+
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<script src="../usefulFn.js"></script>
+<script>
+  console.log(ztypeof(new Number(0)))
+  // 原型模式中,this.xx =xx ,this是当前实例
+  // 某一个方法中的this ->看执行时候的主体
+  // 1)先确定this的指向
+  // 2)把this替换对应代码
+  // 3)按照原型链的查找机制
+  //
+  function Fn() {
+    this.x = 100;
+    this.y = 200;
+    this.getY = function () {
+      console.log(this.y)
+    }
+
+  }
+  Fn.prototype = {
+    constructor: Fn,
+    y: 300,
+    getX: function () {
+      console.log(this.x);
+    },
+    getY: function () {
+      console.log(this.y)
+    }
+  }
+  var f = new Fn;
+  f.getX() // 100
+  f.__proto__.getX() // undefined
+  Fn.prototype.getX() // undefined
+  f.getY() // 200
+  f.__proto__.getY() // 300
+
+  // 在内置类的原型上扩展方法(数组去重)
+  Array.prototype.unique = function () {
+    var obj = {};
+    for (var i = 0; i < this.length; i++) {
+      var cur = this[i];
+      if (obj[cur] == cur) {
+        this[i] = this[this.length - 1];
+        this.length--;
+        i--;
+        continue;
+      }
+      obj[cur] = cur;
+    }
+    obj = null;
+    return this; // 目的是链式写法
+
+  }
+  var arr = [12, 3, 12, 421, 89, 12, 90, 993];
+  // arr.unique()  // this指arr
+  // Array.prototype.unique() // this指Array.prototype
+  console.log(arr)
+  // 链式写法:执行数组的一个方法可以紧接着执行下一个方法
+  // 原理:
+  // arr可以使用sort的原因:sort是公有的方法,数组arr是Array的一个实例,所以arr可以使用sort方法 ->换句话说,只有数组才能使用Array.prototype原型上定义的属性和方法
+  // sort执行完成的返回值是一个排序后的数组,数组可以再使用公有方法
+  // reverse执行完成返回值是一个数组,,可以再继续使用公有方法
+  // pop返回的值是被删除的元素,不是一个数组
+  //
+  // arr.sort(function(a,b){
+  // 	return a-b;
+  // }).reverse().pop();
+  arr.unique().sort(function (a, b) {
+    return a - b
+  });
+  // 思考题:
+  // 在数组的原型上有个方法叫slice,首先实现mySlice,要求和原来的slice功能一样
+  // 考虑的情况 slice() slice(m) slice(m,n)  负数  m<n  n和m超过数组的长度 n和m不是有效数字...
+  // 不能使用数组内置方法
+  // 如push但可以arr[length]=...
+  // 链式写法
+  // 面试题:
+  // 实现一个需求
+  // (5).plus(10).reduce(2)   5+10-2
+  // Number.prototype.plus = function(num){
+  // }
+  // Number.prototype.reduce = function(num){
+  // }
+  Array.prototype.mySlice = function () {
+
+  }
+
+
+</script>
+
+</body>
+</html>

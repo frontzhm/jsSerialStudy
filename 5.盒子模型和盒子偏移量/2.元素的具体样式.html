@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    body {
+      padding: 8px;
+    }
+
+    #box {
+      width: 50%;
+      height: 200px;
+      border: 10px solid #690;
+      padding: 20px 30px;
+      margin: 100px;
+      overflow: auto;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+
+<body>
+<div>
+  <div id="box" name="huahua" index="0" class="hua">
+    fdsafdsaf
+  </div>
+</div>
+<script>
+  // 获取元素某个具体样式
+  // 1.元素.style.属性名
+  // 局限性:需要我们把样式写在行内 不然就获取不到
+  var box = document.getElementById("box");
+  // console.log(box.style.height) ""
+  // 这种方式在项目中不常用
+  // 2.使用window.getComputedStyle这个方法获取所有经过浏览器计算过的样式
+  // 所有经过浏览器计算过的样式:只要当前的元素标签 可以在页面中呈现 那么他的所有样式都是浏览器计算过的(渲染过的),哪怕有些样式你没写,我们也能获取
+  console.log(window.getComputedStyle) //function(){}
+  // box是当前操作的元素 null是当前元素的伪类,一般没有伪类
+  console.log(window.getComputedStyle(box, null))
+  console.log(window.getComputedStyle(box, null).width)
+  // 获取的结果是CSSStyleDeclaration这个类的实例,包含这个元素所有的样式和属性值
+  // 局限:ie9以下都不兼容,因为window下么有这个属性
+  // 3.在ie6-8我们使用currentStyle获得所有经过浏览器计算的样式,但是其他浏览器不支持
+  // console.log(box.currentStyle)
+  // console.log(box.currentStyle.height)
+  // 4.写个方法 try catch
+  // 局限:a)必须保证try中的代码在低版本或者不兼容的时候报错 只有这样catch才能捕获异常的信息
+  // b)不管当前浏览器是啥 都要执行try里面的代码.ie7是肯定不支持的但是仍要执行try,消耗性能,只有在不得已的情况下 才使用它
+  // 获取当前元素 所有经过浏览器计算过的样式中对应的[attr]的值
+  // curEle:object类型当前要操作的元素对象
+  // attr :string 我们要获取的样式属性名称
+  // function getCss (curEle,attr) {
+  //  try{
+  //      return window.getComputedStyle(curEle,null)[attr];
+  //  }catch(e){
+  //      return curEle.currentStyle[attr];
+  //  }
+  // }
+  // console.log(getCss(box,"height"))
+  // 5.判断当前浏览器是否存在这个属性或方法 存在就是支持不存在就是不支持
+  // function getCss(curEle, attr) {
+  //  // if("getComputedStyle" in window){
+  //  if(window.getComputedStyle){
+  //      // true表示存在
+  //      return window.getComputedStyle(curEle, null)[attr];
+
+  //    }
+  //    return curEle.currentStyle[attr];
+  // }
+  // 6.通过检测浏览器版本和类型来处理兼容
+  console.log(window.navigator.userAgent)
+  // 谷歌:Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36
+  // 扩展题:写一个方法可以检测当前浏览器的类型和版本号
+  // 获取当前的浏览器是ie6-8
+  // /MSIE\s[678]/.test(window.navigator.userAgent)
+  // function getCss(curEle, attr) {
+  //  if(!/MSIE\s[678]/.test(window.navigator.userAgent)){
+  //      return curEle.currentStyle[attr];
+  //  }
+  //  return window.getComputedStyle(curEle, null)[attr];
+
+  // }
+  // 最常用的是
+  // function getCss(curEle, attr) {
+  //   // if("getComputedStyle" in window){
+  //   if (window.getComputedStyle) {
+  //     // true表示存在
+  //     return window.getComputedStyle(curEle, null)[attr];
+
+  //   }
+  //   return curEle.currentStyle[attr];
+  // }
+  // box.innerHTML = "width: "+ getCss(box, "width")+
+  //                  "<br>height: "+ getCss(box, "height")+
+  //                   "<br>padding: "+ getCss(box, "padding")+
+  //                    "<br>margin: "+ getCss(box, "margin")+
+  //                     "<br>border: "+ getCss(box, "border")+
+  //                     "<br>clientWidth: "+ box.clientWidth+
+  //                     "<br>offsetWidth: "+ box.offsetWidth+
+  //                     "<br>scrollWidth: "+box.scrollWidth+
+  //                     "<br>clientHeight: "+box.clientHeight+
+  //                     "<br>offsetHeight: "+box.offsetHeight+
+  //                     "<br>scrollHeight: "+box.scrollHeight+
+  //                     "<br>clientLeft: "+box.clientLeft+
+  //                     "<br>offsetLeft: "+box.offsetLeft+
+  //                     "<br>scrollLeft: "+box.scrollLeft+
+  //                     "<br>clientTop: "+box.clientTop+
+  //                     "<br>offsetTop: "+box.offsetTop+
+  //                     "<br>scrollTop: "+box.scrollTop;
+  // clientWidth = box.setWidth+padding || box.autoWidth+padding
+  // clientHeight = 真实内容高度小于设置的高度时 box.setHeight+padding ||真实内容高度大于设置的高度时或者没设置高度时  box.autoHeight+padding
+  // clientTop,clientLeft都是相应边框值
+  // client相当于盒子可视内容区(有padding),取大不取小 clientTop left 相当于内容的边框
+  // offsetWidth/Height = clientWidth/Height+相应border;
+  // offsetLeft/top = offsetParent的内容边界,就是除了border的位置
+  // offsetWidth相当于盒子整体(有border)
+  // scrollWidth/Height = clientWidth/Height + 滚动区
+  // scrollTop/scrollLeft = 当前元素被卷去的部分
+  // console.log(window.getComputedStyle(box, null))
+  // console.dir(box)
+  // console.log(getCss(box, "fontFamily"))
+  // console.log(getCss(box, "border"))
+  // console.log(getCss(box, "borderTopWidth"))
+  // 标准浏览器和IE浏览器的结果还是不一样的
+  // 对于不同属性,浏览器的结果不一样,因为getComputedStyle和currentStyle在某些方面不一样
+  // 写css样式 的时候初始化样式 避免浏览器之间的差异
+  // 而且写的默认样式 对于js获取结果的统一也是有帮助的
+
+
+  // 第一次升级 把获取到的样式值去掉单位
+  // 只有符合"数字+单位/数字"才能使用parseFloat
+  // function getCss(curEle, attr) {
+  //   var val= null,reg=null;
+  //   val =  "getComputedStyle" in window?window.getComputedStyle(curEle, null)[attr]:curEle.currentStyle[attr];
+  //   reg = /^(-?\d+(\.\d+)?)(px|pt|rem|em)?$/i;
+  //   return reg.test(val)?parseFloat(val):val;
+  // }
+  // console.log(getCss(box, "border"))
+  // console.log(getCss(box, "width"))
+  // console.log(getCss(box, "padding"))
+
+  // 第二次升级:有些样式在不同浏览器中是不兼容的 如opacity:0.1在ie6-8不兼容 filter:alpha(opacity=10)
+  function getCss(curEle, attr) {
+    var val = null, reg = null;
+    if ("getComputedStyle" in window) {
+      val = window.getComputedStyle(curEle, null)[attr];
+    } else { // ie6-8
+      if (attr === "opacity") {
+        val = curEle.currentStyle[filter]; // filter:alpha(opacity=10) 把获取到的结果进行剖析,获得里面的数字 让数字除以100才和标准浏览器一致
+        reg = /^alpha\(opacity=(\d+(?:\.\d+)?)\)$/i;
+        val = reg.test(val) ? reg.exec(val)[1] / 100 : 1
+      } else {
+        val = curEle.currentStyle[attr];
+      }
+    }
+    reg = /^(-?\d+(\.\d+)?)(px|pt|rem|em)?$/i;
+    return reg.test(val) ? parseFloat(val) : val;
+  }
+  console.log(getCss(box, "opacity"))
+</script>
+</body>
+
+</html>

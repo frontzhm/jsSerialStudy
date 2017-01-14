@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      -webkit-user-select: none;
+      font-size: 14px;
+      font-family: "Microsoft Yahei";
+    }
+
+    .box {
+      width: 400px;
+      margin: 100px auto;
+      box-shadow: 1px 1px 3px #69f;
+      border: 1px solid #69f;
+    }
+
+    .box th,
+    .box td {
+      width: 100px;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+    }
+
+    .bgf8 {
+      background-color: #f8f8f8;
+    }
+  </style>
+</head>
+
+<body>
+<div class="box">
+  <table id="table">
+    <thead>
+    <tr>
+      <th>名字</th>
+      <th>年龄</th>
+      <th>武力值</th>
+      <th>性别</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+<script src="usefulFn.js"></script>
+<script>
+  var data = [{
+    "name": "柯南",
+    "age": 24,
+    "wuli": 56,
+    "gender": "1"
+  }, {
+    "name": "小南",
+    "age": 22,
+    "wuli": 16,
+    "gender": "0"
+  }, {
+    "name": "卡卡西",
+    "age": 74,
+    "wuli": 96,
+    "gender": "1"
+  }, {
+    "name": "月亮女神",
+    "age": 1000,
+    "wuli": 86,
+    "gender": "0"
+  }];
+  // 需求:数据插入表格->点击年龄和武力可以实现倒序顺序排列->隔行变色
+  // 1.把需要的元素先找出来
+  var oTable = document.getElementById("table"); //表
+  // oTable.tHead,tBodies,tFoot,rows(表头 表身体 表的所有行 表的尾巴)
+  // oTable.createTHead,createTBody,createTFoot(不能创建表行)
+  // oTable.deleteTHead,deleteTFoot,deleteRow(不能删表身体)
+  var oTbody = oTable.tBodies[0]; // 表体
+  var oRows = oTbody.rows; // 表体的所有行 不是oTable.rows
+  var oThead = oTable.tHead; // 表头
+  // oThead.rows,deleteRow
+  var oThs = oThead.rows[0].cells; // 表头的所有单元格
+  // var oTds = oRows[0].cells; 某一行的单元格 cell
+  // 2.向表格添加数据
+  // data = utils.zjsonParse(data); // 转换成js对象
+  /*  function addData(){
+   var frg = document.createDocumentFragment();
+   // 数据的个数和行数是一一对应
+   for(var i=0,l=data.length;i<l;i++){
+   var cur = data[i];
+   var addtr = document.createElement("tr");
+   // 数据每项的属性个数和每行的单元格一一对应 属性值就是单元格的内容
+   for(var key in cur){
+   var addtd = document.createElement("td");
+   addtd.innerHTML = cur[key];
+   addtr.appendChild(addtd);
+   }
+   frg.appendChild(addtr);
+   }
+   oTbody.appendChild(frg);
+   }*/
+
+  function addData() {
+    var html = "";
+    for (var i = 0, l = data.length; i < l; i++) {
+      var cur = data[i];
+      var gender = cur.gender === "1" ? "男" : "女";
+      var unit = "<tr><td>" + cur.name + "</td><td>" + cur.age + "</td><td>" + cur.wuli + "</td><td>" + gender + "</td></tr>";
+      html += unit;
+    }
+    oTbody.innerHTML = html;
+  }
+  addData();
+  // 3.隔行变色
+  function changeBg() {
+    for (var i = 0, l = oRows.length; i < l; i++) {
+      var cur = oRows[i];
+      cur.className = (i % 2 === 1) ? "bgf8" : null;
+    }
+  }
+  changeBg();
+  // 4.按年龄升序排序
+  /*var rows = utils.zlistToArray(oRows);
+   function zsort(){
+   var frg = document.createDocumentFragment();
+   // a,b相当于每个row
+   rows.sort(function(a,b){
+   // return a.cells[1]- b.cells[1]; 别写成这样 这样是<td>24</td>
+   return a.cells[1].innerHTML- b.cells[1].innerHTML;
+   })
+   for(var i=0,l=rows.length;i<l;i++){
+   var cur = rows[i];
+   frg.appendChild(cur);
+   }
+   oTbody.appendChild(frg);
+   }
+   oThs[1].onclick = function(){
+   zsort();
+   // 重新排序一次 重新执行变色
+   changeBg();
+   }*/
+  // 5.按年龄降序排序
+  // return a.cells[1].innerHTML- b.cells[1].innerHTML; 变成return b.cells[1].innerHTML- a.cells[1].innerHTML;
+  // 相当于return (a.cells[1].innerHTML- b.cells[1].innerHTML)*(-1)
+  // 6.按年龄升降序切换排序(切换什么的都需要一个状态值,根据状态值执行相应的状态,也就是状态值和状态一一对应)
+  var rows = utils.zlistToArray(oRows);
+  // oThs[1].upsortflag = true;
+  // 因为这里乘以(-1),也就是取相反数的特殊情况,flag可以和这个联系起来 因为第一次点击是升序 所以这个是(-1)
+  /*function zsort() {
+   var frg = document.createDocumentFragment();
+   // a,b相当于每个row
+   rows.sort(function(a, b) {
+   // return a.cells[1]- b.cells[1]; 别写成这样 这样是<td>24</td>
+   // return oThs[1].upsortflag?a.cells[1].innerHTML- b.cells[1].innerHTML:(a.cells[1].innerHTML- b.cells[1].innerHTML)*(-1);
+   return (a.cells[1].innerHTML - b.cells[1].innerHTML) * oThs[1].upsortflag;
+   })
+   for (var i = 0, l = rows.length; i < l; i++) {
+   var cur = rows[i];
+   frg.appendChild(cur);
+   }
+   oTbody.appendChild(frg);
+   }
+   oThs[1].upsortflag = -1;
+   oThs[1].onclick = function() {
+   zsort();
+   oThs[1].upsortflag*=(-1);
+   // 重新排序一次 重新执行变色
+   changeBg();
+   }*/
+  // 7.oThs[1]换this oThs[1],oThs[2],oThs[3]
+  function zsort(index) {
+    // this 值看情况变
+    var _this = this;
+    // 每次排序的时候 就会取反
+    this.upsortflag *= (-1);
+    // 每次除了排序的那列 其他列恢复初始值
+    for (var j = 0; j < oThs.length; j++) {
+      oThs[j] !== this && (oThs[j].upsortflag = -1);
+    }
+    var frg = document.createDocumentFragment();
+    rows.sort(function (a, b) {
+      var curTxt = a.cells[index].innerHTML;
+      var nextTxt = b.cells[index].innerHTML;
+      var curNum = parseFloat(curTxt);
+      var nextNum = parseFloat(nextTxt);
+      // 汉字比较
+      if (isNaN(curNum) || isNaN(nextNum)) {
+        return curTxt.localeCompare(nextTxt) * _this.upsortflag;
+      }
+      return (curNum - nextNum) * _this.upsortflag;
+    })
+    for (var i = 0, l = rows.length; i < l; i++) {
+      var cur = rows[i];
+      frg.appendChild(cur);
+    }
+    oTbody.appendChild(frg);
+  }
+  // oThs[1].upsortflag = -1;
+  // oThs[1].onclick = function() {
+  //   zsort.call(this);
+  //   this.upsortflag *= (-1);
+  //   changeBg();
+  // }
+
+  // 点击任意一列的情况
+  for (var i = 0, l = oThs.length; i < l; i++) {
+    var cur = oThs[i];
+    // 因为i会变
+    cur.index = i;
+    cur.upsortflag = -1;
+    cur.onclick = function () {
+      // this->cur
+      zsort.call(this, this.index);
+      changeBg();
+    }
+  }
+</script>
+</body>
+
+</html>

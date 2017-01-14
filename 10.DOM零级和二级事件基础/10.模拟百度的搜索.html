@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      border: 1px solid transparent;
+    }
+
+    input {
+      padding: 0 10px;
+      width: 200px;
+      line-height: 30px;
+      height: 30px;
+      outline: none;
+    }
+
+    .box {
+      width: 500px;
+      margin: 50px auto;
+      position: relative;
+    }
+
+    #list {
+      position: absolute;
+      top: 33px;
+      width: 222px;
+      left: 0;
+      border: 1px solid #ccc;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    #list li {
+      line-height: 30px;
+      padding: 0 10px;
+      cursor: pointer;
+    }
+
+    #list li:hover {
+      background-color: #ff9;
+    }
+  </style>
+</head>
+
+<body>
+<div class="box">
+  <div>
+    <input type="text" name="" id="input">
+  </div>
+  <ul id="list" style="display: none">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+  </ul>
+</div>
+<script>
+  // 显示:
+  // 1.文本框获取焦点,并且文本框中有内容的时候
+  // 2.在文本框中操作内容(新输入/删除),如果内容不为空就显示
+  // 隐藏
+  // 1.点击页面中其余的位置都隐藏(除了文本框和list)
+  // 2.点击列表隐藏,且列表中的内容到input里
+
+  var input = document.getElementById("input");
+  var list = document.getElementById("list");
+  // 不管是获取焦点onfocus还是在里面编辑内容onkeyup
+  // 都是有内容显示 没内容隐藏
+  input.onkeyup = input.onfocus = function (e) {
+    // 获取文本框中的内容 并且去除首尾空格
+    var val = this.value.replace(/^ +| +$/g, "")
+    list.style.display = val.length > 0 ? "block" : "none";
+  }
+  document.body.onclick = function (e) {
+    e = e || window.event;
+    e.target = e.target || e.srcElement;
+    // 事件源是li的话
+    if ((e.target.tagName.toLowerCase() === "li") && e.target.parentNode.id === "list") {
+      list.style.display = "none";
+      input.value = e.target.innerHTML;
+      return;
+    }
+    // 事件源是input (没有这个 在点击input的时候先触发focus在触发click会闪)
+    // if (e.target.id==="input") {return;}
+    list.style.display = "none";
+
+
+  }
+  // 我们可以阻止一个容器中某些特殊性的元素,让其不在委托的范围内
+  // 我们只需要把这些不需要委托的阻止冒泡传播即可
+  input.onclick = function (e) {
+    e = e || window.event;
+    e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
+  }
+</script>
+</body>
+
+</html>

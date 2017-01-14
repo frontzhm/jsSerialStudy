@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<script>
+  var str = "20151213";
+  var ary = ["零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"];
+  // 索引和数字一一对应
+  // 替换之后记得赋值
+  str = str.replace(/\d/g, function () {
+    console.log(arguments);
+    return ary[arguments[0]];
+  })
+  console.log(str)
+
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>enumerable</title>
+</head>
+
+<body>
+<script>
+  // -> 父类私有的给了变成子类私有的 父类公有的变成子类公有的
+  function A() {
+    this.x = 100;
+  }
+  A.prototype.getX = function () {
+    console.log(this.x)
+  }
+  function B() {
+    A.call(this);
+  }
+  B.prototype = objectCreate(A.prototype)
+  B.prototype.constructor = B;
+
+
+  var n = new B;
+
+
+  function objectCreate(o) {
+    function Fn() {
+    }
+
+    Fn.prototype = o;
+  }
+
+</script>
+</body>
+
+</html>

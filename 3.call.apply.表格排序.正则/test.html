@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<script>
+  for (var key in window) {
+    if (window.propertyIsEnumerable(key)) {
+      console.log(window[key])
+    }
+  }
+  CacheStorage.name = "o";
+  CacheStorage.age = 99;
+  console.log(CacheStorage)
+  Storage.name = "p"
+</script>
+</body>
+</html>

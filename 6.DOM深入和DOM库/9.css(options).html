@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    #box {
+      width: 100px;
+      height: 100px;
+      background-color: #fcc;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+  </style>
+</head>
+
+<body>
+<div id="box"></div>
+<script src="../utils.js"></script>
+<script>
+  var box = document.getElementById("box");
+
+  utils.css(box, {width: 200, left: 200, opacity: 0.5})
+  var f = utils.css(box, "height");
+  console.log(f)
+</script>
+</body>
+
+</html>

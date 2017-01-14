@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <!-- meta:vp width=device-width设置视口标签默认是980px-->
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <style>
+    #box {
+      width: 200px;
+      height: 200px;
+      background-color: #f99;
+      cursor: move;
+      /*盒子不是具体大小的时候居中*/
+      position: absolute;
+      /*top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;*/
+    }
+  </style>
+</head>
+
+<body>
+<div id="box">
+  <h2>拖拽</h2>
+</div>
+<script>
+  // 拖拽的原理:
+  // 当鼠标在盒子上按下的时候,我们开始拖拽(盒子绑定mousemove mousedown)
+  // 当鼠标移动的时候,我们计算盒子的最新位置
+  //
+  // 当鼠标抬起的时候 拖拽结束 mousemove和mousedown就没用了,移除之
+  var box = document.getElementById("box");
+  // js实现元素在当前屏幕居中
+  // 注意||运算加括号
+  box.style.left = ((document.documentElement.clientWidth || document.body.clientWidth) - box.offsetWidth) / 2 + "px";
+  box.style.top = ((document.documentElement.clientHeight || document.body.clientHeight) - box.offsetHeight) / 2 + "px";
+
+
+  box.onmousedown = down;
+
+  function down(e) {
+    e = e || window.event;
+    e.target = e.target || e.srcElement;
+    // 边界判断
+    this.minL = 0;
+    this.minT = 0;
+    this.maxL = (document.documentElement.clientWidth || document.body.clientWidth) - this.offsetWidth;
+    this.maxT = (document.documentElement.clientHeight || document.body.clientHeight) - this.offsetHeight;
+    this.relX = e.clientX - box.offsetLeft;
+    this.relY = e.clientY - box.offsetTop;
+
+
+    // 给元素绑定移动和抬起事件
+
+    if (this.setCapture) {
+      this.setCapture(); // 把当前的鼠标和盒子绑定在一起
+      this.onmousemove = move;
+      this.onmouseup = up;
+    } else {
+      var _this = this;
+      // 谷歌的解决方案
+      // 匿名函数必须传e
+      document.onmousemove = function (e) {
+        move.call(_this, e)
+      }
+      document.onmouseup = function (e) {
+        up.call(_this, e)
+      }
+    }
+
+
+  }
+
+  function move(e) {
+    e = e || window.event;
+    e.target = e.target || e.srcElement;
+    var curL = e.clientX - this.relX;
+    var curT = e.clientY - this.relY;
+
+    // curL = curL<this.minL?this.minL:curL;
+    // curT = curT<this.minT?this.minT:curT;
+    // curL = curL>this.maxL?this.maxL:curL;
+    // curT = curT>this.maxT?this.maxT:curT;
+    curL = curL < this.minL ? this.minL : (curL > this.maxL ? this.maxL : curL);
+    curT = curT < this.minT ? this.minT : (curT > this.maxT ? this.maxT : curT);
+    this.style.left = curL + "px";
+    this.style.top = curT + "px";
+
+
+  }
+  // function down (e) {
+  // 	e = e || window.event;
+  // 	e.target = e.target || e.srcElement;
+  // 	// 记录开始位置信息
+  // 	this["strX"] = e.clientX;
+  // 	this["strY"] = e.clientY;
+  // 	this["strL"] = parseFloat(this.style.left);
+  // 	this["strT"] = parseFloat(this.style.top);
+  // 	// 给元素绑定移动和抬起的事件
+  // 	this.onmousemove = move;
+  // 	this.onmouseup =  up;
+
+  // }
+  // function move (e) {
+  // 	e = e || window.event;
+  // 	e.target = e.target || e.srcElement;
+  // 	box.style.left = (e.clientX-this["strX"])+this["strL"]+"px";
+  // 	box.style.top = (e.clientY-this["strY"])+this["strT"]+"px";
+
+
+  // }
+  function up(e) {
+    this.onmousemove = null;
+    this.onmouseup = null;
+    this.releaseCapture && this.releaseCapture(); // 把当前的鼠标和盒子解绑
+  }
+  // 当鼠标移动过快的时候 我们的鼠标会脱离盒子 导致盒子的mouseup和mousemove事件移除不掉->鼠标焦点丢失
+  // ie 火狐 我们用一个方法把盒子和鼠标绑定在一起即可
+  // 但是谷歌不行
+  // 鼠标再快也跑不出去文档:我们把mousemove和mouseup绑定给整个文档
+</script>
+</body>
+
+</html>

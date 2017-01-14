@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="../js/normalize.css">
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background: #fff url() 0 0 no-repeat;
+      overflow: hidden;
+    }
+
+    .box {
+      width: 300px;
+      height: 300px;
+      background-color: #f99;
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      margin: auto;
+      -webkit-transition: all 1s linear 0s;
+      transition: all 1s linear 0s;
+    }
+  </style>
+</head>
+
+<body>
+<h2 class="box">
+  pc端常用事件: <br>
+  只有移动端才能touch
+</h2>
+<p>
+  click/mouseover/mouseout/mouseenter/mouseleave/mousemove/mousedown/mouseup/mousewheel/keydown/keyup/load/scroll/blur/focus/change/</p>
+<h2>移动端事件</h2>
+<p>
+  click/load/scroll/blur/focus/change/input(代替keyup,keydown)/滑动/常按/双击/放大缩小/重力感应如摇一摇/旋转/
+</p>
+<p>touch事件模型(处理单击),gesture事件模型(多手指操作),重力感应(浏览器支持的不好.一般在native)</p>
+<p>
+  touch事件模型:touchstart touchmove touchend touchcancle
+</p>
+<p>
+  gesture事件模型:gesturestart gesturechange gestureend
+</p>
+<p>
+  1.click:在移动端是单击事件不是点击事件 在移动端的项目中 我们经常区分单击做啥双击做啥,所以移动端的浏览器在识别click的时候,只有确定是单击后才会把它执行
+  在移动端使用click会存在300ms的延迟,浏览器在第一次点击结束后,还需要在等待300ms看是否触发了第二次点击,触发属于双击否则单击
+  2.点击,单击,双击,常按
+  单击和双击在于300ms
+  点击和常按在于750ms
+  点击和滑动在于xy轴偏移的距离30px,超过就是滑动
+  上下滑动和左右滑动(x轴偏移的距离>y轴偏移的距离=左右滑,超过就是左右滑)
+  左滑和右滑(偏移的距离>0就是右滑)
+  3.移动端事件库
+  ->fastClick.js解决click事件300ms的延迟
+  ->touch.js百度云手势事件库https://github.com/Clouda-team/touch.code.baidu.com/blob/master/touch-0.2.14.js
+  ->hammer.js
+
+  ->zepto.js 重点:被誉为移动端的小型JQ,JQ是pc端使用的,所以代码中包含大量的对于IE低版本浏览器的兼容处理,而zepto只应用移动端开发,所以jq基础上没有对低版本ie支持
+  jq中提供了很多的选中器类型和dom操作方法,但是zepto只是实现部分常用的选择器和方法,例如:jq动画animate,hide,show...但是zepto只有animate
+  所以zepto的源代码比jq小很多
+  zepto专门为移动端开发而生,所以相对于jq来说,更适合移动端
+  zepto的animate动画方法支持css3动画的操作
+  zepto专门的准备了移动端常用的事件操作:tap,singleTap,doubleTap,longTap,swipe,swipeUp,swipeDown,swipeLeft,swipeRight
+  https://github.com/madrobby/zepto
+
+</p>
+<script src="../js/touch.0.2.14.js"></script>
+<script>
+  // touchjs事件库
+  // 单击tap
+  // 双击doubletap
+  var oBox = document.querySelector(".box");
+  touch.on(oBox, 'tap', function (ev) {
+    this.style.webkitTransform = 'rotate(360deg)';
+    this.style.webkitTransitionDuration = '1s';
+    var timer = window.setTimeout(function () {
+      this.style.webkitTransform = 'rotate(0deg)';
+      this.style.webkitTransitionDuration = '0s';
+      // 一定清除
+      window.clearTimeout(timer);
+    }.bind(this), 1000);
+
+  })
+  touch.on(oBox, 'doubletap', function (ev) {
+    this.style.webkitTransform = 'rotate(-360deg)';
+    this.style.webkitTransitionDuration = '1s';
+    var timer = window.setTimeout(function () {
+      this.style.webkitTransform = 'rotate(0deg)';
+      this.style.webkitTransitionDuration = '0s';
+      // 一定清除
+      window.clearTimeout(timer);
+    }.bind(this), 1000);
+
+  })
+  // 空格表示常按或滑动的时候都触发事件
+  touch.on(oBox, 'hold swipe', function (ev) {
+    this.style.background = 'red';
+  })
+</script>
+</body>
+
+</html>

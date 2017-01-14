@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>无标题文档</title>
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .main {
+      width: 992px;
+      height: 420px;
+      margin: 100px auto;
+      position: relative;
+    }
+
+    .main ul li {
+      width: 992px;
+      height: 420px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: none; /*隐藏所有图片，保证页面里面一直只显示一张*/
+    }
+
+    .main a {
+      width: 41px;
+      height: 69px;
+      background: url(images/arr.png) -125px 0;
+      position: absolute;
+      right: 0;
+      top: 175px;
+      display: none; /*默认情况下，箭头看不见*/
+    }
+
+    .main .left {
+      left: 0;
+      background-position: -83px 0;
+    }
+
+    .main .left:hover {
+      background-position: 0 0;
+    }
+
+    .main .right:hover {
+      background-position: -42px 0;
+    }
+
+    .main ol {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+    }
+
+    .main ol li {
+      float: left;
+      width: 30px;
+      height: 20px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid #ccc;
+      text-align: center;
+      line-height: 20px;
+      color: #fff;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+
+    .main ol li.current {
+      background: rgba(0, 0, 0, 0.6);
+    }
+  </style>
+  <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="js/myjs.js"></script>
+</head>
+
+<body>
+<div class="main">
+  <ul>
+    <li style="display:block;"><img src="images/1.jpg" width="992" height="420"/></li>
+    <li><img src="images/2.jpg" width="992" height="420"/></li>
+    <li><img src="images/3.jpg" width="992" height="420"/></li>
+    <li><img src="images/4.jpg" width="992" height="420"/></li>
+    <li><img src="images/5.jpg" width="992" height="420"/></li>
+  </ul>
+  <a href="javascript:void(0);" class="left"></a>
+  <a href="javascript:void(0);" class="right"></a>
+  <ol>
+    <li class="current">1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+  </ol>
+</div>
+</body>
+</html>

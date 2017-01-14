@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+<div id="div1">
+  <div></div>
+  <div></div>
+  <div>
+    <p></p>
+    <p></p>
+  </div>
+  <!-- 我是注释 -->
+  <p></p>
+  <p></p>
+  <p></p>
+</div>
+<script>
+  function c(str) {
+    console.log(str)
+  }
+  ;
+  var oDiv = document.getElementById("div1");
+  // console.log(oDiv.children) // ie6-8不兼容
+  function children(curEle, tagName) {
+    // 首先获取所有的子节点(childNode)
+    // 然后筛选出元素节点 nodeType===1
+    var arr = [];
+    // ie6-8下
+    if (/MSIE [678]/i.test(navigator.userAgent)) {
+      var nodelist = curEle.childNodes;
+      for (var i = 0, l = nodelist.length; i < l; i++) {
+        var cur = nodelist[i];
+        if (cur.nodeType === 1) {
+          arr[arr.length] = cur // arr.push(/)
+        }
+      }
+      nodelist = null;
+    } else {
+      // 现代浏览器的children是类数组 转换为数组
+      arr = Array.prototype.slice.call(curEle.children);
+    }
+    // 二次筛选
+    // if(typeof tagName==="string"){
+    // 	var arr2 = [];
+    // 	for (i = 0,l=arr.length; i < l; i++) {
+    // 		cur=arr[i];
+    // 		if(cur.tagName.toLowerCase()===tagName.toLowerCase()){
+    // 			arr2[arr2.length]=cur;
+    // 		}
+    // 	}
+    // 	arr = arr2;
+    // }
+    if (typeof tagName === "string") {
+      for (i = 0; i < arr.length; i++) {
+        cur = arr[i];
+        // 不等于 表示不是我想要的标签
+        if (cur.nodeName.toLowerCase() !== tagName.toLowerCase()) {
+          // 删除的时候记得索引减1
+          arr.splice(i, 1);
+          i--;
+        }
+
+      }
+    }
+
+
+    return arr;
+  }
+  c(children(oDiv, "p"))
+</script>
+</body>
+
+</html>

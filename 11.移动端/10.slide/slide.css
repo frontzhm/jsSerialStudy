@@ -1,0 +1,75 @@
+body, p, ul, ol, li, h1, h2, h3, h4 {
+  padding: 0;
+  margin: 0;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+
+}
+
+html {
+  /*rem的基础*/
+  font-size: 100px;
+}
+
+.banner {
+  position: relative;
+  height: 6rem;
+}
+
+.slide-list {
+  height: 100%;
+  position: absolute;
+  /*因为无缝滚动前面多了一个*/
+  left: -100%;
+  top: 0;
+}
+
+.slide {
+  float: left;
+  height: 100%;
+  background: #f8f8f8 url(img/loading.gif) center center no-repeat;
+}
+
+.slide a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.slide img {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+.pagination-list {
+  position: absolute;
+  left: 0;
+  bottom: .1rem;
+  width: 100%;
+  height: .16rem;
+  text-align: center;
+}
+
+.pagination-list > li {
+  /*居中显示 inline-block*/
+  width: .16rem;
+  height: .16rem;
+  display: inline-block;
+  background-color: rgba(0, 0, 0, .2);
+  /*不然会掉下去 inline-block的缺点*/
+  vertical-align: top;
+
+}
+
+.pagination-list > .cur {
+  background-color: #007aff;
+}

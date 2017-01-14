@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>预解释</title>
+</head>
+<body>
+<script>
+  // 基本数据类型 : string number boolean null undefined
+  // 基本数据类型是操作值
+  // 引用数据类型	: object ({},[],/i/gim,Date)
+  // 								function
+  //  引用数据类型是操作引用
+  c(num); // 预解释的时候只是定义了 并没有赋值所以是undefined  但是函数预解释的时候定义且赋值 所以可以执行
+  var num = 12,
+    obj = {name: 0};
+  // 先开一个内存空间地址是xxx 里面是function的字符串console.log(r)
+  function c(r) {
+    console.log(r)
+  }
+  // 内存空间的字符串,也就是函数本身
+  c(c)
+  // 函数的返回值
+  c(c(1))
+  var obj1 = obj,
+    num1 = num;
+  num1 = 13
+  obj1.name = 2
+  c(obj)
+  c(num)
+  c(document.documentElement.clientHeight || document.body.clientHeight)
+  // 1.当浏览器加载html页面的时候 首先提供一个全局js代码执行的环境 -> 全局作用域(global/window)
+  // 2.预解释:在当前的作用域中,js代码执行之前,浏览器首先会默认的把var function的进行提前声明或定义
+  // 1)理解声明和定义
+  // 声明declare : var num,告诉浏览器有这个变量 如果变量只是声明了但是没有赋值那么默认值是undefined
+  // 定义 defined:num = 12,给变量赋值
+  // var x =1 定义一个变量
+
+  // 2)var function 预解释不一样
+  // var 只是提前声明
+  // function 声明加定义
+  // 先function 后var
+  //
+  // 3) 预解释只发生在当前作用域,如开始在window下预解释 函数执行的时候才会对函数中预解释因为作用域变了
+  //
+  // 3.js中内存的分类 栈内存和堆内存
+  // 栈内存: 用来提供供js代码执行的环境(作用域:全局作用域和私有作用域)
+  // 堆内存:用来存储引用数据类型的值(对象存储的是键值对,函数存储的是代码字符串)
+  //
+  //
+
+</script>
+</body>
+</html>

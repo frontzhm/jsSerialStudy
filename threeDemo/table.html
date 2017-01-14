@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-size: 14px;
+      font-family: "Microsoft Yahei";
+      -webkit-user-select: none;
+    }
+
+    .box {
+      width: 500px;
+      margin: 50px auto;
+      border: 1px solid #69f;
+      border-radius: 5px;
+      box-shadow: 1px 1px 3px #69f;
+      padding: 20px;
+    }
+
+    thead {
+      background-color: #999;
+      line-height: 35px;
+    }
+
+    th {
+      width: 100px;
+      color: #fff;
+      text-align: center;
+    }
+
+    tbody tr {
+      line-height: 30px;
+    }
+
+    td {
+      width: 100px;
+      text-align: center;
+    }
+
+    .bge {
+      background-color: #eee;
+    }
+
+    /*tbody tr:nth-of-type(2n){
+        background-color: #e5e5e5;
+    }*/
+  </style>
+</head>
+
+<body>
+<div class="box">
+  <table id="tab" cellpadding="0" cellspacing="0">
+    <thead>
+    <tr>
+      <th class="cursor">姓名</th>
+      <th class="cursor">年龄</th>
+      <th class="cursor">武力值</th>
+      <th>性别</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- <tr>
+        <td>令狐冲</td>
+        <td>34</td>
+        <td>90</td>
+        <td>男</td>
+    </tr>
+    <tr>
+        <td>令狐冲</td>
+        <td>34</td>
+        <td>90</td>
+        <td>男</td>
+    </tr> -->
+    </tbody>
+  </table>
+</div>
+<!-- 引入js是有顺序限制的 按照顺序依次引入 -->
+<script src="usefulFn.js"></script>
+<script>
+  // 想要操作谁就先获取谁
+  var otab = document.getElementById("tab");
+  // 表格独有的 rows所以行 cells某行所有列  tBodies
+  var thead = otab.tHead;
+  var oths = thead.rows[0].cells;
+  var tbody = otab.tBodies[0];
+  var orows = tbody.rows;
+  var data = null;
+  // 1.首先获取后台(data.txt)中的数据->json格式的字符串->ajax(async javascript and xml)
+  // 1)首先创建一个Ajax对象
+  var xhr = new XMLHttpRequest;
+  // 2)打开我们需要请求数据的那个文件地址
+  xhr.open("get", "14data.txt", false)
+  // 3)监听请求的状态
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && /^2\d{2}$/.test(xhr.status)) {
+      var val = xhr.responseText;
+      console.log(val)
+      data = utils.zjsonParse(val)
+    }
+  }
+  // 4)发送请求
+  xhr.send(null)
+  // 同步是上面走完之后才开始2....
+  // 2.实现我们的数据绑定
+  console.log(data)
+
+  function bind() {
+    var frg = document.createDocumentFragment();
+    for (var i = 0; i < data.length; i++) {
+      var cur = data[i];
+      var oTr = document.createElement("tr");
+      for (var key in cur) {
+        var oTd = document.createElement("td");
+        // 性别的时候
+        if (key === "gender") {
+          oTd.innerHTML = (cur[key] === "0" ? "女" : "男");
+        } else {
+          oTd.innerHTML = cur[key];
+        }
+        oTr.appendChild(oTd);
+      }
+      frg.appendChild(oTr)
+    }
+    tbody.appendChild(frg);
+  }
+  bind();
+  // 各行变色
+  function changeBg() {
+    for (var i = 0, l = orows.length; i < l; i++) {
+      orows[i].className = i % 2 === 1 ? "bge" : null;
+    }
+  }
+  changeBg();
+  // 4.编写表格排序的方法 年龄 由小到大排序
+  /* function sort() {
+   // 把存储所有行的类数组转换成数组
+   var ary = utils.zlistToArray(orows);
+   // 给数组进行排序,按照每一行的第二列的内容从小到大进行排序
+   oThs[1].flag*=-1;
+   // 每次执行sort 先让flag的值*-1 所以默认的第一次flag值=-1
+   ary.sort(function(a, b) {
+   return ((+a.cells[1].innerHTML) - (+b.cells[1].innerHTML))*oThs[1].flag
+   });
+   // 按照ary中的最新顺序,每一行重新添加到tbody中
+   for (var i = 0, l = ary.length; i < l; i++) {
+   frg.appendChild(ary[i]);
+   }
+   tbody.appendChild(frg);
+   frg = null;
+   }*/
+  function sort(n) { // n是哪一列
+    var that = this;
+    // 把存储所有行的类数组转换成数组
+    var ary = utils.zlistToArray(orows);
+    // 给数组进行排序,按照每一行的第二列的内容从小到大进行排序需要让其他的列flag的值回归到-1,这样在点击其他列的话 就是升序
+    for (var k = 0; k < oths.length; k++) {
+      oths[k] !== this && (oths[k].flag = -1);
+    }
+    // 点击当前列
+    that.flag *= -1;
+    // 每次执行sort 先让flag的值*-1 所以默认的第一次flag值=-1
+    ary.sort(function (a, b) {
+      var curInn = a.cells[n].innerHTML;
+      var nextInn = b.cells[n].innerHTML;
+      var curInnNum = parseFloat(curInn);
+      var nextInnNum = parseFloat(nextInn);
+      if (isNaN(curInnNum) || isNaN(nextInnNum)) {
+        // if里如果有return的话 下面的就不用else 因为走不到下面的了
+        return (curInn.localeCompare(nextInn)) * that.flag
+      }
+      // 这里的this是window 为防止这样的情况把this赋给变量
+      return (curInnNum - nextInnNum) * that.flag
+    });
+    // 按照ary中的最新顺序,每一行重新添加到tbody中
+    var frg = document.createDocumentFragment();
+    for (var i = 0, l = ary.length; i < l; i++) {
+      frg.appendChild(ary[i]);
+    }
+    tbody.appendChild(frg);
+    frg = null;
+  }
+
+
+  /*  // 5.点击年龄 升序降序排列
+   oThs[1].flag = 1;
+   oths[1].onclick = function() {
+   // this->oths[1]
+   // sort.call(oths[1]);
+   sort.call(this);
+   // sort里主体是oths[1] 可以想法换成this
+   // 重新变色
+   changeBg()
+   }*/
+  // 5.点击排序 所有的cursor升序降序排列
+  for (var i = 0, l = oths.length; i < l; i++) {
+    var cur = oths[i];
+    if (cur.className === "cursor") {
+      cur.index = i;
+      cur.flag = -1;
+      cur.onclick = function () {
+        sort.call(this, this.index)
+      }
+    }
+
+  }
+  changeBg();
+</script>
+</body>
+
+</html>

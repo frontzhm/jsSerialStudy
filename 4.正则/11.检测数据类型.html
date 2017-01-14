@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<script>
+  // typeof instanceof Object.prototype.toString.call() constructor
+  // 1.typeof:检测数据类型的运算符 undefined number string boolean function object(null)(优先排除null)
+  // 局限性:Array....引用数据类型不行
+  // function fn(num1,num2){
+  // 	// 只有num2没有传的时候 才会0
+  // 	// typeof num2 ==="undefiend" && (num2=0);
+  // 	// num2为"",0,undefined,null,false 都会等于0
+  // 	num2 = num2 || 0;
+  // }
+  // fn(10)
+  // function fn(callback){
+  // 	typeof callback ==="function" && callback();
+  // }
+  // fn(function(){})
+  // 2.arr instanceof Array 检测某个实例是否属于某个类
+  // 字面量创建 和 实例创建的方式有区别  new Number(1) 1 从严格意义讲 实例方式创建的才是标准的实例 js松散的方法
+  // 局限性:不能检测字面量创建的基本数据类型 , 只要是原型链上端都是true
+  function Fn() {
+
+  }
+  Fn.prototype = new Array; // 原型继承:让子类的原型等于父类的实例 (6种方式)
+  var f = new Fn;
+  // 3.constructor 构造函数
+  // 可以处理基本类型的检测  (1).constructor === Number True
+  // 局限性:覆盖 和null undefined不能检测,浏览器保护这两个类 不允许我们在外面使用这两个类
+  // 4.Object.prototype.toString.call() "Object Undefined","Object Null","Object Array"...
+  // 浏览器内置类的识别 最准确最常用的方法
+  var x = undefined;
+  console.log(Object.prototype.toString.call(null))
+  console.dir(Object.prototype)
+  console.dir(Number.prototype);
+
+
+  // 5.toString()的理解
+  // number上的是转化为字符串
+  console.log((8).toString(2));
+  console.log((8).toString(8));
+  console.log((8).toString(10));
+  console.log((8).toString());
+  console.log((1).toString());
+  (1).__proto__.__proto__.toString();
+  // 字符串上的toString()
+  console.log("huahua".toString())
+  // boolean
+  console.log(true.toString())
+  // null undefiend
+  // console.log(null.toString())
+  // Array
+  console.log([1, 2, 3].toString())
+  // Date
+  console.log((new Date).toString())
+  // #######
+  // Number String Boolean  Array RegExp Date Function原型上的toString是用来转换成字符串的
+  // 但是Object.prototype.toString()这个不是转换字符串的 而是检测类型的
+  // 也就是 如果自身没有toString 一路访问到Object.prototype.toString()的话 就是检测类型
+  //
+  var obj = {name: "huahua"};
+  console.log(obj.toString()) // toString中的this是谁,返回的就是this所属类的信息 [object Object]
+  // 第一个object代表当前实例是对象数据类型(这个是固定的e) 第二个是this所属的类
+  Obeject.prototype.toString.call()
+  // hasOwnProperty isPropertyOf propertyIsEnumerable toLocaleString  toString valueOf
+  //
+</script>
+</body>
+</html>

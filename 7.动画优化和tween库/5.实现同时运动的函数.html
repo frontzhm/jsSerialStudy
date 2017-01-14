@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 100px;
+      height: 100px;
+      background-color: #f99;
+      position: absolute;
+      left: 50px;
+      top: 0;
+      opacity: 1;
+      filter: alpha(opacity=100);
+    }
+
+    .btn {
+      position: absolute;
+      left: 100px;
+      top: 200px;
+    }
+
+    .btn input {
+      outline: none;
+      display: inline-block;
+      margin-left: 50px;
+      width: 100px;
+      height: 50px;
+      border: 1px solid #9a9;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<div id="box" class="box"></div>
+
+<script src="../utils.js"></script>
+<script src="tween.js"></script>
+<script>
+  // 动画优化的四大法则:
+  // 1.边界判断和步长
+  // 2.清除不需要的定时器
+  // 3.作用域过多的问题需要小move
+  // 4.定时器的返回值放在自定义属性上
+  var oBox = document.getElementById("box");
+  var targetLeft = 1000;
+  var targetTop = 500;
+  var duration = 1000;
+  var time = 0;
+  var delay = 10;
+  animate(oBox, {left: 500, top: 200, opacity: 0.5}, duration, 1, function () {
+    utils.css(this, {backgroundColor: "green", opacity: 0.5})
+  })
+
+</script>
+</body>
+</html>

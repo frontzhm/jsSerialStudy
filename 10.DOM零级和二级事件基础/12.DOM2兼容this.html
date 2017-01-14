@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div id="box">ssssssssssssssssssssssssssssssssssssssssssssssss</div>
+<script>
+  var tempFn = null
+  /**
+   * bind:处理DOM2级事件绑定的兼容性问题(绑定方法)
+   * @param curEle:要绑定事件的元素
+   * @param eventType:要绑定的事件类型("click")
+   * @param eventFn:要绑定的方法
+   */
+  function bind(curEle, eventType, eventFn) {
+    if ("addEventListener" in document) {
+      curEle.addEventListener(eventType, eventFn, false);
+      return;
+    }
+    //    给eventFn化妆,并且把化妆前的照片贴在自己对应的脑门上
+    var tempFn = function () {
+      eventFn.call(curEle);
+    }
+    temFn.photo = eventFn
+// 首先判断该自定义属性是否存在,不存在的话创建一个,由于要存储多个方法化妆后的结果,所以我们让其是一个数组
+
+    if (!curEle["myBind" + eventType]) {
+      curEle["myBind" + eventType] = [];
+    }
+//    解决重复问题:每次自己在往自定义属性对应的容器添加前看下是否已经有了,有了的话不用重新添加,同理也不会增加到事件池里
+    var ary = curEle["myBind" + eventType];
+    for (var i = 0; i < ary.length; i++) {
+      var cur = ary[i];
+      if (cur.photo === eventFn) {
+        return;
+      }
+    }
+    ary.push(tempFn);
+    curEle.attachEvent("on" + eventType, tempFn);
+  }
+  // box.onclick = fn; not box.onclick = fn();
+  function unbind(curEle, eventType, eventFn) {
+    if (removeEventListener in curEle) {
+      curEle.removeEventListener(eventType, eventFn, false);
+      return;
+    }
+
+//    私有作用域的问题来了 这里访问不到bind函数里面的私有变量tempFn,所以再次变成全局
+
+    var ary = curEle["myBind" + eventType];
+    for (var i = 0; i < ary.length; i++) {
+      var cur = ary[i];
+      if (cur.photo === eventFn) {
+        ary.splice(i, 1);// 找到后把自己存储的容器中对应的那项移除掉,再移除事件池中对应事件
+        curEle.detachEvent("on" + eventType, cur);
+        break;
+      }
+    }
+
+//    但是当再绑定另外一个函数的时候就会出问题,于是就必须能存多个,用自定义属性
+  }
+
+  function fn1() {
+    console.log(this)
+  }
+  function fn2() {
+    console.log(this)
+  }
+
+  bind(box, "click", fn1);
+  bind(box, "click", fn2);
+  unbind(box, "click", fn2);
+  //  先解决this的兼容问题
+  // box.attachEvent("onclick",fn1.call(box)) =>box.attachEvent("onclick",undefined)
+  //   box.attachEvent("onclick",function () {
+  //     fn1.call(box)
+  //   })
+  //  虽然解决了this的问题,但是又抛出一个新的问题,不知道该怎么删除,因为不知道匿名函数是谁
+  //  box.detachEvent("onclick",function () {
+  //    fn1.call(box)
+  //  })
+  // so
+  //  function tempFn(){
+  //    fn1.call(box);
+  //  }
+  //  box.attachEvent("onclick",tempFn);
+  //  box.detachEvent("onclick",tempFn);
+
+  // this
+  //  思路:标准浏览器不管,
+  //  先给当前元素一个事件类型属性属性,一个事件类型绑定数组,保存传入的化妆后的事件(不止一个所以用数组)
+  //  给传入的函数,化妆(变成一个有名字的函数),且贴上原来的照片(属性)
+  // 绑定事件的时候,属性的数组会增加这个化妆的事件,同时浏览器也会增加这个化妆的事件
+  // 移除事件的时候,用传入的事件和化妆事件的真实相片对比,一致则移除相应事件,浏览器也会移除
+  //  精髓在于,让事件化妆,以数组的形式存在当前元素上,同时将化妆前的属性存在化妆后的事件上这样容易移除
+
+
+</script>
+</body>
+</html>

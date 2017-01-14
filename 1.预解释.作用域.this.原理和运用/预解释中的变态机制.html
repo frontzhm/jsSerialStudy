@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+<script>
+  // 预解释是毫无节操的机制
+  // 
+  // 1.预解释的时候 不管条件成不成立  都要把var提前声明
+  function c(str) {
+    console.log(str)
+  }
+  if (!("num" in window)) {
+    var num = 12;
+  }
+  // undifined
+  // c(num)
+  // 2.预解释的时候只是解释左边  并不解释赋值
+  // 3.自执行函数  定义且执行
+  // 自执行函数不进行预解释(不以function开头)
+  (function (num) {
+  })(1);
+  // +,-,~,!
+  +function (num) {
+  }(1);
+  // 4.函数体体里return 下面的代码依旧预解释
+  function d() {
+    c(x);
+    return 1;
+    var x = 1;
+  }
+  // 5.在预解释的时候 如果名字已经声明过 不需要重新再声明,但是重新赋值
+  // 在js中  变量名和函数名重复的话,也算冲突
+  // 声明和赋值 dv=xxxxx100
+  // 声明 dv(但发现有了 所以跳过)
+  // 声明和赋值 dv=xxxxxx10(但发现有了 所以跳过声明 直接赋值)
+  dv() // 10
+  function dv() {
+    c(100);
+  }
+  dv() // 10
+  var dv = 12;
+  dv() //Uncaught TypeError: dv is not a function
+  function dv() {
+    c(10);
+  }
+  dv()
+  /**
+   * 私自总结:
+   * 1.预解释的时候 只解释 var和function开头的语句
+   * 2.var  只是声明不会赋值  但function声明且赋值
+   * 3.但是 如果之前已经声明过 就不会再声明 只是会赋值
+   */
+</script>
+</body>
+
+</html>

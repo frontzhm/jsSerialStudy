@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<h2>1</h2>
+<h2>2</h2>
+<h2>3</h2>
+<div></div>
+<div id="div1" class="div">
+  <span>啊啊<span class="o"></span></span>
+  <span></span>
+  <span></span>
+</div>
+<div id="div2" class="div">
+  <span>啊啊<span class="o"></span></span>
+  <span></span>
+  <span></span>
+</div>
+<ul></ul>
+<div></div>
+<div></div>
+<ul id="ul1">
+  <li>huahua</li>
+  <li>hua</li>
+  <li>h</li>
+  <li><span class="span"><span class="span"><span class="span"></span></span></span></li>
+  <li></li>
+  <li></li>
+</ul>
+
+<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.js"></script>
+
+<script>
+  // offset() 距离body的偏移距离 top left
+  // position() 距离父级参照物的偏移
+  // scrollTop() 相对于滚动条顶部的偏移
+  // width()
+  // innerWidth() clientWidth 获取或者设置 但是设置的时候相当于设置width,保留padding
+  // outerWidth() offsetWidth 获取或者设置 但是设置的时候相当于设置width,保留padding
+  // outerWidth(true) offsetWidth+marginLeft/right 传递true的话 就是把margin的值也计算在内
+  // jQuery链式写法  执行完成一个方法后 返回的依然是一个jQuery对象
+  //
+  var div = $("#div1");
+  div.css({
+    width: 100,
+    height: 100,
+    padding: 10,
+    margin: 10,
+    color: "white",
+    backgroundColor: "red",
+    border: "7px solid #000"
+  })
+  console.log(div.innerWidth(150))
+  // 文档处理
+  // append() 向指定元素容器的末尾位置增加一个新的元素,字符串,设置js原生对象
+  // 若新加的元素是文档中的,则会移动到新的位置
+  // append prepend  appendTo prependTo
+
+  // $(document.body).append($(".div"))
+  $(document.body).append(document.getElementsByClassName("div"))
+  // after(),before()
+  // insertBefore(),insertAfter() 在容器中指定元素之前或之后追加新的元素
+  // wrap()
+  // replaceAll()
+  $("<p>new <p>").replaceAll($('h2')) // new替换h2
+  // remove() 删除元素
+  $("ul").remove("#ul2") // 删除ul中为#ul2的元素
+
+  // detach() 删除元素 但是不删除方法
+  // clone(true) 克隆
+
+
+  // 筛选
+  // eq() first() last()
+  // hasClass() 检测某元素是否有hasClass
+  $("div").hasClass("div") // 获取所有div中有类名div的
+
+
+  // filter() children() find() 筛选遍历,最常用的三个筛选方法
+  // filter() 是同级过滤
+  // children() 子级过滤
+  // find() 后代过滤
+
+  var xs = $("span", $("#ul1")).filter('.span')
+  // context :传jquery对象,始终是document,传js对象就是本身的上下文
+  // is()   某元素是否是...
+  // $.map(arr,function(item,index){return index})  返回新数组
+  // arrayLike.get()变成标准数组
+  //
+  //
+</script>
+</body>
+</html>

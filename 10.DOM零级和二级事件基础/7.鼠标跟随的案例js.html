@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    #box {
+      width: 400px;
+      height: 400px;
+      background-color: #f99;
+      position: relative;
+    }
+
+    #mark {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100px;
+      height: 100px;
+      background-color: #f11;
+
+    }
+  </style>
+</head>
+<body>
+<div id="box">
+  <!-- <div id="mark"></div> -->
+</div>
+<script>
+  var box = document.getElementById("box");
+  // 阻止冒泡
+  // 依然有问题 鼠标快速移动 首先会到mark上 此时浏览器在计算mark的位置,mark到达指定位置,此时鼠标又重新的回到box上,出发了box的mouseonver 也触发了mark的mouseout mark的mouseout被触发会冒泡传播到box的mouseout 会把mark先删除 然后在创建...
+  // onmouseenter onmouseover都是鼠标滑入行为,但是enter浏览器默认阻止了他的冒泡传播(mark的mouseenter不会冒泡到box的mouseenter),但是over没有 需要手动阻止冒泡
+  // box.onmouseover = function (e) {
+  box.onmouseenter = function (e) {
+    e = e || window.event;
+    var mark = document.createElement("div");
+    mark.id = "mark";
+    box.appendChild(mark);
+    mark.style.left = e.clientX - this.offsetLeft + "px";
+    mark.style.top = e.clientY - this.offsetTop + "px";
+    /*mark.onmouseover= function (e) {
+     e =  e||window.event;
+     e.stopPropagation?e.stopPropagation():e.cancelBubble = true;
+     e.stopPropagation()
+     }
+     mark.onmouseout= function (e) {
+     e =  e||window.event;
+     e.stopPropagation?e.stopPropagation():e.cancelBubble = true;
+     e.stopPropagation()
+     }*/
+  }
+  box.onmousemove = function (e) {
+    e = e || window.event;
+    var mark = document.getElementById("mark")
+    mark.style.left = e.clientX - this.offsetLeft + "px";
+    mark.style.top = e.clientY - this.offsetTop + "px";
+    /* mark.onmouseover= function (e) {
+     e =  e||window.event;
+     e.stopPropagation?e.stopPropagation():e.cancelBubble = true;
+     e.stopPropagation()
+     }
+     mark.onmouseout= function (e) {
+     e =  e||window.event;
+     e.stopPropagation?e.stopPropagation():e.cancelBubble = true;
+     e.stopPropagation()
+     }*/
+  }
+  // box.onmouseout = function (e) {
+  box.onmouseleave = function (e) {
+    e = e || window.event;
+    var mark = document.getElementById("mark")
+    if (mark) {
+      this.removeChild(mark)
+    }
+  }
+
+</script>
+</body>
+</html>

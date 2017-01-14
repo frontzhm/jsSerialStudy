@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    #center {
+      width: 200px;
+      height: 300px;
+      background-color: #f99;
+    }
+
+    #inner {
+      padding: 30px;
+      margin: 10px;
+      background-color: #f66;
+    }
+
+    #outer {
+      padding: 40px;
+      margin: 20px;
+      background-color: #f33;
+    }
+  </style>
+</head>
+
+<body>
+<div id="outer">
+  <div id="inner">
+    <div id="center"></div>
+  </div>
+</div>
+<script>
+  // 事件的默认传播机制:分为三个阶段
+  // 1.捕获阶段:从外向里以此查找元素
+  // 2.目标阶段:当前事件源本身的操作
+  // 3.冒泡阶段:从内到外,依次触发相关的行为(最常用的就是冒泡阶段)
+  // 使用DOM零级事件绑定给元素的某一个行为绑定的方法,都是在行为触发后的冒泡阶段把方法执行的
+  // var
+  //     outer = document.getElementById("outer"),
+  //     inner = document.getElementById("inner"),
+  //     center = document.getElementById("center");
+  // document.body.onclick = function(e) {
+  //     console.log('body')
+  //     console.log(e)
+  // }
+  // outer.onclick = function(e) {
+  //     console.log('outer')
+  //     console.log(e)
+  // }
+  // inner.onclick = function(e) {
+  //     console.log('inner')
+  //     console.log(e)
+  // }
+  // center.onclick = function(e) {
+  //     console.log('center')
+  //     console.log(e)
+  // }
+  // console.log(e)输出的是一致的,因为MouseEvent记录的是本次鼠标操作的相关信息
+  // addEventListener第一次参数是行为类型,第二个参数给当前行为绑定的方法,第三个参数是控制在哪个阶段发生,true就是捕获阶段发生,false就是冒泡阶段发生
+  document.body.addEventListener("click", function () {
+    console.log('body')
+  }, false)
+  outer.addEventListener("click", function () {
+    console.log('outer')
+  }, true)
+  inner.addEventListener("click", function () {
+    console.log('inner')
+  }, false)
+  // 点击center, 输出的是outer inner body
+  // 不管center有没有绑定方法,只要行为触发(如点击)就会有事件传播,就会走三个阶段
+</script>
+</body>
+
+</html>

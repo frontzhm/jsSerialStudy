@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 100px;
+      height: 100px;
+      background-color: #ccc;
+    }
+  </style>
+</head>
+<body>
+<div class="box"></div>
+<script src="../js/zepto.js"></script>
+<script>
+  $('.box').singleTap(function (ev) {
+    $(this).animate({
+      rotate: '360deg'
+    }, 1000, 'linear', function () {
+      this.style.webkitTransform = 'rotate(0deg)';
+    })
+    // 可以原生
+  }).on('touchstart', function () {
+    $(this).css('background', 'red');
+  })
+</script>
+</body>
+</html>

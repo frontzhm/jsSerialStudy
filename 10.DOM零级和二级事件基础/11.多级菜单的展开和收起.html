@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css" rel="stylesheet">
+  <style>
+    ul,
+    li,
+    body {
+      padding: 0;
+      margin: 0;
+      font-family: "Microsoft Yahei"
+    }
+
+    .box {
+      width: 500px;
+      margin: 50px auto;
+    }
+
+    ul {
+      list-style: none;
+      margin-left: 20px;
+    }
+
+    li {
+      line-height: 30px;
+    }
+
+    li span {
+      padding-left: 15px;
+    }
+
+    .hasmenu > span {
+      cursor: pointer;
+      position: relative;
+    }
+
+    .hasmenu > span:before {
+      content: "\f0fe";
+      font: normal normal normal 14px/1 FontAwesome;
+      width: 15px;
+      position: absolute;
+      top: 4px;
+      left: 0;
+    }
+
+    .hasmenu ul {
+      display: none;
+    }
+
+    .open > span:before {
+      content: "\f146";
+    }
+
+    /*儿子级别的*/
+
+    .open > ul {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+<div class="box">
+  <ul id="menulist">
+    <li><span>第1个菜单</span>
+      <ul>
+        <li><span>第1个菜单</span>
+          <ul>
+            <li><span>第1个菜单</span></li>
+            <li><span>第1个菜单</span></li>
+            <li><span>第1个菜单</span>
+              <ul>
+                <li><span>huahua</span></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><span>第1个菜单</span></li>
+        <li><span>第1个菜单</span></li>
+      </ul>
+    </li>
+    <li><span>第2个菜单</span></li>
+    <li><span>第3个菜单</span></li>
+  </ul>
+</div>
+<script>
+  // js方法
+  // 1.有ul的li加hasmenu
+  var menulist = document.getElementById("menulist");
+  var lis = menulist.getElementsByTagName("li");
+  for (var i = 0; i < lis.length; i++) {
+    var curLi = lis[i];
+    if (curLi.getElementsByTagName("ul").length > 0) {
+      curLi.className = "hasmenu"
+    }
+  }
+  // 2.用事件代理做点击事件:点击的都是span,单刷只有span的父级li有hasmenu才是我们想要的
+  // 然后,如果父级li上没有open的话加open,有open的话删除open且其子级hasmenu也需要删除open
+  menulist.onclick = function (e) {
+    e = e || window.event;
+    e.target = e.target || e.srcElement;
+    if ((e.target.tagName.toLowerCase() === "span") && /hasmenu/.test(e.target.parentNode.className)) {
+      var uls = e.target.parentNode.getElementsByTagName("ul");
+      // 如果已经展开 则隐藏
+      if (/hasmenu open/.test(e.target.parentNode.className)) {
+        for (var i = 0; i < uls.length; i++) {
+          var curUl = uls[i];
+          curUl.parentNode.className = "hasmenu";
+          // curUl.style.display = "none";
+        }
+        e.target.parentNode.className = "hasmenu";
+      } else {
+        // 如果没有展开 则展开
+        // for (var i = 0; i < uls.length; i++) {
+        //   var curUl = uls[i];
+        //   curUl.parentNode.className = "hasmenu open";
+        //   // curUl.style.display = "block";
+        // }
+        e.target.parentNode.className = "hasmenu open";
+      }
+    }
+  }
+</script>
+<!--    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script>
+// li下面有ul的就加hasmenu
+$.each($("li"),function () {
+  var $this = $(this)
+   if($this.find("ul").length){
+      $this.addClass("hasmenu")
+   }
+})
+$("#menulist").on("click","span",function () {
+  var $this = $(this),$parent = $this.parent();
+  if($parent.hasClass('hasmenu')){
+    if($parent.hasClass('open')){
+      $parent.removeClass("open").find(".hasmenu").removeClass('open');
+    }else{
+      $parent.addClass("open");
+    }
+  }
+})
+
+</script> -->
+</body>
+
+</html>

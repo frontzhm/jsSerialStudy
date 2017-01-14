@@ -1,0 +1,25 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<div id="div1">
+  <p name="n1"></p>
+  <p name="n1"></p>
+  <p name="n2"></p>
+  <p name="n3"></p>
+  <p name="n2"></p>
+</div>
+<script>
+  // div,a,document,window 一级一级画出来,每一级的原型上都哪些属性和方法,哪些兼容哪些不兼容,这个方法做什么用的?
+  // 目前能做:基于内置类扩展方法,通过原型链查看每个实例私有和共有的属性
+  var oDiv = document.getElementById("div1");
+  // 这样会报错
+  // var list = oDiv.getElementsByName("n1")
+  var list = document.getElementsByName("n1")
+
+
+</script>
+</body>
+</html>

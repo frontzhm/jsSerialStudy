@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    #box {
+      position: relative;
+      top: 20px;
+      left: 20px;
+      width: 350px;
+      height: 350px;
+      box-shadow: 1px 1px 2px #000;
+    }
+
+    #mark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 175px;
+      height: 175px;
+      background-color: #000;
+      opacity: 0.5;
+      filter: alpha(opacity=50);
+      cursor: move;
+      border-radius: 50%;
+      /*display: none;*/
+    }
+
+    #boxRight {
+      display: none;
+      position: relative;
+      width: 350px;
+      height: 350px;
+      top: 20px;
+      left: 380px;
+      border-radius: 50%
+    }
+
+    /*右侧图片的大小是需要严格计算的:mark的宽高是box的一半,我们的大图宽高是box的2倍*/
+    #boxRight img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+      width: 200%;
+      height: 200%;
+    }
+  </style>
+</head>
+<body>
+<div id="box">
+  <img src="img/small.jpg" alt="">
+  <div id="mark"></div>
+  <div id="boxRight">
+    <img src="img/big.jpg" alt="">
+  </div>
+</div>
+
+<script>
+  // 放大镜原理:我们的mark横向是box的一半,纵向也是,所以大图是小图的一倍(横纵向)
+  var box = document.getElementById("box");
+  var mark = document.getElementById("mark");
+  var boxRight = document.getElementById("boxRight");
+  box.onmouseenter = function (e) {
+    e = e || window.event;
+    mark.style.display = "block";
+    boxRight.style.display = "block";
+    setPosition(e);
+  }
+  box.onmouseleave = function (e) {
+    e = e || window.event;
+    mark.style.display = "none";
+    boxRight.style.display = "none";
+
+  }
+  box.onmousemove = function (e) {
+    e = e || window.event;
+    // mark.style.display = "none";
+    setPosition(e);
+  }
+  // 设置盒子的位置
+  function setPosition(e) {
+    var top = e.clientY - box.offsetTop - (mark.offsetHeight / 2);
+    var left = e.clientX - box.offsetLeft - (mark.offsetWidth / 2);
+    var minL = 0, minT = 0, maxL = box.offsetWidth - mark.offsetWidth, maxT = box.offsetHeight - mark.offsetHeight;
+    var tempL = 0, tempT = 0;
+    // 边界
+    if (left < minL) {
+      left = minL;
+      tempL = minL;
+    } else if (left > maxL) {
+      left = maxL;
+      tempL = maxL;
+
+    }
+    if (top < minT) {
+      top = minT;
+      tempT = minT;
+
+    } else if (top > maxT) {
+      top = maxT
+      tempT = maxT
+    }
+    mark.style.top = top + "px";
+    mark.style.left = left + "px";
+    // 让右侧图片也变化:左侧移动多少,右侧大图正好移动他的两倍
+    var bigImg = boxRight.getElementsByTagName("img")[0];
+    bigImg.style.left = -tempL * 2 + 'px';
+    bigImg.style.top = -tempT * 2 + 'px';
+
+
+  }
+
+
+</script>
+</body>
+</html>

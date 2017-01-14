@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<script>
+  // replace:把原有的字符替换成新的字符
+  // 在不使用正则的情况下 每当执行一次只能替换一个字符
+  var str = "hua123hua678";
+  // str = str.replace("hua", "ni")
+  // str = str.replace(/hua/g, "ni")
+  // console.log(str)
+  // replace第一项的值是一个正则 他的实现原理
+  // 首先我们和exec捕获一样,把所有和我们正则匹配的都捕获到,然后把捕获的内容替换成我们需要替换的新内容
+  // /hua/g 按照这个正则把str所有符合的都捕获到,然后同意后替换成ni
+  str = str.replace(/hua/g, function () {
+    console.log(arguments)
+    return "ni";
+  })
+  // 第二个参数换成一个函数
+  // 1)匿名函数执行多少次 取决于正则在字符串中捕获的次数
+  // 2)每次执行匿名函数 里面传递的参数值arguments和我们exec捕获的结果是非常类似的,即使正则有分组,我们同样可以arguments获取到分组捕获的内容
+  // 3)return 返回的结果是啥,就相当于把当前这次大正则的内容替换成你返回的内容
+  // str = str.replace(/\d+/g,function(){
+  // 	console.log(arguments[0])// 大正则捕获的内容捕获到
+  // 	return 1;
+  // })
+  str = str.replace(/(\d+)/g, function () {
+    console.log(arguments[1])// 小正则捕获的内容捕获到
+    // console.log(RegExp.$1)
+  })
+  // RegExp.$1获取第一个分组 但是不常用仅仅了解
+</script>
+</body>
+</html>

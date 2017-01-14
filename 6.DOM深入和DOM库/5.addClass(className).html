@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    .box {
+      width: 200px;
+      height: 200px;
+    }
+
+    .bg {
+      background-color: #f99;
+    }
+
+    .bd {
+      border: 1px solid #c99;
+    }
+
+    .ab {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: -100px 0 0 -100px;
+    }
+  </style>
+</head>
+
+<body>
+<div class="box ab2" id="box">
+</div>
+<script src="../utils.js"></script>
+<script>
+  // addClass
+  // removeClass
+  // hasClass 判断是否存在某一个样式类名 true false
+  var box = document.getElementById("box");
+  box.className += " bg"
+  // box.className+=" ab"
+  function hasClass(curEle, className) {
+    var oldClass = curEle.className;
+    // oldClass假设是"box bg border"
+    // bg: / +bg +/
+    // box:/^box +/
+    // border:/ +border$/
+    // var reg = new RegExp("\\b" + className + "\\b");
+    var reg = new RegExp("(^| +)" + className + "($| +)");
+    return reg.test(oldClass)
+  }
+
+  function addClass(curEle, className) {
+    // 为了防止classname包含多个类名 我们把传递进来的字符串按照一或多个空格拆分成每一项
+    var arr = className.split(/ +/g);
+    // var arr = className.split(/ +/); 测试了下没g也行
+    // 循环数组,一项项验证增加
+    for (var i = 0, l = arr.length; i < l; i++) {
+      var cur = arr[i];
+      if (!hasClass(curEle, cur)) {
+        curEle.className += " " + cur;
+      }
+    }
+
+  }
+  function removeClass(curEle, className) {
+    var arr = className.split(/ +/g);
+    for (var i = 0, l = arr.length; i < l; i++) {
+      var cur = arr[i];
+      if (hasClass(curEle, cur)) {
+        var reg = new RegExp("(^| +)" + cur + "( +|$)", "g");
+        curEle.className = curEle.className.replace(reg, " ")
+      }
+    }
+  }
+  addClass(box, "ab")
+  addClass(box, "ab bg") // 一个重复一个不重复
+</script>
+</body>
+
+</html>

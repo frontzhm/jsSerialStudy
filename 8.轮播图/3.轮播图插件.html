@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    ul,
+    ol {
+      list-style: none;
+    }
+
+    img {
+      display: block;
+      border: none;
+    }
+
+    a,
+    a:hover,
+    a.active,
+    a:visited {
+      color: #000;
+      text-decoration: none;
+    }
+
+    .banner {
+      height: 200px;
+      margin: 100px auto;
+      width: 300px;
+      position: relative;
+    }
+
+    .slideList {
+      height: 100%;
+      background: #ccc url(img/load1.gif) no-repeat center center;
+    }
+
+    .slideList > li {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      z-index: 0;
+      opacity: 0;
+      filter: alpha(opacity=0);
+    }
+
+    .slideList > li.cur {
+      z-index: 1;
+    }
+
+    .slideList > li > a,
+    .slideList > li img {
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
+
+    .slideList > li img {
+      /*图片正常加载才显示*/
+      display: none;
+    }
+
+    /*索引*/
+
+    .indexList {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      z-index: 2;
+      font-size: 0;
+    }
+
+    .indexList > li {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 20px;
+      margin-right: 10px;
+      background-color: #fff;
+      box-shadow: 1px 1px 2px #999;
+      cursor: pointer;
+    }
+
+    .indexList > li.cur {
+      background-color: #f99;
+    }
+
+    /*箭头*/
+
+    .arrLeft,
+    .arrRight {
+      display: inline-block;
+      width: 40px;
+      height: 70px;
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      margin-top: -35px;
+      background-image: url(img/arr.png);
+      opacity: 0.5;
+      filter: alpha(opacity=50);
+      display: none;
+    }
+
+    .arrRight {
+      right: 0;
+      background-position: -41px 0;
+    }
+
+    .arrLeft:hover,
+    .arrRight:hover {
+      opacity: 1;
+      filter: alpha(opacity=100);
+    }
+  </style>
+</head>
+
+<body>
+<div class="banner" id="banner1">
+  <!-- 主幻灯片 -->
+  <ul class="slideList" id="inner">
+  </ul>
+  <!-- 索引列表 -->
+  <ol class="indexList">
+  </ol>
+  <!-- 箭头 -->
+  <a href="javascript:;" class="arrLeft"></a>
+  <a href="javascript:;" class="arrRight"></a>
+</div>
+<div class="banner" id="banner2">
+  <!-- 主幻灯片 -->
+  <ul class="slideList" id="inner">
+  </ul>
+  <!-- 索引列表 -->
+  <ol class="indexList">
+  </ol>
+  <!-- 箭头 -->
+  <a href="javascript:;" class="arrLeft"></a>
+  <a href="javascript:;" class="arrRight"></a>
+</div>
+<script src="../utils.js"></script>
+<script src="../tween.js"></script>
+<script src="bannerFn.js"></script>
+<script>
+  var banner1 = new AutoBanner(document.getElementById("banner1"), "data.txt");
+  var banner2 = new AutoBanner(document.getElementById("banner2"), "data.txt");
+</script>
+
+</body>
+
+</html>

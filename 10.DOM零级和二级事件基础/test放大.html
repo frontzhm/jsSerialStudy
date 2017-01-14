@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    .magnifyBox {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      background-color: #fff;
+    }
+
+    .mleft {
+      height: 100%;
+    }
+
+    .mleft img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .mark {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100px;
+      height: 100px;
+      background-color: rgba(0, 0, 0, .4);
+      cursor: move;
+    }
+
+    .mright {
+      position: absolute;
+      top: 0;
+      right: -200px;
+      border: 1px solid #ccc;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .bigImgWrap {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .mright img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 200%;
+      height: 200%;
+    }
+  </style>
+</head>
+
+<body>
+<div class="magnifyBox" id="magnifyBox">
+  <div class="mleft" id="mleft">
+    <img src="img/small.jpg" alt="">
+    <div class="mark" id="mark"></div>
+  </div>
+  <div class="mright" id="mright">
+    <div class="bigImgWrap">
+      <img src="img/big.jpg" alt="">
+    </div>
+  </div>
+</div>
+<script>
+  var
+    magnifyBox = document.getElementById("magnifyBox"),
+    mleft = document.getElementById("mleft"),
+    mright = document.getElementById("mright"),
+    mark = document.getElementById("mark"),
+    bigImg = mright.getElementsByTagName("img")[0];
+  mleft.onmouseenter = function (e) {
+    e = e || window.event;
+    mark.style.display = mright.style.display = "block";
+    setPosition(e);
+  }
+  mleft.onmousemove = function (e) {
+    e = e || window.event;
+    setPosition(e);
+  }
+  mleft.onmouseleave = function (e) {
+    e = e || window.event;
+    mark.style.display = mright.style.display = "none";
+  }
+
+  function setPosition(e) {
+    var
+      left = e.clientX - mleft.offsetLeft - mark.offsetWidth / 2,
+      top = e.clientY - mleft.offsetTop - mark.offsetHeight / 2,
+      minL = 0,
+      maxL = mleft.offsetWidth - mark.offsetWidth,
+      minT = 0,
+      maxT = mleft.offsetHeight - mark.offsetHeight;
+    if (left < minL) {
+      left = minL;
+    } else if (left > maxL) {
+      left = maxL;
+    }
+    if (top < minT) {
+      top = minT;
+    } else if (top > maxT) {
+      top = maxL;
+    }
+    // px
+    mark.style.left = left + "px";
+    mark.style.top = top + "px";
+    bigImg.style.left = -2 * left + "px";
+    bigImg.style.top = -2 * top + "px";
+  }
+</script>
+</body>
+
+</html>

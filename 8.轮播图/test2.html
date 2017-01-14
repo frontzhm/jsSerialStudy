@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>无缝轮播图</title>
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    ul,
+    ol {
+      list-style: none;
+    }
+
+    .box {
+      width: 300px;
+      margin: 100px auto;
+    }
+
+    .banner {
+      width: 300px;
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /*幻灯片列表*/
+
+    .slideList {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1200px;
+      height: 100%;
+      /*根据有几张进行变化*/
+    }
+
+    .slideList > li {
+      width: 300px;
+      height: 100%;
+      float: left;
+    }
+
+    .slideList > li > a,
+    .slideList > li img {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .slideList > li > a {
+      /*默认背景*/
+      background: #ccc url(img/load1.gif) no-repeat center center;
+    }
+
+    .slideList > li img {
+      /*图片先不展示*/
+      display: none;
+      /*为了淡入*/
+      opacity: 0;
+    }
+
+    /*小索引*/
+
+    .indexList {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      font-size: 0;
+    }
+
+    .indexList > li {
+      display: inline-block;
+      margin-right: 8px;
+      width: 10px;
+      height: 10px;
+      border-radius: 10px;
+      box-shadow: 1px 1px 1px #666;
+      background-color: rgba(255, 255, 255, .5);
+      cursor: pointer;
+    }
+
+    .indexList > .cur {
+      background-color: rgba(255, 255, 255, 1);
+    }
+
+    /*左右箭头*/
+
+    .leftArr,
+    .rightArr {
+      position: absolute;
+      top: 50%;
+      margin-top: -35px;
+      width: 40px;
+      height: 70px;
+      display: inline-block;
+      background-image: url(img/arr.png);
+      opacity: .5;
+      display: none;
+    }
+
+    .leftArr {
+      left: 0;
+    }
+
+    .rightArr {
+      right: 0;
+      background-position: -41px 0;
+    }
+
+    .leftArr:hover,
+    .rightArr:hover {
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+<div class="box">
+  <div class="banner" id="banner">
+    <!-- 幻灯片列表 -->
+    <ul class="slideList">
+    </ul>
+    <!-- 小索引列表 -->
+    <ol class="indexList">
+    </ol>
+    <!-- 左右箭头 -->
+    <a href="" class="leftArr"></a>
+    <a href="" class="rightArr"></a>
+  </div>
+</div>
+<script type="text/javascript" src="../utils.js"></script>
+<script type="text/javascript" src="../tween.js"></script>
+<script type="text/javascript">
+  ~function () {
+    // 1)获取和绑定数据
+    // var xml = new XMLHTTPRequest;
+    // xml.open("get","data.txt",false);
+    // xml.onreadystatechange = function () {
+    // 	 if(xml.readyState===4&&/^2\d{2}$/.test(xml.status)){
+    // 	 	var data = zjsonParse(xml.responseText);
+    // 	 }
+    // }
+    var data = [{
+      img: "http://img3.2ciyuanjie.com/test/20160801/j/JSS6rKya77SR.jpg",
+      slide_id: "2",
+      url: "http://2cyj.com/mycenter/worklist/id/6350.html"
+    }, {
+      img: "http://img3.2ciyuanjie.com/test/20160801/j/iAjs33Terkeh.jpg",
+      slide_id: "1",
+      url: "http://2cyj.com/mycenter/worklist/id/6960.html"
+    }, {
+
+      img: "http://img3.2ciyuanjie.com/test/20160801/i/2nddzfTsMPmr.jpg",
+      slide_id: "9",
+      url: "http://2cyj.com/mycenter/worklist/id/6694.html"
+    }, {
+
+      img: "http://img3.2ciyuanjie.com/test/20160801/i/tmWD87SEKjnZ.jpg",
+      slide_id: "10",
+      url: "http://2cyj.com/mycenter/worklist/id/134138.html"
+
+    }]
+
+    var banner = document.getElementById("banner");
+    // 别忘了 class获得的是数组
+    var slideList = utils.getElementsByClass("slideList", banner)[0];
+    var slides = slideList.getElementsByTagName("li");
+    var imgs = slideList.getElementsByTagName("img");
+    var indexList = utils.getElementsByClass("indexList", banner)[0];
+    var indexs = indexList.getElementsByTagName("li");
+    var leftArr = utils.getElementsByClass("leftArr", banner)[0];
+    var rightArr = utils.getElementsByClass("rightArr", banner)[0];
+    var unitWidth = utils.css(banner, "width");
+    var datalen = 0,
+      count = 0;
+    // 数据长度
+    datalen = data.length;
+    // slide的个数
+    count = datalen + 1;
+
+    // 绑定数据 slideList(内容和宽度) indexList(内容)
+    ~function () {
+      var str = "";
+      var istr = ""
+      for (var i = 0; i < datalen; i++) {
+        var cur = data[i];
+        // 图片先不加载
+        str += '<li><a href="' + cur.url + '"><img src="" trueImg="' + cur.img + '"></a></li>';
+        if (i === 0) {
+          istr += '<li class="cur"></li>';
+        } else {
+          istr += '<li></li>';
+        }
+      }
+      // 为了无缝 需要末尾再加一个
+      str += '<li><a href="' + data[0].url + '"><img src="" trueImg="' + data[0].img + '"></a></li>';
+      slideList.innerHTML = str;
+      indexList.innerHTML = istr;
+      // 图片加载
+      function loadImg(img) {
+        var oImg = new Image;
+        oImg.scr = img.getAttribute("trueImg");
+        oImg.onload = function () {
+          img.src = this.src;
+          console.log(img)
+          img.style.display = "block";
+          animate(img, {opacity: 1}, 500)
+        }
+      }
+
+      var loadTimer = window.setTimeout(function () {
+        for (i = 0; i < count; i++) {
+          ~function (i) {
+            loadImg(imgs[i]);
+            if (i === datalen) {
+              clearTimeout(loadTimer)
+            }
+          }(i);
+        }
+
+      }, 1000)
+      // slideList的宽度跟数据长度有关
+      utils.css(slideList, "width", count * unitWidth);
+    }()
+    // 隔几秒换下一张
+    var delay = 1000;
+    var timer = window.setInterval(autoMove, delay);
+    // 当前播放的索引
+    var curIndex = 0;
+    // 自动轮播
+    function autoMove() {
+      // 想要实现无缝轮播 ,在移动完最后一张图片时,瞬间切换left的值(curindex)
+      // 这样别人以为最后一张就是第一张 实际上是切换了
+      // 先加后判断的话
+      // 0 展示delay之后第1次执行autoMove 变成1 移动 展示delay之后
+      // 第2次执行autoMove 2 移动 展示delay之后
+      // 第3次执行autoMove 3 移动 展示delay之后
+      // 第4次执行autoMove 4 (判断生效 curIndex变成0 left变成0) 移动  展示delay之后
+      // 违背本意
+      // 先判断后加
+      // 0 展示delay之后第1次执行autoMove 判断失效 变成1 移动 展示delay之后
+      // 第2次执行autoMove 判断失效 2 移动 展示delay之后
+      // 第3次执行autoMove 判断失效 3 移动 展示delay之后
+      // 第4次执行autoMove 判断失效 4 (这里的小索引直接变到0) 移动   展示delay之后
+      // 第5次执行autoMove 判断生效 0 移动  展示delay之后
+      // ...
+      // **********所以这里只能先判断后++*************
+      if (curIndex === datalen) {
+        curIndex = 0;
+        utils.css(slideList, "left", 0);
+      }
+      curIndex++;
+      curIndex === datalen ? addCur(0) : addCur(curIndex);
+      // 这里animate因为是异步编程 所以在500没到之前 会执行其下面的代码
+      // 为了误会把其下面的代码放在前面
+      animate(slideList, {
+        left: -curIndex * unitWidth
+      }, 500);
+      // if (curIndex === datalen) {
+      //   curIndex = 0;
+      //   utils.css(slideList, "left", 0);
+      // }
+
+    }
+
+    function addCur(n) {
+      for (var i = 0; i < datalen; i++) {
+        if (i === n) {
+          utils.addClass(indexs[i], "cur");
+        } else {
+          utils.removeClass(indexs[i], "cur");
+        }
+      }
+    }
+
+    // 鼠标放上去暂停 离开继续 且箭头切换状态
+    banner.onmouseover = function () {
+      window.clearInterval(timer);
+      leftArr.style.display = rightArr.style.display = "block";
+    };
+    banner.onmouseout = function () {
+      timer = window.setInterval(autoMove, delay);
+      leftArr.style.display = rightArr.style.display = "none";
+    };
+    // 点击小索引
+    ~function () {
+      for (var i = 0; i < datalen; i++) {
+        indexs[i].index = i;
+        indexs[i].onclick = function () {
+          var index = this.index;
+          addCur(index);
+          curIndex = index;
+          animate(slideList, {
+            left: -curIndex * unitWidth
+          }, 500);
+        }
+      }
+    }()
+    // 点击箭头
+    rightArr.onclick = function () {
+
+    }
+    leftArr.onclick = function () {
+    }
+    // end
+  }()
+</script>
+</body>
+
+</html>

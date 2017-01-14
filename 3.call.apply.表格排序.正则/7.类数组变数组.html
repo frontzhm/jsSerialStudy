@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+
+<div id="box"></div>
+<script>
+  var name = "huahua";
+  function myalert() {
+    alert(name);
+  }
+  // var html = '<a onclick="alert(\'name\')">点我啊</a><p class="hello"></p>';
+  // var html = '<a onclick="alert(\''+name+'\')">点我啊</a><p class="hello"></p>';
+  var html = '<a onclick="myalert()">点我啊</a><p class="hello"></p>';
+  document.getElementById("box").innerHTML = html;
+</script>
+</body>
+</html>

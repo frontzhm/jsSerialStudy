@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    a {
+      width: 100px;
+      height: 100px;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+<script>
+  // var ary = [12,453,6,53]
+  // ary.sort(function(a,b){
+  //  // 返回值始终是正数,也就是a,b始终交换位置
+  //  console.log(ary)
+  //  return 1; // 倒序
+  // })
+  // ary.sort() // 这样只能按字符串大小排序 数字的话 0-9的排序比较准
+  // ary.sort(function(a,b){
+  //  // a是每次匿名函数的时候 找到的数组中的当前项
+  //  // b是当前项的而后一项
+  //  return a-b // 升序(冒泡排序) 返回值>0,交换a和b的位置
+  //  // console.log(a,b)
+  //  // return的值是正数 a,b交换位置 ,否则不交换位置
+  // })
+  // 回调函数(异步编程思想的一种):把一个方法A当做参数值传递给另外一个函数B,在B执行中随时根据需求让A执行
+  // function A(){
+
+  // }
+  // function B(fn){
+  //  fn();
+  //  fn();
+  // }
+  // B(A);
+  // 二维数组
+  var arr = [{
+    name: "许小汉",
+    age: 14
+  }, {
+    name: "张小宝",
+    age: 225
+  }, {
+    name: "张大宝",
+    age: 33
+  }];
+
+  // 给二维数组排序 按照年龄有小到大排序
+  // arr.sort(function(a,b){
+  //   return (+a.age)-(+b.age)
+  // })
+  // 由大到小
+  arr.sort(function (a, b) {
+    return ((+a.age) - (+b.age)) * (-1)
+  })
+  arr.sort(function (a, b) {
+    return a.name.localeCompare(b.name);
+  })
+
+  "a".localeCompare("b")  // -1  a比b小返回-1
+  "a".localeCompare("a")  // 0
+  "d".localeCompare("a")  // 1
+  "cao".localeCompare("花") // -1
+  "草".localeCompare("花") // -1   (cao) (hua)逐个字母比较
+
+</script>
+</body>
+
+</html>

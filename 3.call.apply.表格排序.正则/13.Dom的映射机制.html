@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    li {
+      /*省略号必须四个条件*/
+      width: 20em;
+      white-space: nowrap; /*强制不换行*/
+      overflow: hidden; /*溢出隐藏*/
+      text-overflow: ellipsis; /*截取后以... clip没有省略号*/
+    }
+  </style>
+</head>
+
+<body>
+<ul>
+  <li>24</li>
+  <li>4321</li>
+  <li>3</li>
+  <li>65</li>
+  <li>5432</li>
+</ul>
+<script src="../usefulFn.js"></script>
+<script>
+  // DOM映射:页面中的标签和js中获取到的元素对象或者元素集合是紧紧的绑定在一起的
+  // 页面中html结构改变了 js中不需要重新获取,集合里面的内容也会跟着自动改变
+  var oUl = document.getElementsByTagName("ul")[0];
+  var oLis = document.getElementsByTagName("li");
+  console.log(oLis.length) // 5
+  var li = document.createElement("li");
+  oUl.appendChild("li")
+  console.log(oLis.length) // 6 没有重新获取 但是oLis集合的长度和内容会自动跟着发生改变
+
+
+</script>
+</body>
+</html>

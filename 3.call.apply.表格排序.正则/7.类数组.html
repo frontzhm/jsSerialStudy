@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    a {
+      width: 100px;
+      height: 100px;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+<div id="hua"></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<script>
+  var olis = document.getElementsByTagName("div");
+
+  // console.dir( olis.item(1) == olis[1]) // HTMLCollection元素集合类的实例,是一个类数组的集合
+  // console.dir( olis.namedItem("hua") == olis["hua"])
+  // HTMLCollection.prototype  有两个方法 item(索引) namedItem("id") 都是筛选
+  // olis = document.getElementsByName("hua");
+  //
+  // console.dir(olis) //NodeList是节点集合,是一个类数组的集合,Nodelist.prototype 只有item()
+
+  var arr = Array.prototype.slice.call(olis);
+  console.log(arr)
+  // 在ie6-8不支持借用数组的slice实现将元素集合的类数组转换为数组
+  // 但是argument是可以的
+
+  // 标准浏览器ie>8
+  // 低级浏览器 ie<9
+  // 低级浏览器中
+  var arr2 = [];
+  for (var i = 0, l<
+  olis.length;
+  i < l;
+  i++
+  )
+  {
+    arr2.push(olis[i]);
+    // arr2[arr2.length] = olis[i]
+  }
+
+
+  // document.forms
+</script>
+</body>
+
+</html>

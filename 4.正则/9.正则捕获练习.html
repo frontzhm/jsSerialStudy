@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+<script>
+  // exec正则用来捕获的一个方法
+  // 正则捕获的时候:g可以解决捕获时候的懒惰性,因为改变了lastIndex属性,其表示下一次正则捕获开始的索引,但是默认这个值永远是0,也就是不管执行多少次,exec重新从头开始,所以获取的都是同一个结果,加了g,exec之后,lastIndex的值等于当前捕获内容的后一个索引,下次就从这里开始捕获,这样就可一次次执行,把想要的结果捕获到
+  // var reg = /\d?+/g;
+  // var str = "huahua2015hua2016"
+  // var res = reg.exec(str);
+  // var arr = [];
+  // while(res){
+  // 	arr.push(res[0]);
+  // 	res = reg.exec(str);
+  // }
+  // console.log(arr)
+  // match 字符串用来匹配正则的方法
+  // var reg = /\d?+/g;
+  // var str = "huahua2015hua2016";
+  // var arr = str.match(reg);
+  // console.log(arr)
+  // 一次性把符合大正则的都存放在一个数组中 如果需要捕获小分组中的内容 match是捕获不到的
+  // 模拟
+  // String.prototype.match = function(reg) {
+  //     var res = reg.exec(this);
+  //     var arr = [];
+  //     while (res) {
+  //         arr.push(res[0]);
+  //         res = reg.exec(this);
+  //     }
+  //     return arr;
+  // }
+  // 分组捕获
+  // 模板引擎的初步原理
+  var str = "my name is {0},my age is {1},i come from {2},i love {3}~~";
+  var arr = ["一问", 28, "湖南", "js"];
+  // {0}->arr[0]
+  // {1}->arr[1]
+  // ..在捕获的时候 不仅要获取{0},而且要获得0,并且每一次exec执行捕获的时候,同时捕获这两个,既要大正则也要小正则 就是分组
+  // 在正则捕获的时候 我们添加分组 不仅仅可以把大正则匹配的内容捕获 而且把小正则匹配的内容一起捕获出来
+  // (?:)分组只匹配不捕获
+  str = str.replace(/{(\d+)}/g, function () {
+    return arr[arguments[1]]
+  })
+  console.log(str) // my name is 一问,my age is 28,i come from 湖南,i love js~~
+  // replace的第一个参数是正则,那么涉及到正则的捕获
+  // lastIndex =11
+  // 首先捕获{0},捕获一次,replace就执行一次替换的操作
+  // lastIndex = 27
+  // 再次捕获{1}, replace就执行一次替换的操作
+  // ...
+  // 直到捕获不到内容,结果为null,replace就不在替换
+  //
+</script>
+</body>
+
+</html>

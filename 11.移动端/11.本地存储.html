@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>本地存储</title>
+</head>
+<body>
+<script src="cookieRender.js">
+
+</script>
+<script>
+  // 在客户端运行的js不能操作用户电脑中的文件的(保护客户端的安全)
+  // js中的本地存储:
+  // 使用js向浏览器的某一位置中存储一些内容,浏览器即使关闭,存储的消息也不会销毁,在重新打开浏览器的时候我们依然可以获取到上一次存储的消息
+  // 本地存储的方案:
+  // 传统:
+  // 		cookie:把信息存储到客户端的浏览器中(但是项目服务器也是可以获取cookie的)
+  // 		session:把信息存储到服务器上的(服务器存储)
+  // html5:
+  // 		webstorage->localStorage(永久存储到客户端的本地) sessionStorage(信息的会话存储,会话窗口存在信息存在 反之亦然)
+  // 		购物车存cookie session 数据库
+
+  // 2.cookie localStorage seesionStorage
+
+  // webStorage
+  // setItem(key,value)向客户端的本地存储一条记录,存储的value必须是字符串内容,如果不是字符串,浏览器默认转化为字符串再进行存储,同源的情况下存储的key是不会重复的,重复的话会把存储的信息进行修改
+
+  // getItem(key) 获取之前存储的值
+  // removeItem(key) 移除
+  // clear() 移除当前源下所有的存储记录
+  // localStorage.length 获取存储之前的记录
+  // localStorage.key(0) 获取索引为0的这项key
+  localStorage.setItem("age", 7);
+  // 转换成string的话 会变成 [Object object]
+  // localStorage.setItem("age",{"huahua":"77"});
+  // 想要的话就是下面这样
+  localStorage.setItem("age", JSON.stringify({"huahua": "77"}));
+  console.log(localStorage.getItem("age"));
+  localStorage.removeItem('age');
+  localStorage.clear();
+  console.log(localStorage.length);
+  console.log(localStorage.key(0));
+
+  // localStorage seesionStorage的区别:
+  // localStorage永久存储到本地,除非你自己删除 或者removeItem clear (不管是杀毒软件还是浏览器自带的历史记录功能都不能删除其)
+  // seesionStorage临时会话窗口 一旦页面关闭或者强制刷新就关闭原对话,也就是存储的值就不在了
+
+
+  // cookie
+  // document.cookie = "age=7";
+  cookieRender.set({
+    name: 'age',
+    value: 7
+  });
+  console.log(cookieRender.get('age'));
+
+
+  // cookie和localStorage的区别
+  // 1.cookie存储内容的大小是有限制的,一般同源下只能存储4kb的内容,而且本地不能存;localStorage同源下只能存储5Mb;
+  // 2.cookie兼容所有浏览器,但是localstorage不兼容ie6-8
+  // 3.cookie存储的内容是有过期时间的,而localstorage是永久存储的,杀毒软件和浏览器的清除垃圾都可能把存储的cookie给删除掉
+  // 用户可能处于安全的角度,禁用cookie,无痕浏览但是不能进站localstorage
+  // 真实项目中的本地存储都使用哪些东西?
+  // cookie记住用户名密码或者是自动登录;用户的部分信息,当用户登录成功后,我们会把用户的一些信息记录到本地种,这样在项目中的任何页面都可以知道当前登录的用户是哪一个了;购物车(存储少量信息或者需要浏览器兼容都需要使用cookie来进行存储)
+  // localstorage
+  // pc端我们可以用其存储某一个js或者css中的源代码,还可以把不需要经常更新的数据存储到本地,存储的时候可以设置一个存储的时间,以后刷新页面,看下时间有没有超过规定的时间,如果超过了就重新请求,没超过就拿本地;
+  // 本地存储都是明文存储,对于重要信息我们一般不要存储到本地,如果非要存储我们需要加密(可逆转的,不可逆转的加密MD5)
+
+</script>
+<script>
+  // escape unescape 可以对中文的字符串进行编码和解码,防止在传递存储过程中出现乱码 除此之外还有很多很多
+  // encodeURI() decodeURI().....
+  var str = "花花";
+  var m = escape(str);
+  console.log(m);
+  var mm = unescape(m);
+  console.log(mm);
+</script>
+<script src="../js/md5.js"></script>
+<script>
+  var name = "huahua";
+  console.log(hex_md5(name))
+</script>
+</body>
+</html>

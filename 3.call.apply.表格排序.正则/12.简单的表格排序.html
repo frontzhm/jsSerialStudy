@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    li {
+      /*省略号必须四个条件*/
+      width: 20em;
+      white-space: nowrap; /*强制不换行*/
+      overflow: hidden; /*溢出隐藏*/
+      text-overflow: ellipsis; /*截取后以... clip没有省略号*/
+    }
+  </style>
+</head>
+
+<body>
+<ul>
+  <li>24</li>
+  <li>4321</li>
+  <li>3</li>
+  <li>65</li>
+  <li>5432</li>
+</ul>
+<script src="../usefulFn.js"></script>
+<script>
+  // html结构按照某一规律排序
+  var oUl = document.getElementsByTagName("ul")[0];
+  var oLis = document.getElementsByTagName("li");
+  // 1.先把元素集合类数组转化为数组
+  var ary = utils.zlistToArray(oLis);
+  // 2.给数组进行排序:按照每个li中内容大小排序
+  ary.sort(function (a, b) {
+    return (+a.innerHTML) - (+b.innerHTML);
+  })
+  console.log(ary);
+  // 3.按照ary存储的最新顺序,依次把对应的li添加到页面当中
+  var frg = document.createDocumentFragment();
+  for (var i = 0, l = ary.length; i < l; i++) {
+    // var li = document.createElement("li");
+    // li.innerHTML = ary[i].innerHTML;
+    // frg.appendChild(li);
+    frg.appendChild(ary[i]);
+  }
+  oUl.appendChild(frg);
+  frg = null;
+
+</script>
+</body>
+</html>

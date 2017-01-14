@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    #box {
+      width: 100px;
+      height: 100px;
+      background-color: #fcc;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+  </style>
+</head>
+
+<body>
+<div id="box"></div>
+<script src="../utils.js"></script>
+<script>
+  var box = document.getElementById("box");
+  var curLeft = utils.getCss(box, "left")
+  // 在js中给元素设置样式的属性值 我们只能通过  当前元素.style.left="3px",设置元素的行内样式
+  // box.style.left = 100 + "px";
+  // box.style.width = 200 + "px";
+  // 给当前的元素的某一个样式设置值(增加在行内样式的)
+  function setCss(curEle, attr, value) {
+    // 在js中设置float 也要设置兼容
+    if (attr === "float") {
+      // 现代浏览器
+      curEle["style"]["cssFloat"] = value;
+      // ie6-8 opera
+      curEle["style"]["styleFloat"] = value;
+      return;
+    }
+    // opacity在ie6-8不兼容 设置两套样式
+    if (attr === "opacity") {
+      curEle["style"]["opacity"] = value;
+      curEle["style"]["filter"] = "alpha(opacity=" + value * 100 + ")";
+      return;
+    }
+
+    // 对于某些样式属性 如果传递的值没有单位 我们需要把单位默认的补上,这样的话,方法更人性化
+    // width height top bottom  leftright padding margin
+    // 处理常用的属性
+    var reg = /^(width)|(height)|(top)|(bottom)|(left)|(right)|((margin|padding)((Top|Bottom|Left|Right)?))$/;
+    if (reg.test(attr)) {
+      // 判断传递进来的值是否是纯数字
+      if (!isNaN(value))
+        value += "px"
+    }
+
+    curEle["style"][attr] = value;
+  }
+  setCss(box, "width", "200")
+  setCss(box, "left", "200")
+  setCss(box, "opacity", "0.5")
+</script>
+</body>
+
+</html>

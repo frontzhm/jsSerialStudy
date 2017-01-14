@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+<ul id="idul">
+  <li class="classli">1</li>
+  <li class="classli" name="nameli">2</li>
+  <li name="nameli">3</li>
+  <li>4</li>
+</ul>
+<script>
+  dir(document.getElementsByTagName("li"))
+  // VM75:217 HTMLCollection[4]
+  dir(document.getElementsByClassName("classli"))
+  // VM75:217 HTMLCollection[2]
+  dir(document.getElementsByName("nameli"))
+  // VM75:217 NodeList[2]
+  dir(document.querySelectorAll(".classli"))
+  // VM75:217 NodeList[2]
+</script>
+</body>
+
+</html>

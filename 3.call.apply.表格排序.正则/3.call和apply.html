@@ -1,0 +1,54 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+<script>
+  // Array.prototype.slice(start, end)
+  // [1,2,3].slice()   // 根据原型链找到slice方法,找到之后再执行
+  // Function.prototype.call()
+  // Function.prototype.apply()
+  var obj = {name: 3}
+  function fn() {
+    console.log(this)
+  }
+  // 先找到call的方法,再执行call
+  // call方法的作用:
+  // 1.我们让原型上的call方法执行,在执行call方法的时候,我们让fn方法中的this变成第一个参数值obj,再让fn这个函数执行
+  // fn()
+  // fn.call(obj);
+  // 自己模拟内置的call,写一个myCall方法,深入探讨call的原理
+  // alert(s.replace(/\LOVE/g, "爱"));
+  Function.prototype.myCall = function (context) {
+    // myCall方法中的this就是当前我要操作和改变其this关键字的函数名
+    // 1.让fn中的this的关键字变成context
+    // 让this这个函数中的"this关键字"变成context
+
+    // eval(this.toString().replace(/this/g,context));
+
+    // 2.让this的方法执行
+    this();
+  }
+  fn.myCall(obj)
+
+
+  function fn1() {
+    console.log(1)
+  }
+  function fn2() {
+    console.log(2)
+  }
+  fn1.call(fn2); // 1 // 先找到call,执行call的时候,fn1函数里面的this变成fn2,然后执行fn1
+  fn1.call.call(fn2) // 2 // call是个属性 fn1.call是call的函数体也就是function(){...},再然后这个函数体中的this变成fn2,然后再让fn1.call执行,注意此时的fn1.call里面的thi已经指向了fn2
+  fn1.call.call.call.call(fn2) // 2 call大于1的话都是执行fn2(),最后一个call执行,前面的只是找相应的函数
+  Function.prototype.call(fn1);
+  // undefined // Fn.prototype是空函数,这个空函数this变成fn1,然后空函数执行
+  Function.prototype.call.call.call(fn1);
+  // 1 // 相当于call执行,call里面的this变成fn1
+</script>
+</body>
+
+</html>

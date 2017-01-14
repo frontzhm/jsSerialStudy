@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+<script>
+  // 回调函数:把一个方法A当做参数传给另外的函数B
+  // 这样B执行的时候 可以在任何位置执行一到多次A方法
+  //
+  // function A(name) {
+  // 	 console.log(name)
+  // }
+  // function B (callback) {
+  // 	 console.log(1)
+  // 	 callback(4);
+  // }
+  // B(A)
+  // 回调函数的营运
+  // arr.sort(function (a,b) {
+  // 	 return a-b
+  // })
+  // str.replace(regexp|substr, function () {
+
+  // })
+  // setInterval(function () {
+
+  // }, delay)
+  function fn(callback) {
+    // this->obj
+    if (typeof callback === "function") {
+      callback.call(obj); // this->obj
+    }
+  }
+  var obj = {fn: fn}
+  obj.fn(function () {
+    console.log(this)  // this指看执行情况
+  });
+</script>
+</body>
+
+</html>

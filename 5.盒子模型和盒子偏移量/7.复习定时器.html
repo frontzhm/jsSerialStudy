@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+
+</head>
+
+<body>
+
+<script>
+  //
+  <!-- 定时器两种 -->
+  // 一次性定时器,等到10001ms执行对应方法 执行完之后定时器结束
+  // setTimeOut(function(){
+  // },1000)
+  // 定时器,等到1000ms执行对应方法 执行完之后定时器没结束
+  // 再等1000ms执行....直到清除定时器
+
+  // setInterval(function(){
+  // },1000)
+  // 设置定时器的时候是有返回值的,返回的结果是一个数字 表示第几个定时器(不论是哪种类型)
+  var timer1 = setTimeout(function () {
+    console.log(1)
+  }, 1000);
+  var timer2 = setInterval(function () {
+    console.log(2)
+  }, 1000);
+  var timer3 = setInterval(function () {
+    console.log(3)
+  }, 1000);
+  console.log(timer1) // 1
+  console.log(timer2) // 2
+  console.log(timer3) // 3
+  clearTimeout(1) // 清除定时器,数字表示第几个
+  clearInterval(2) // 清除定时器,数字表示第几个
+  clearTimeout(3) // 清除定时器,数字表示第几个
+  // clearTimeout clearInterval都可清除任意一种定时器
+  // 3.用setInterval实现多次运动动画
+  // var n=0;
+  // var timer = setInterval(function () {
+  //    n++;
+  //    console.log(n)
+  //    if(n>4){
+  //     clearInterval(timer)
+  //    }
+  // }, 1000)
+  // 用 setTimeOut 实现多次运动动画
+  var n = 0, timer = null;
+  function move() {
+    clearTimeout(timer)
+    n++;
+    console.log(n)
+    if (n === 5) {
+      return;
+    }
+    // 第一次执行完成之后 设置一个定时器 过1000MS之后重新执行move,"递归",自己执行的时候重新调用自己再执行
+
+    timer = setTimeout(move, 1000);
+
+  }
+  move();
+</script>
+</body>
+
+</html>

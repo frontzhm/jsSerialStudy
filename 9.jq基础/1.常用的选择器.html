@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<div></div>
+<div id="div1">
+  <span><span class="o"></span></span>
+  <span></span>
+  <span></span>
+</div>
+<ul></ul>
+<div></div>
+<div></div>
+<ul>
+  <li>huahua</li>
+  <li>hua</li>
+  <li>h</li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.js"></script>
+
+<script>
+  // jq1.xxx使用原生js封装常用方法,兼容ie6-8
+  // jq中常用的方法
+  // 1.核心
+  // 2.选择器
+  // 3.属性
+  // 4.筛选
+  // 5.css
+  // 6.文档处理
+  // 7.事件
+  // 8.效果
+  // 9.ajax
+  // 10.工具
+  //
+  //
+  // 1.先说选择器
+  // 通过原生js获取到的结果,属于元素对象或集合,可以使用浏览器为其提供的天生自带的属性和方法
+  // 如oDiv.clientWidth,oDiv.getAttribute("..")
+  // 通过jQuery选择器获得的结果,是一个jQuery对象,可以使用jQuery中提供的属性和方法,但是不能直接使用浏览器内置的属性和方法
+  // 如$oDiv.innerWidth(),$oDiv.attr("...")
+  var oDiv = document.getElementById("div1")
+  // var $oDiv = jQuery("#div1");
+  var $oDiv = $("#div1");
+  console.dir(oDiv)
+  console.dir($oDiv)
+
+
+  // 2.原生js对象和jQuery对象相互转换
+  console.dir($(oDiv))
+  console.dir($oDiv[0]) // 通过索引获得js原生对象
+  console.dir($oDiv.get(0)) // 通过索引获得js原生对象
+
+  // 3.更多的jQuery选择器
+  console.log($("#div1,span")) // 群组选择器和css相似
+  // ancestor descendant  div span
+  // parent>child div>span
+  // div+   获取他的下一个元素
+  // div+ul 获取他的下一个元素 并且标签名是ul的
+  // div~   获取他的同辈中索引在其之后的所有元素
+  // div~ul 获取他的同辈中索引在其之后的所有ul元素
+  console.log($("div+ul"))
+  console.log($("div+ul"))
+  // 除了谁
+  console.log($("div>ul:not(#ul2)")) // 获取div>ul下除了#ul2的ul
+  // :eq() :gt() :lt() (index)跟索引相关
+  // :contains('') 内容里有..
+  console.log($("li:contains('hua')"))
+  // :has("ul")
+  console.log()
+</script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="../js/normalize.css">
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background: #fff url() 0 0 no-repeat;
+      overflow: hidden;
+    }
+
+    .box {
+      width: 300px;
+      height: 300px;
+      background-color: #f99;
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      margin: auto;
+      -webkit-transition: all 1s linear 0s;
+      transition: all 1s linear 0s;
+    }
+  </style>
+</head>
+
+<body>
+<h2 class="box">
+  pc端常用事件: <br>
+  只有移动端才能touch
+</h2>
+<p>
+  click/mouseover/mouseout/mouseenter/mouseleave/mousemove/mousedown/mouseup/mousewheel/keydown/keyup/load/scroll/blur/focus/change/</p>
+<h2>移动端事件</h2>
+<p>
+  click/load/scroll/blur/focus/change/input(代替keyup,keydown)/滑动/常按/双击/放大缩小/重力感应如摇一摇/旋转/
+</p>
+<p>touch事件模型(处理单击),gesture事件模型(多手指操作),重力感应(浏览器支持的不好.一般在native)</p>
+<p>
+  touch事件模型:touchstart touchmove touchend touchcancle
+</p>
+<p>
+  gesture事件模型:gesturestart gesturechange gestureend
+</p>
+<p>
+  1.click:在移动端是单击事件不是点击事件 在移动端的项目中 我们经常区分单击做啥双击做啥,所以移动端的浏览器在识别click的时候,只有确定是单击后才会把它执行
+  在移动端使用click会存在300ms的延迟,浏览器在第一次点击结束后,还需要在等待300ms看是否触发了第二次点击,触发属于双击否则单击
+  2.点击,单击,双击,常按
+  单击和双击在于300ms
+  点击和常按在于750ms
+  点击和滑动在于xy轴偏移的距离30px,超过就是滑动
+  上下滑动和左右滑动(x轴偏移的距离>y轴偏移的距离=左右滑,超过就是左右滑)
+  左滑和右滑(偏移的距离>0就是右滑)
+  3.移动端事件库
+  ->fastClick.js解决click事件300ms的延迟
+  ->touch.js百度云手势事件库https://github.com/Clouda-team/touch.code.baidu.com/blob/master/touch-0.2.14.js
+</p>
+<!-- <script>
+// 手写原生的click
+var obox = document.querySelector(".box");
+// click 有300ms延迟
+// obox.addEventListener("click", function () {
+// 	  this.style.webkitTransform="rotate(360deg)";
+// },false)
+function on(curEle, type, fn) {
+    curEle.addEventListener(type, fn)
+}
+on(obox, "touchstart", function(e) {
+    console.log(e)
+
+    // touches,changeTouches都是手指信息的集合(touchlist) ,touches获取到值的必备条件只有手指还在屏幕上才可以获取,所以touchend事件中如果想获得离开的瞬间坐标只能用changetouches获取
+    var point = e.touches[0];
+    this['strx'] = point.clientX;
+    this['stry'] = point.clientY;
+    this['isMove'] = false;
+
+})
+on(obox, "touchmove", function(e) {
+    var point = e.touches[0];
+    this['newx'] = point.clientX;
+    this['newy'] = point.clientY;
+    this['isMove'] = false;
+    // 判断是否发生滑动,我们需要判断偏移的值是否在30px以内
+    /*if(this['newx']!==this['strx']||this['newy']!==this['stry']){
+      this['isMove'] = true;
+    }*/
+    if (Math.abs(this['newx'] - this['strx']) > 30 || Math.abs(this['newy'] - this['stry']) > 30) {
+        this['isMove'] = true;
+    }
+})
+on(obox, "touchend", function(e) {
+        if (!this['isMove']) {
+            // 点击,只写一行的话只能停留在360deg,下次点击不动
+            this.style.webkitTransitionDuration = "1s";
+            this.style.webkitTransform = "rotate(360deg)";
+            var delayTimer = setTimeout(function() {
+                this.style.webkitTransform = "rotate(0deg)";
+                this.style.webkitTransitionDuration = "0s";
+            }.bind(this), 1000)
+        } else {
+            this.style.color = "red"
+        }
+    })
+    // e:
+    // 常用的属性:type,target,preventDefault(returnValue),stopPropagation(cancelbubble),changeTouches,touches(0表示第一个手指,clientx)
+</script> -->
+<script src="../js/fastclick.js"></script>
+<script>
+  // 用fastclick
+  FastClick.attach(document.body);
+  var obox = document.querySelector(".box");
+  obox.addEventListener("click", function () {
+    this.style.webkitTransitionDuration = "1s";
+    this.style.webkitTransform = "rotate(360deg)";
+    var delayTimer = setTimeout(function () {
+      this.style.webkitTransform = "rotate(0deg)";
+      this.style.webkitTransitionDuration = "0s";
+    }.bind(this), 1000)
+  }, false)
+</script>
+</body>
+
+</html>

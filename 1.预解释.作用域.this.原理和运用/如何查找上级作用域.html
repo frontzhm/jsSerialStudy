@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+<script>
+  function c(str) {
+    console.log(str)
+  }
+  /**
+   * 图和查找上级作用域:看当前函数是在哪个作用域下定义的  那么他的上级作用域就是谁 ->和函数在哪执行没有关系
+   */
+
+  var num = 12;
+  function fn() {
+    var num = 120;
+    return function () {
+      c(num)
+    }
+  }
+  var f = fn();
+  f();
+  !function () {
+    var num = 1200;
+    f();
+  }()
+
+  // 120  因为f的那个函数是在fn里定义的 所以上级是fn
+</script>
+</body>
+
+</html>

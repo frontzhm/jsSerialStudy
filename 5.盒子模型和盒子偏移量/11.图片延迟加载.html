@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    .banner {
+      width: 756px;
+      height: 350px;
+      margin: 1000px auto;
+      background: #ccc url(default.png) 0 0 no-repeat; /*给当前区域加一个默认图占位 告诉用户是一个图片*/
+    }
+
+    img {
+      display: block;
+    }
+
+    .banner img {
+      display: none; /*开始的时候 img的src的属性没有的话ie显示不美观所以默认隐藏 当真实数据加载完之后显示*/
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+<div id="banner" class="banner">
+  <!-- trueImg是当前IMG标签的自定义属性 存储的是真实图片地址 -->
+  <img src="" alt="" trueImg="jd.png">
+</div>
+<script>
+  var banner = document.getElementById("banner");
+  var img = banner.getElementsByTagName("img")[0];
+  window.onscroll = function () {
+    if (banner.isLoad) {
+      // 已经加载过了
+      return;
+    }
+    var A = banner.offsetHeight + offset(banner).top;
+    // console.log(A)
+    var B = win("clientHeight") + win("scrollTop");
+    console.log(1)
+    if (A < B) {
+      // 当条件成立,我们加载真实的图片,第一次加载完成之后 我们让页面继续滚动的过程中 a<b一直成立 又重新执行下面的操作 导致重复给一个容器中的图片进行加载
+
+      var oImg = new Image;
+      oImg.src = img.getAttribute("trueImg");
+      oImg.onload = function () {
+        console.log('ok');
+        img.src = this.src;
+        img.style.display = "block";
+        oImg = null;
+        // 设置一个自定义属性 告诉浏览器我们加载完了
+        // banner.isLoad = true;
+      }
+      // 设置一个自定义属性 告诉浏览器我们加载完了(不管是否加载成功 只要处理过一次 以后就不再处理)
+      banner.isLoad = true;
+    }
+  }
+  function offset(ele) {
+    var left = null, top = null, par = ele.offsetParent;
+    left += ele.offsetLeft;
+    top += ele.offsetTop;
+    // 只要没有找到body 我们就把父级参照物的边框和偏移进行累加
+    while (par) {
+      if (navigator.userAgent.indexOf("MSIE 8.0") !== -1) {
+        // 父级参照物的边框
+        left += par.clientLeft;
+        top += par.clientTop;
+      } else {
+        // 父级参照物本身的偏移
+        left += par.offsetLeft;
+        top += par.offsetTop;
+        par = par.offsetParent;
+      }
+
+    }
+    return {
+      left: left,
+      top: top
+    };
+  }
+  function win(attr, value) {
+    if (typeof value === "undefined") {
+      return document.documentElement[attr] || document.body[attr];
+    }
+    document.documentElement[attr] = value;
+    document.body[attr] = value;
+
+
+  }
+</script>
+</body>
+
+</html>

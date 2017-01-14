@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>tabChange</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      font-family: "microsoft yahei";
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    /*必要css*/
+
+    .tab-hd > li {
+      display: inline-block;
+    }
+
+    .tab-hd > li.cur {
+      /*根据需求*/
+      border-bottom: 2px solid #f50;
+    }
+
+    .tab-bd > li {
+      display: none;
+    }
+
+    .tab-bd > li.cur {
+      display: block;
+    }
+
+    /*修饰*/
+
+    .tab-hd > li {
+      width: 100px;
+      text-align: center;
+      line-height: 30px;
+      border-bottom: 2px solid #fff;
+      cursor: pointer;
+    }
+
+    .tab-bd > li {
+      height: 150px;
+      padding: 20px;
+    }
+
+    .tab {
+      width: 500px;
+      margin: 50px auto;
+      border: 1px solid #ccc;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+<div class="tab">
+  <ul class="tab-hd">
+    <li class="cur">1</li>
+    <li>2</li>
+    <li>3</li>
+  </ul>
+  <ul class="tab-bd">
+    <li class="cur">1</li>
+    <li>2</li>
+    <li>3</li>
+  </ul>
+</div>
+<div class="tab">
+  <ul class="tab-hd">
+    <li class="cur">1</li>
+    <li>2</li>
+    <li>3</li>
+  </ul>
+  <ul class="tab-bd">
+    <li class="cur">1</li>
+    <li>2</li>
+    <li>3</li>
+  </ul>
+</div>
+<script src="../utils.js"></script>
+<script>
+  /*
+   // 单个的处理
+   var tab = utils.getElementsByClass("tab")[0];
+   var head = utils.firstChild(tab),
+   body = utils.next(head),
+   hdItems = utils.children(head),
+   bdItems = utils.children(body),
+   len = hdItems.length;
+   // 鼠标点击每一个hdItem 自己加选中样式 兄弟删选中样式
+   // bdItems  相同索引加选中样式 兄弟删选中样式
+   for (var i = 0; i < len; i++) {
+   hdItems[i].onclick = function() {
+   // 点击事件里面的单独放出来 这样方便复用
+   detailFn.call(this);
+   }
+   }
+
+   function detailFn() {
+   // 注意这里的this指点击的元素 所以使用的时候要对应指向
+   var index = utils.index(this);
+   utils.addClass(this, "cur");
+   for (var i = 0; i < len; i++) {
+   if (i === index) {
+   utils.addClass(bdItems[i], "cur");
+   } else {
+   utils.removeClass(hdItems[i], "cur");
+   utils.removeClass(bdItems[i], "cur");
+   }
+   }
+   }
+   */
+</script>
+<script>
+  /*  // 多个的处理
+   // 封装成函数 相当于这个小模块 以后里面可以加东西
+   ~ function() {
+   function detailFn(hdItems, bdItems) {
+   // 注意这里的this指点击的元素 所以使用的时候要对应指向
+   var index = utils.index(this),
+   len = hdItems.length;
+   utils.addClass(this, "cur");
+
+   for (var i = 0; i < len; i++) {
+   if (i === index) {
+   utils.addClass(bdItems[i], "cur");
+   } else {
+   utils.removeClass(hdItems[i], "cur");
+   utils.removeClass(bdItems[i], "cur");
+   }
+   }
+   }
+
+   function tabChange(tabSelector) {
+
+   var head = utils.firstChild(tabSelector),
+   body = utils.next(head),
+   hdItems = utils.children(head),
+   bdItems = utils.children(body),
+   len = hdItems.length;
+   // 鼠标点击每一个hdItem 自己加选中样式 兄弟删选中样式
+   // bdItems  相同索引加选中样式 兄弟删选中样式
+   for (var i = 0; i < len; i++) {
+   hdItems[i].onclick = function() {
+   // 点击事件里面的单独放出来 这样方便复用
+   detailFn.call(this, hdItems, bdItems);
+   }
+   }
+   }
+   window.tabChange = tabChange;
+   }()
+
+   // 运用
+   var tabs = utils.getElementsByClass("tab");
+   for (var i = 0; i < tabs.length; i++) {
+   tabChange(tabs[i]);
+   }*/
+</script>
+<script>
+  // 事件委托 :点击事件写在head上 然后根据点击的对象是li触发事件
+  /* ~ function() {
+   function detailFn(hdItems, bdItems) {
+   // 注意这里的this指点击的元素 所以使用的时候要对应指向
+   var index = utils.index(this),
+   len = hdItems.length;
+   utils.addClass(this, "cur");
+
+   for (var i = 0; i < len; i++) {
+   if (i === index) {
+   utils.addClass(bdItems[i], "cur");
+   } else {
+   utils.removeClass(hdItems[i], "cur");
+   utils.removeClass(bdItems[i], "cur");
+   }
+   }
+   }
+
+   function tabChange(tabSelector) {
+
+   var head = utils.firstChild(tabSelector),
+   body = utils.next(head),
+   hdItems = utils.children(head),
+   bdItems = utils.children(body),
+   len = hdItems.length;
+   // 区别在这里 去掉了循环hdItems
+   head.onclick = function(e) {
+   e = e || window.event;
+   e.target = e.target || e.srcElement;
+   // 点击事件里面的单独放出来 这样方便复用
+   if (e.target.tagName.toLowerCase() === "li") {
+   detailFn.call(e.target, hdItems, bdItems);
+   }
+   }
+   }
+   window.tabChange = tabChange;
+   }()
+   // 运用
+   var tabs = utils.getElementsByClass("tab");
+   for (var i = 0; i < tabs.length; i++) {
+   tabChange(tabs[i]);
+   }*/
+</script>
+<script>
+  // 构造函数 每个tab都是一个对象 
+  // tabSelector 是tab的容器
+  // defaultIndex 是默认选中的索引
+  ~function () {
+    function TabChange(tabSelector, defaultIndex) {
+      // 这样的话 init函数里面的this也是实例
+      this.init(tabSelector, defaultIndex);
+    }
+
+    TabChange.prototype = {
+      // 一定记得写constructor
+      constructor: TabChange,
+      init: function (tabSelector, defaultIndex) {
+        this.tab = tabSelector || null;
+        this.head = utils.firstChild(tabSelector);
+        this.body = utils.next(this.head);
+        this.hdItems = utils.children(this.head);
+        this.bdItems = utils.children(this.body);
+        this.len = this.hdItems.length;
+        this.defaultIndex = defaultIndex || 0;
+        this.defaultIndexEvent();
+        this.liveClick();
+
+      },
+      defaultIndexEvent: function () {
+        utils.addClass(this.hdItems[this.defaultIndex], "cur");
+        utils.addClass(this.bdItems[this.defaultIndex], "cur");
+      },
+      detailFn: function (clickEle) {
+        // 注意这里的this指点击的元素 所以使用的时候要对应指向
+        var index = utils.index(clickEle);
+        utils.addClass(clickEle, "cur");
+        for (var i = 0; i < this.len; i++) {
+          if (i === index) {
+            utils.addClass(this.bdItems[i], "cur");
+          } else {
+            utils.removeClass(this.hdItems[i], "cur");
+            utils.removeClass(this.bdItems[i], "cur");
+          }
+        }
+      },
+      liveClick: function () {
+        var _this = this;
+        this.head.onclick = function (e) {
+          // 这里面的this=实例.head
+          e = e || window.event;
+          e.target = e.target || e.srcElement;
+          // 点击事件里面的单独放出来 这样方便复用
+          if (e.target.tagName.toLowerCase() === "li") {
+            _this.detailFn(e.target);
+          }
+        }
+      }
+    }
+    window.TabChange = TabChange;
+  }();
+  var tab0 = new TabChange(utils.getElementsByClass("tab")[0], 0)
+</script>
+</body>
+
+</html>

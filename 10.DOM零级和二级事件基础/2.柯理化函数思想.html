@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      cursor: pointer;
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+
+<body>
+<div id="box"></div>
+<script>
+  // 柯理化函数思想:一个js预处理的思想
+  // 核心原理:利用函数执行形成一个不销毁的私有作用域,把需要预先处理的内容都存在这个不销毁的作用域中,并且返回一个小函数,以后我们执行的都是小函数,在小函数中把之前预先存储的内容执行 13:21
+  // var obj = {name:"huaua"};
+  // function fn() {
+  //    console.log(this)
+  // }
+  // window.setTimeout(fn, 0) // window
+  // bind预先处理this 但是不执行
+  // window.setTimeout(fn.bind(obj), 0) // obj
+  // zbind把传递进来的callback的this预先处理为context
+  function zbind(callback, context) {
+    context = context || window;
+    var outerArg = Array.prototype.slice.call(arguments, 2)
+    // 兼容
+    if ("bind" in Function.prototype) {
+
+      return this.bind.apply(this, [context].comcat(outerArg))
+    }
+    // 不兼容
+    return function () {
+      var innerArg = Array.prototype.slice.call(arguments, 0)
+      if (innerArg.length === 0) {
+        innerArg[innerArg.length - 1] = window.event
+      }
+      callback.apply(context, outerArg.concat(innerArg));
+    }
+  }
+  var obj = {
+    name: "huaua"
+  };
+
+  function fn(num1, num2) {
+    console.log(this, num1, num2, arguments[arguments.length - 1])
+
+  }
+  // document.body.onclick = fn // fn里的this是body,num1是mouseeVENT NUM2:undefined
+
+
+  // document.body.onclick = fn.bind(obj,100,12)
+  // 除了预先处理的this和需要手动传递的参数值以外,把浏览器默认给传递的鼠标事件对象也预先处理了
+  // document.body.onclick = zbind(fn,obj,100,12)
+  // document.body.onclick = function () {
+  //   // 给元素的某一个行为绑定方法,当行为触发的时候,执行对应的方法,此时方法中的this是当时元素本身;而且浏览器还会给当前的方法默认的传递一个参数值MouseEvent(鼠标事件对象 ),在ie6-8下并没有传递这个值,window.event处理这个值的
+  //    console.log(arguments)
+
+
+  // };
+  // window.setTimeout(zbind(fn,obj,1,2), 0) // obj
+  //
+  //
+  // Function.prototype.zbind = function zbind(context) {
+
+  //     var _this = this;
+  //     context = context || window;
+  //     var outerArg = Array.prototype.slice.call(arguments, 1);
+  //     // 兼容
+  //     if ("bind" in Function.prototype) {
+
+  //         return this.bind.apply(this, [context].concat(outerArg))
+  //     }
+  //     // 不兼容
+  //     return function() {
+  //         var innerArg = Array.prototype.slice.call(arguments, 0)
+  //         if (innerArg.length === 0) {
+  //             innerArg[innerArg.length - 1] = window.event
+  //         }
+  //         callback.apply(context, outerArg.concat(innerArg));
+  //     }
+  // }
+  Function.prototype.zbind = function (context) {
+    var _this = this;
+    context = context || window;
+    // 兼容
+    if ("bind" in Function.prototype) {
+      return this.bind(context)
+    }
+    // 不兼容
+    var outerArg = Array.prototype.slice.call(arguments, 1);
+
+    return function () {
+      var innerArg = Array.prototype.slice.call(arguments, 0);
+      if (innerArg.length === 0) {
+        // ie6 不传递MouseEvent
+        innerArg[innerArg.length] = window.event;
+      }
+      _this.apply(context, outerArg.concat(innerArg));
+
+    }
+  }
+  document.body.onclick = fn.zbind(obj, 100, 12)
+</script>
+</body>
+
+</html>

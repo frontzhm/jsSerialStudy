@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 100px;
+      height: 100px;
+      border: 10px solid #000;
+      background-image: url(logo.png);
+    }
+
+    @media (-webkit-device-pixel-ratio: 2) {
+      .box {
+        border-color: red;
+        background-image: url(logo@2x.png);
+      }
+    }
+
+    @media (-webkit-device-pixel-ratio: 3) and (min-width: 300px) {
+      .box {
+        border-color: green;
+        background-image: url(logo@3x.png);
+      }
+    }
+  </style>
+</head>
+<body>
+<h1>
+  设计师给我们的设计图:640*1136 750*1334
+
+</h1>
+<p>苹果手机尺寸 5s 320px 6:375px 6plus:414px</p>
+<p>安卓:320 360 480 540 640 720</p>
+<p>6plus:3倍屏</p>
+<ol>
+  <li>流式布局法
+    <ul>
+      <li>容器宽度一般百分比</li>
+      <li>字体 高度 margin padding 按照设计稿上的一半</li>
+      <li>局部用@media调整</li>
+      <li>特殊情况:设计稿是640 素材图也是640,这样在6plus上展示的时候图片就会发虚,这种情况需要设计师做一张更大的图</li>
+      <li>
+        @media all and (-webkit-min-device-pixel-ratio:2) and (min-width:321px){
+        .box{
+        background-image:url(logo@big.png);
+        }
+        @media all and (max-width:641px){
+        .box{
+        background-image:url(logo@big.png);
+        }
+        }
+      </li>
+      <li>
+        rem:做的h5页面只在移动端访问的时候用rem
+        <p>手机端基本是webkit的内核</p>
+      </li>
+    </ul>
+
+  </li>
+</ol>
+<div class="box"></div>
+</body>
+</html>

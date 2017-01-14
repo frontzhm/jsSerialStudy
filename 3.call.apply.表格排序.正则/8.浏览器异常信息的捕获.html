@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    a {
+      width: 100px;
+      height: 100px;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+<div id="hua"></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<script>
+  // 用try catch进行浏览器异常信息捕获
+  // Uncaught ReferenceError: num is not defined
+  // console.log(num);
+  // js中本行代码报错 下面代码将不再执行
+  // console.log("ok");
+
+  // try{
+  //   console.log(num)
+  // }catch(e){
+  //   // 形参必须写 一般起名为e
+  //   console.dir(e)
+  //   // 会发现有个Error的类  e.name  e.message
+
+  // }
+  // try{
+  //   console.log(1)
+  // }catch(e){
+  //   // 形参必须写 一般起名为e
+  //   console.log("对的")
+  // }
+
+
+  // 上面代码报错,如若用try/catch捕获异常信息,不影响下面代码继续执行
+  // 如果try里面的代码执行错误 会默认执行catch代码
+  // 没报错的话不会执行catch 就会像正常代码一样
+
+  // console.log("ok");
+  // try{
+  //   // jscode
+  // }catch(e){
+  //   // 代码报错执行catch中的代码
+  // }finally{
+  //   //一般不用:不管try中的代码是否报错 都要执行finally中的代码
+  // }
+
+  // 有时候既想捕获错误信息 又不想下面代码执行
+  try {
+    console.log(num)
+  } catch (e) {
+    // 形参必须写 一般起名为e
+    console.dir(e.message)
+    // 可以得到错误信息 把其进行统计
+    // 再手动把错误信息在浏览器中抛出来 终止代码继续执行
+    throw e
+    // throw new Error("你的人品已欠费,就不让你看")
+    // new ReferenceError 引用错误
+    // new TypeError  类型错误
+    // new RangeError 范围错误
+
+  }
+
+
+</script>
+</body>
+
+</html>

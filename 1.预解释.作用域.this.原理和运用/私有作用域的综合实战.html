@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    #btn {
+      background-color: #f8f8f8;
+      line-height: 30px;
+      text-align: center;
+      width: 100px;
+    }
+  </style>
+</head>
+<body>
+<div id="btn"><span id="num">0</span></div>
+<script>
+  var btn = document.getElementById("btn"),
+    num = document.getElementById("num");
+  // 1.利用全局作用域不销毁的原理,把数字的变量定义成全局的
+
+  // 弊端:在项目中尽量避免全局变量
+  // var count = 0;
+  // btn.onclick = function () {
+  // 	 count++;
+  // 	 num.innerHTML = count;
+  // }
+  // 2.自己形成一个不销毁的私有作用域
+  // ~function(){
+  // 	var count = 0;
+  // 	btn.onclick = function () {
+  // 		 count++;
+  // 		 num.innerHTML = count;
+  // 	}
+  // }()
+  // 常用
+  // btn.onclick = ~function(){
+  // 	var count = 0;
+  // 	return function () {
+  // 					 count++;
+  // 					 num.innerHTML = count;
+  // 				}
+  // 			}
+  // }()
+  // 弊端:有一个不销毁的私有的作用域,所以占那么一丢丢的内存
+  // 3.利用innerHTML的方式处理,每次点击的时候先到页面
+  // 获得最新的数字,然后累加,最后把累加的结果放回去
+  // btn.onclick = function () {
+  // 	// ++  默认会将数据类型变成数字
+  // 	num.innerHTML++;
+
+  // };
+  // 弊端:每次都需要把页面的内容转换成字符串,然后 在累加,累加之后再添加回去,当重新添加的时候,浏览器都要重新的渲染下
+  // 4.推荐:利用自定义属性存储
+  btn.count = 0;
+  btn.onclick = function () {
+    // ++  默认会将数据类型变成数字
+    num.innerHTML = ++this.count;
+
+  };
+
+
+</script>
+</body>
+</html>

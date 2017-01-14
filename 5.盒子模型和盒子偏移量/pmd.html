@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    .box1 {
+      width: 800px;
+      height: 30px;
+      line-height: 30px;
+      padding: 0 10px;
+      font-size: 14px;
+      margin: 100px auto;
+      border: 1px dashed #f99;
+      background-color: #f8f8f8;
+    }
+
+    /*要padding值 所以外面再套一个盒子 */
+    .box {
+      /*下面是关键属性 不换行和溢出隐藏*/
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    p {
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+<div class="box1" id="box1">
+  <div class="box" id="box">
+    <p id="start">
+      ****************
+      联系我们：010-60600032
+      IP超市服务 : originator@2cyj.com
+      媒体合作： media@2cyj.com
+      站内求助或投诉举报：service@2cyj.com
+      版权所有：北京世纪元通网络科技有限公司 京ICP备14025166号-1
+      站长统计 二次元二维码,欢迎关注~
+    </p>
+    <p id="end">
+      ****************
+      联系我们：010-60600032
+      IP超市服务 : originator@2cyj.com
+      媒体合作： media@2cyj.com
+      站内求助或投诉举报：service@2cyj.com
+      版权所有：北京世纪元通网络科技有限公司 京ICP备14025166号-1
+      站长统计 二次元二维码,欢迎关注~
+    </p>
+  </div>
+</div>
+<script>
+  var timer = setInterval(move, 10)
+  function move() {
+    box.scrollLeft++;
+    // 利用scrollLeft是存在最大值的思想 在累加1之前的值和累加1之后的值如果相等则说明到达最大值
+    if (box.scrollLeft >= start.clientWidth) {
+      // 切换效果不明显
+      box.scrollLeft = 0;
+    }
+  }
+
+  box.onmouseover = function () {
+    clearInterval(timer)
+  }
+  box.onmouseout = function () {
+    timer = setInterval(move, 10)
+  }
+  // 练习:跑马灯拓展 www.szyc.com 实现职场中的跑马灯效果
+</script>
+</body>
+</html>

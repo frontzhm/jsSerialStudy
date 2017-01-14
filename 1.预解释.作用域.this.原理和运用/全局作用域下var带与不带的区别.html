@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<script>
+  /**
+   *
+   * 在全局作用域中 带var 和不带var的关系:
+   * 区别:带var 可以进行 预解释 所以在赋值的前面执行不会报错
+   *    不带就相反喽
+   *
+   */
+  function c(str) {
+    console.log(str);
+  }
+  // undefined
+  c(num);
+  var num = 1;
+  // Uncaught ReferenceError: num1 is not defined
+  // 没错  以后看到这个表示没有这个变量
+  // c(num1);
+  num1 = 1;
+
+
+  /**
+   * 不带var 相当于给window加了一个num3的属性
+   * 带var  相当于给全局作用域的增加了一个全局变量 而且给window也增加了一个num2的属性
+   */
+  var num2 = 10;
+  c(num2);
+  num3 = 10;
+  c(num3);
+
+
+  // js在不进行特殊处理的情况下  上面的代码出错 下面的代码不在执行
+
+
+</script>
+</body>
+</html>

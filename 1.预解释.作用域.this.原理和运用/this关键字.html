@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<div id="div1">dianwo</div>
+<script>
+  // 主要研究的是函数中的this
+  // js中this表示当前行为执行的主体
+  // js中的上下文context代表当前行为执行的环境或者区域
+  // 例如:包子在家拖地  包子就是this  家就是上下文   包子也可以再公司拖地
+  // this是谁 和函数在哪执行的没有关系  如何区分this
+  // 1.函数执行 首先看函数名之前有没有点  有的话 点前面是谁 this就是谁 没有的话 this就是window
+  // 2.自执行函数的this永远是window
+  // 3.给元素的某一个事件绑定方法,当事件触发的时候,执行对应的方法,方法中的this指当前元素
+  function fn() {
+    console.log(this)
+  }
+  var obj = {fn: fn}
+  obj.fn() // obj
+  fn() // window
+  function sun() {
+    fn()
+  }
+  sun() // window  因为fn执行的时候前面没有点
+  var oo = {
+    sun: function () {
+      fn()
+    }
+  }
+  oo.sun() // window 因为fn执行的时候前面没有点
+
+  document.getElementById("div1").onclick = fn; // 当前元素
+  document.getElementById("div1").onclick = function () {
+    fn() // window
+  };
+  // 一定冷静分析
+</script>
+</body>
+</html>

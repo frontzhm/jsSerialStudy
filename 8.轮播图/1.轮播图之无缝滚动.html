@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    img {
+      display: block;
+      border: none;
+    }
+
+    a,
+    a:hover,
+    a.active,
+    a:visited {
+      color: #000;
+      text-decoration: none;
+    }
+
+    .banner {
+      height: 200px;
+      margin: 0 auto;
+      width: 300px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .banner .inner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 200px;
+      width: 300px;
+      /*在js数据绑定结束后根据请求回来的数据调整*/
+    }
+
+    .banner .inner > li {
+      float: left;
+      width: 300px;
+      height: 200px;
+      background: #f8f8f8 url(img/default.jpg) center center no-repeat;
+    }
+
+    .banner .inner img {
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      filter: alpha(opacity=0);
+    }
+
+    .bannerTip {
+      height: 18px;
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      overflow: hidden;
+    }
+
+    .bannerTip > li {
+      float: left;
+      width: 18px;
+      height: 18px;
+      margin-left: 10px;
+      border-radius: 18px;
+      background-color: lightblue;
+      cursor: pointer;
+    }
+
+    .bannerTip > li.cur {
+      background-color: #f99;
+    }
+
+    .bannerLeft,
+    .bannerRight {
+      width: 40px;
+      height: 70px;
+      background-image: url(img/arr.png);
+      position: absolute;
+      top: 50%;
+      margin-top: -35px;
+      opacity: 0.5;
+      filter: alpha(opacity=50);
+      display: none;
+    }
+
+    .bannerLeft:hover,
+    .bannerRight:hover {
+      opacity: 1;
+      filter: alpha(opacity=100);
+    }
+
+    .bannerRight {
+      background-position: -41px 0px;
+      right: 0;
+    }
+  </style>
+</head>
+
+<body>
+<div class="banner" id="banner">
+  <ul class="inner" id="inner">
+    <!-- <img src="" alt=""> -->
+    <!-- <img src="" alt=""> -->
+  </ul>
+  <ul class="bannerTip">
+    <!-- <li class="cur"></li>
+    <li></li>
+    <li></li>
+    <li></li> -->
+  </ul>
+  <a href="javascript:;" class="bannerLeft"></a>
+  <a href="javascript:;" class="bannerRight"></a>
+</div>
+<script src="../utils.js"></script>
+<script src="../tween.js"></script>
+<script>
+  ~function () {
+    var banner = document.getElementById("banner");
+    var inner = utils.getElementsByClass("inner", banner)[0];
+    var bannerTip = utils.getElementsByClass("bannerTip", banner)[0];
+    var tip = bannerTip.getElementsByTagName("li");
+    var imgList = inner.getElementsByTagName("img");
+    var bannerLeft = utils.getElementsByClass("bannerLeft")[0];
+    var bannerRight = utils.getElementsByClass("bannerRight")[0];
+    var len = 0; // 数据的长度
+    var count = 0; // 实际的数字
+    // 1.实现数据绑定:Ajax请求数据\按照字符串拼接的方式绑定数据
+    var jsonData = null;
+    // 请求数据
+    // ~function (){
+    // 	var xhr = new XMLHttpRequest;
+    // 	// false 表示同步 就是这步完成之后才开始下一步
+    // 	xhr.open("get","img/json.txt?_="+Math.random(),false);
+    // 	xhr.onreadystatechange = function () {
+    // 		 if(xhr.readyState===4 &&/^2\d{2}$/.test(xhr.status)) {
+    // 		 	jsonData = utils.zjsonParse(xhr.responseText);
+    // 		 }
+    // 	}
+    // 	xhr.send(null);
+    // }()
+    jsonData = [{
+      "img": "img/01.jpg",
+      "desc": "2016新世界"
+    }, {
+      "img": "img/02.jpg",
+      "desc": "2016新世界"
+    }, {
+      "img": "img/03.jpg",
+      "desc": "2016新世界"
+    }, {
+      "img": "img/04.jpg",
+      "desc": "2016新世界"
+    }];
+    // 绑定数据
+    ~function () {
+      // 1)绑定的是轮播图区域的数据
+      var str = "";
+      len = jsonData.length;
+      count = len + 1;
+      for (var i = 0; i < len; i++) {
+        var cur = jsonData[i];
+        str += '<li><img trueImg="' + cur.img + '" src="" alt="' + cur.desc + '"></li>'
+      }
+      // 为了实现无缝滚动 需要克隆一份放在末尾
+      str += '<li><img trueImg="' + jsonData[0].img + '" src="" alt="' + jsonData[0].desc + '"></li>'
+      inner.innerHTML = str;
+      // inner的宽度
+      utils.css(inner, "width", count * 300);
+      // 2)绑定的是焦点区域的数据
+      str = '';
+      if (jsonData) {
+        for (var i = 0; i < len; i++) {
+          if (i == 0) {
+            str += '<li class="cur"></li>';
+          } else {
+            str += '<li></li>';
+          }
+        }
+        bannerTip.innerHTML = str;
+      }
+    }()
+    // 3)实现图片的延迟加载
+    function lazyImg() {
+      for (var i = 0; i < count; i++) {
+        // onload是异步加载的
+        ~function (i) {
+          var cur = imgList[i];
+          var oImg = new Image;
+          oImg.src = cur.getAttribute("trueImg");
+          oImg.onload = function () {
+            cur.src = this.src;
+            // utils.css(cur,"display","block")
+            cur.style.display = "block"
+            // curEle, target, duration, effect,callback
+            animate(cur, {
+              opacity: 1
+            }, 500, 0);
+          }
+          oImg = null;
+        }(i)
+      }
+    }
+
+    // 过一段时间加载
+    window.setTimeout(lazyImg, 500)
+    // 4)实现自动轮播
+    var step = 0; // 记录步长(当前是哪张图片)
+    var interval = 2000;
+    var autoTimer = window.setInterval(autoMove, interval);
+
+    function autoMove() {
+      if (step === count - 1) {
+        utils.css(inner, "left", 0)
+        step = 0;
+        // clearInterval(autoTimer)
+      }
+      step++;
+      // utils.css(inner,{left:-step*300})
+      animate(inner, {
+        left: (-step * 300)
+      }, 500);
+      changeTip();
+      // 0 0
+      // 1 -300
+      // 2 -600
+      // 3 -900
+      // 4 -1200
+      // 然后变成0
+      // 0 0
+    }
+
+    // 5)实现焦点对齐
+    function changeTip() {
+      // 当到最后一张图片的时候 也就是===len的时候实际上是第一张
+      // 但是不能改变step的值
+      var tempStep = step >= len ? 0 : step
+      for (var i = 0; i < len; i++) {
+        if (i === tempStep) {
+          utils.addClass(tip[i], "cur")
+        } else {
+          utils.removeClass(tip[i], "cur")
+        }
+      }
+    }
+
+    // 6)停止和开启自动轮播
+    banner.onmouseover = function () {
+      window.clearInterval(autoTimer);
+      utils.css(bannerLeft, "display", "block");
+      utils.css(bannerRight, "display", "block");
+    }
+    banner.onmouseout = function () {
+      autoTimer = setInterval(autoMove, interval);
+      utils.css(bannerLeft, "display", "none");
+      utils.css(bannerRight, "display", "none");
+    }
+    // 7)点击焦点实现轮播图切换
+    ~function () {
+      for (var i = 0; i < len; i++) {
+        tip[i].index = i;
+        tip[i].onclick = function () {
+          step = this.index;
+          changeTip();
+          animate(inner, {
+            left: (-step * 300)
+          }, 500);
+        }
+      }
+    }()
+    // 8)实现左右切换
+    bannerRight.onclick = autoMove;
+    bannerLeft.onclick = function () {
+      if (step <= 0) {
+        step = len;
+        utils.css(inner, "left", -step * 300)
+      }
+      step--;
+      changeTip();
+      animate(inner, {
+        left: (-step * 300)
+      }, 500);
+    };
+    // end
+  }()
+</script>
+</body>
+
+</html>

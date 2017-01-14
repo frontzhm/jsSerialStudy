@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>enumerable</title>
+</head>
+
+<body>
+<script>
+  // Object.create(proObj)  ie6-8不支持 创建一个新的对象,但还是把proObj作为这个对象的原型
+  var obj = {
+    getX: function () {
+    }
+  };
+
+  function object(obj) {
+    function Fn() {
+
+    }
+
+    Fn.prototype = obj;
+
+    return new Fn;
+  }
+  var newObj = object(obj);
+  // newObj.__proto__ =  obj = x.prototype
+  // newObj是x类的实例  function x(){};  
+  // 
+  function Sum() {
+
+  }
+  // 层级分明
+  Sum.prototype = object(obj)
+  Sum.prototype.constructor = Sum;
+
+  // var obj2 = Object.create(obj);
+  // // obj2无私有属性
+  // // __proto__:
+  // //    getX:function(){}
+  // obj2.getX()
+  // obj.getY = function(){
+  //   console.log(3)
+  // }
+  // obj2.getY();
+
+  // var obj = {name:"hua",age:3,getX:function(){}};
+  // function Fn () {
+
+  // }
+  // Fn.prototype = obj;
+  // var f = new Fn();
+  // 
+  // 
+  // 
+  // 
+  // 
+  // 
+  // **********
+  // #div1.__proto__
+  // -> HTMLDivElement.prototype
+  // -> HTMLElement.prototype
+  // -> Element.prototype
+  // -> Node.prototype
+  // -> EventTarget.prototype
+  // -> Object.prototype
+  // function myObject(){}
+  // myObject.prototype = {
+  //   constructor:myObject,
+  //   hasOwnProperty:function(){}
+  // }
+  // function myEventTarget(){}
+  // // myEventTarget.prototype = myObject.create(myObject)
+  // myEventTarget.prototype = new myObject();
+  // myEventTarget.prototype.constructor = myEventTarget;
+  // myEventTarget.prototype.addEventListener = function(){};
+
+  // function myNode(){
+
+  // }
+
+  // myNode.prototype = new myEventTarget();
+  // myNode.prototype.constructor = myNode;
+  // myNode.prototype.createElement = function(){};
+
+  // var n = new myNode();
+  // console.log(n)
+
+
+  function A() {
+    this.x = 100
+  }
+  A.prototype.getX = function () {
+    console.log(this.x)
+  }
+
+  function B() {
+    this.y = 200
+  }
+  // 继承的话
+  B.prototype = new A; //A的实例既有私有属性也有公有属性
+  B.prototype.constructor = B;
+
+
+  // 每个函数都有prototype
+  // 每个protype都是对象,每个天生的prototype都有constructor属性
+  // 每个对象都有__proto__
+  // 每个天生的prototype就有两个属性 constructor和__proto__
+  // 类的三种特征:继承,封装,多态(重载(js无重载) 重写)
+  // 
+  // 
+  // 
+  // ->原型继承是Js中最常用的一种继承方式
+  // -> 子类B想要继承父类A类的所有的属性和方法(私有+公有),只需要让B.prototype = new A;B.prototype.constructor = B;即可
+  // ->原型继承的特点:父类的私有和公有的都继承到子类原型上(子类公有的)
+  // ->核心:原型继承并不是把父类的属性和方法克隆一份,而是让B和A之间增加了原型链接,以后B的实例
+  // 
+  // 
+  // 
+</script>
+</body>
+
+</html>

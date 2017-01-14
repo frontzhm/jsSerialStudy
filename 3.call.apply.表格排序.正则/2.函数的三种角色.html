@@ -1,0 +1,50 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+<script>
+  // function Fn(){
+  // 	this.x = 100
+  // }
+  // Fn.prototype.getX = function(){
+  // 	console.log(this.x)
+  // }
+
+  // var f = new Fn;
+  // f.getX();
+  // f.__proto__.getX();
+  // console.log(Fn)
+  // 函数本身也有自身的属性
+  // length:形参的个数
+  // name:函数名
+  // prototype:类的原型,在原型上定义的都是Fn实例共有的方法
+  // __proto__:把函数当做一个普通对象,指向Function的原型
+  // 函数在整个Js中最复杂最重要的知识
+  // 1.一个函数存在多面性:
+  // 1)"普通函数":它本身是一个普通函数,在执行的时候形成私有作用域(闭包),预解释,代码执行,执行完成之后栈内存销毁/不销毁
+  // 2)"类":它有自己的实例,也有一个prototype属性是自己的原型,它的实例都指向自己的原型
+  // 3)"普通对象":和var obj={}中的obj一样,就是一个普通的对象,它作为对象可以有一些自己的私有的属性,也可以通过__proto__找到Function.prototype
+  // 这三者没必然的关系
+  //   function Fn() {
+  //   	var num=500;
+  //       this.x = 100
+  //   }
+  //   Fn.prototype.getX = function() {
+  //       console.log(this.x)
+  //   }
+  //   Fn.aaa = 1000; //(作为对象的时候 )
+  //   var f = new Fn; //作为类的时候 只有this.x=x, Fn.prototype....
+  // console.log(f.num )  // undfined
+  // console.log(f.aaa )  // undfined
+  // var res = Fn(); // 作为普通函数 (预解释 私有作用域 返回值 this是window)
+  // console.log(res) // undefined
+  // Function的prototype是函数数据类型的值,但是相关操作和之前的一模一样 (empty anonymous)
+
+</script>
+</body>
+
+</html>

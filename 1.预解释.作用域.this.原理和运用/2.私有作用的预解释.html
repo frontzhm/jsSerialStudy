@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<script>
+  // 1.如何区分私有变量和全局变量
+  // 1)在全局作用域下声明(预解释的时候)的变量是全局变量
+  // 2)在"私有作用域中声明的变量"和"函数的形参"都是私有的变量
+  // 作用域链:在私有作用域下 执行代码的时候遇到变量 如果是私有变量则和外面没有任何关系 如果不是私有的,则往当前作用域上一级查找一直找到为止
+  // 2.当函数执行的时候(直接目的:让函数体中的代码执行),首先会形成一个新的私有的作用域,按照如下的步骤执行
+  // 1)如果有形参先给形参赋值
+  // 2)进行私有作用域中的预解释
+  // 3)私有作用域中的代码从上到下执行
+  //
+  // 闭包:函数形成一个新的私有作用域,保护里面的私有变量不受外面干扰,外面的改不了私有的 私有的也改不了外面的
+
+
+  console.log(total); // undefined
+  var total = 0;
+  function fn(num1, num2) {
+    console.log(total);// undefined
+    var total = num1 + num2;
+    console.log(total);// 300
+
+  }
+  fn(100, 200);
+  console.log(total);// 0
+
+  // 练习
+  console.log(total1); // undefined
+  var total1 = 0;
+  function fn(num1, num2) {
+    console.log(total1);// total1不是私有的 找全局的 ,0
+    total1 = num1 + num2; // 全局的total1 = 300
+    console.log(total1);// 300
+  }
+  fn(100, 200);
+  console.log(total1);// 300
+
+  // 大魏家有个小孩 叫宝宝
+  // 他家外面有个小孩也叫宝宝
+  // 也就是家里喊宝宝 都是喊自己的
+  // 但是如果家里没有小孩 叫宝宝就是叫外面的
+
+
+</script>
+</body>
+</html>

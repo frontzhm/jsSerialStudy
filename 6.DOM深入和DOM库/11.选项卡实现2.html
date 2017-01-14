@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      font-family: "Microsoft Yahei";
+      font-size: 14px;
+    }
+
+    ul,
+    ol {
+      list-style: none;
+    }
+
+    .box {
+      margin: 20px auto;
+      width: 500px;
+    }
+
+    .box ul::after {
+      display: block;
+      content: "";
+      clear: both;
+    }
+
+    .box ul li {
+      float: left;
+      margin-right: 10px;
+      width: 100px;
+      height: 30px;
+      line-height: 30px;
+      border: 1px solid #999;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .box ul li.cur {
+      background-color: #ccf;
+      border-bottom-color: #ccf;
+    }
+
+    .box ol {
+      margin-top: -1px;
+    }
+
+    .box ol li {
+      height: 150px;
+      line-height: 150px;
+      text-align: center;
+      background-color: #ccf;
+      display: none;
+      border: 1px solid #999;
+    }
+
+    .box ol li.cur {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+<div class="box" id="tabFir">
+  <ul>
+    <li class="cur">页卡1</li>
+    <li>页卡2</li>
+    <li>页卡3</li>
+  </ul>
+  <ol>
+    <li class="cur">内容1</li>
+    <li>
+      <ul>
+        <li>w</li>
+        <li>w</li>
+      </ul>
+    </li>
+    <li>内容3</li>
+  </ol>
+</div>
+<script src="../utils.js"></script>
+<script>
+  // 点击不同的选项 显示不同的内容 选项卡是前端经典项目
+  var tabFir = document.getElementById("tabFir");
+  var menu = utils.firstChild(tabFir);
+  var content = utils.next(menu);
+  var oms = utils.children(menu, "li");
+  var ocs = utils.children(content, "li");
+
+
+  for (var i = 0; i < oms.length; i++) {
+    oms[i].onclick = function () {
+      for (var i = 0; i < oms.length; i++) {
+        utils.removeClass(oms[i], "cur");
+        utils.removeClass(ocs[i], "cur");
+      }
+      // 在让当前点击的这个元素有选中的样式
+      utils.addClass(this, "cur")
+      utils.addClass(ocs[utils.index(this)], "cur")
+    }
+
+  }
+</script>
+</body>
+
+</html>

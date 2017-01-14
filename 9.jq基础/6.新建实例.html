@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<script>
+  (function () {
+    function A(a) {
+      this.init(a);
+    }
+
+    A.prototype = {
+      constructor: A,
+      init: function (a) {
+        this.name = a
+      }
+    }
+    function AA(a) {
+      return new A(a)
+    }
+
+    window.A = AA;
+
+  }())
+  console.log(A("HUAUHUA"))
+
+
+</script>
+</body>
+</html>

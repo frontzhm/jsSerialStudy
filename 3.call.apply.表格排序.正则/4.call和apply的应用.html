@@ -1,0 +1,82 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+<script>
+  // 求数组最大值
+  // function getMax(){
+  //   var temp = this[0];
+  //   for(var i=0,l=this.length;i<l;i++){
+  //     if(this[i+1]>this[i]){
+  //       temp=this[i+1];
+  //     }
+  //   }
+
+  //   return temp;
+  // }
+  // console.log(getMax.apply([1,2,3,4]))
+  var arr = [12, 23, 12, 4321, 41, 421, 435];
+  // 方法一:
+  // 数组排序,最后一个就是最大或最小值
+  // arr.sort(function(a,b){return a-b})
+  // var min=arr[0],max=arr[arr.length-1];
+  // console.log(min,max)
+  // 方法二:
+  // Math.min Math.max
+  // 在执行的时候把需要比较的数一个一个传过来,一次性放数组是不行的
+  var min = Math.min.apply(null, arr);// 相当于第二行
+  // var zmin = Math.min(12,23,12,4321,41,421,435);
+  // var max = Math.max.apply(null,arr);
+  // console.log(min)
+  // console.log(max)
+  // eval:把字符串变成js表达式执行
+  // eval("1+1") -> 2
+  // eval("2,3,4") ->4  逗号运算(2,3,4),返回最后一个
+  // 括号表达式
+  // function fn1(){
+  //   console.log(1)
+  // }
+  // function fn2(){
+  //   console.log(this)
+  // }
+  // var obj = {name:"hua",fn:fn2}
+
+  // !(fn1,fn2)();// 只有fn2执行 ->(x1,x2...)括号表达式,括号中出现多项内容,中间用","隔开,但是我们最后获取到最后一项
+  !(fn2, obj.fn)() //window 相当于 取得是函数的字符串 然后在执行
+  //  !(function fn2(){
+  //   console.log(this)
+  // })()
+  !(obj.fn)() //obj,只有一项的时候相当于obj.fn()
+  // 首先把最后要执行的代码都变成字符串,然后把数组中的每项值拼接到这个字符串中
+  var max = eval("Math.max(" + arr.toString() + ")")
+  console.log(max)
+
+
+  // 方法3:
+  // 假设法:假设当前数组的第一个数是最大值,然后拿这个值和后面的项一个个比较,如果某值比假设的值大那么把假设的值进行替换
+  // 和自定义属性一样 是js中常用的编程思想
+  // var max=arr[0],min=arr[arr.length-1]
+  // for(var i=1,l=arr.length;i<l;i++){
+  //   var cur = arr[i];
+  //   (cur>max) && (max=cur);
+  //   (cur<min) && (min=cur);
+
+  // }
+  // console.log(max,min)
+  //
+  //
+  // 求最大值四种思想:
+  // 1.排序
+  // 2.Math.min.apply(null,arr)
+  // 3.字符串拼接 eval
+  // 4.假设法
+
+
+</script>
+</body>
+
+</html>

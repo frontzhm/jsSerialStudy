@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<script>
+  var name = "小花";
+  var bname = "小花";
+  var name = "小花花";
+  var bname = "小花花";
+  // 只有基本类型时  变量冲突  然后就想着 前面加一个前缀表示是某一个人的，再后来就发展成对象
+  //
+  // 对象数据类型作用:
+  // 把描述同一个事物(同一个对象)的属性和方法放在一个内存空间下,起到分组的作用
+  // 这样不同事物之间的属性即使属性名一样,相互也不会发生冲突
+  // 我们把这种分组编写代码的模式叫做"单例模式"
+  // 在单例模式中 person1或2也叫做"命名空间"
+  var person1 = {
+    name: "小花",
+    bname: "小花"
+  }
+  var person2 = {
+    name: "小花花",
+    bname: "小花花"
+  }
+  // 单例模式是一种项目开发中经常使用的模式,因为项目中可以用单例模式进行"模块化开发"
+  // "模块化开发":相对于比较大的项目,需要多人协作,一般情况下会根据当前项目的需求划分成几个功能板块,同时开发 最后把每个人的代码进行合并
+
+  // 公共模块
+  var utils = {
+    select: function () {
+    }
+  }
+
+  // 页卡模块
+  var tabRender = {
+    change: function () {
+      // 在自己的命名的空间调用别人的方法
+      utils.select();
+    }
+  }
+
+  // 搜索模块
+  var searchRender = function () {
+    change:function () {
+      // 在自己命名空间调用自己的方法
+      this.clickEven();
+    }
+    ,
+    clickEven:function () {
+
+    }
+  }
+
+
+</script>
+</body>
+</html>

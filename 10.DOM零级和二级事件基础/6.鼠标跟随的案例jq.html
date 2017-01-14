@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    .box {
+      margin: 650px auto;
+      position: relative;
+
+    }
+
+    .box img {
+      width: 300px;
+      height: 200px;
+      border: 1px solid #000;
+    }
+
+    #mark {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 300px;
+      height: 200px;
+      z-index: 1;
+    }
+
+    #mark img {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+<div id="box" class="box">
+  <img src="img/01.jpg" bigSrc="img/02.jpg" alt="">
+  <img src="img/03.jpg" bigSrc="img/04.jpg" alt="">
+  <div id="mark">
+    <img src="img/02.jpg" alt="">
+  </div>
+</div>
+<script src="jquery.js"></script>
+
+<script>
+  jQuery(function ($) {
+    var box = $("#box"), mark = $("#mark");
+    var boxOffset = box.offset();
+    $("img", box).on("mouseover", function (e) {
+      e = e || window.event;
+      e.target = e.target || e.srcElement;
+      var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      var left = e.clientX - boxOffset.left + 10;
+      var top = e.clientY + scrollTop - boxOffset.top + 10;
+
+      mark.stop().fadeIn(500).css({left: left, top: top}).find("img").attr("src", e.target.getAttribute("bigSrc"))
+      // left = e.clientX-boxOffset.left+10;
+      // top = e.clientY-boxOffset.top+10;
+      // mark.css({left:left,top:top}).stop().fadeIn(500)
+    }).on("mousemove", function (e) {
+      e = e || window.event;
+      e.target = e.target || e.srcElement;
+      var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      var left = e.clientX - boxOffset.left + 10;
+      var top = e.clientY + scrollTop - boxOffset.top + 10;
+      mark.css({left: left, top: top})
+    }).on("mouseout", function (e) {
+      mark.stop().fadeOut(500)
+    })
+  })
+</script>
+</body>
+</html>

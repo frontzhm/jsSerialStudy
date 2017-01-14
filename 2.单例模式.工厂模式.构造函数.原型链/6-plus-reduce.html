@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>zslice</title>
+</head>
+
+<body>
+<script>
+  Number.prototype.zplus = function (m) {
+    return this + m;
+  }
+  Number.prototype.zremove = function (m) {
+    return this - m;
+  }
+
+
+  console.log((1).zplus(9).zremove(1))
+</script>
+</body>
+
+</html>

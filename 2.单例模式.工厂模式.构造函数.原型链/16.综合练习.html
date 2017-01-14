@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>enumerable</title>
+</head>
+
+<body>
+<div id="box">div</div>
+<a href="" id="link">link</a>
+<script>
+  // div
+  // a
+  // document
+  // window
+  // 
+  function Fn() {
+    //在类的函数体中写的this.x=x 都是给当前类增加的私有的属性和方法 
+  }
+  // 在类的原型上写的属性和方法都是给当前实例增加的公共的属性和方法
+  Fn.prototype.x = 1;
+  Array.prototype.myunique = function unique() {
+    var obj = {};
+    for (var i = 0, l = this.length; i < l; i++) {
+      var cur = this[i];
+      if (obj[cur] == cur) {
+        cur = this[this.length - 1];
+        this.length--;
+        i--;
+        continue;
+      }
+      obj[cur] = cur;
+    }
+    obj = null;
+    // 这样实现链式写法
+    return this;
+  }
+
+</script>
+</body>
+
+</html>

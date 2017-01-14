@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 100px;
+      height: 100px;
+      background-color: #f99;
+      position: absolute;
+      left: 500px;
+      top: 0;
+    }
+
+    .btn {
+      position: absolute;
+      left: 100px;
+      top: 200px;
+    }
+
+    .btn input {
+      outline: none;
+      display: inline-block;
+      margin-left: 50px;
+      width: 100px;
+      height: 50px;
+      border: 1px solid #9a9;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<div id="box" class="box"></div>
+<div class="btn">
+  <input type="button" value="向左" id="btnLeft">
+  <input type="button" value="向右" id="btnRight">
+</div>
+<script src="../utils.js"></script>
+<script>
+  var oBox = document.getElementById("box");
+  var minLeft = 0, maxLeft = utils.win("clientWidth") - oBox.offsetWidth;
+  var timer = null;
+  function move(target) {
+    // 清楚
+    clearTimeout(timer);
+    //  target运动到的位置
+    // target大于当前值 就是向右走
+    var curLeft = utils.css(oBox, "left");
+    if (curLeft < target) {// 向右走
+      curLeft += 8;
+      if (curLeft > maxLeft) {
+        curLeft = maxLeft
+      }
+      utils.css(oBox, "left", curLeft)
+    } else if (curLeft > target) { // 向左走
+      curLeft -= 5;
+      if (curLeft < minLeft) {
+        curLeft = minLeft
+      }
+      utils.css(oBox, "left", curLeft)
+    } else { // 不走
+      return;
+    }
+    // 这样写 性能不好 因为每次到达时间的时候都需要执行匿名函数(形成一个私有作用域),
+    // 在匿名函数在执行move,但move中需要的数据值在第一次执行的move中,这样就导致了匿名函数的作用域不能销毁
+    timer = setTimeout(function () {
+      move(target)
+    }, 10)
+  }
+  document.getElementById("btnLeft").onclick = function () {
+    move(minLeft)
+  }
+  document.getElementById("btnRight").onclick = function () {
+    move(maxLeft)
+  }
+</script>
+</body>
+</html>

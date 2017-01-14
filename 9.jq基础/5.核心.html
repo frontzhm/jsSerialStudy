@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    div {
+      margin: 50px;
+      width: 100px;
+      height: 100px;
+      background-color: #f99;
+      border: 1px solid #669;
+
+    }
+  </style>
+</head>
+<body>
+<button id="btn">点我<span>111111</span></button>
+<button id="btn2">操作动画</button>
+<div id="box">
+
+</div>
+
+
+<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.js"></script>
+
+<script>
+  // window.jQuery = window.$ = jQuery;
+  // jQuery就是闭包中私有的函数
+  // selector支持字符串,js对象,function(回调函数)
+  // context:document(传递的是一个原生js对象可以修改上下文,如果传递的是jq对象,默认会其重构为选择器不会修改上下文)
+  // jQuery = function( selector, context ) {
+  // 	// The jQuery object is actually just the init constructor 'enhanced'
+  // 	// Need init if jQuery is called (just allow error to be thrown if not included)
+  // 	返回了jQuery的实例
+  // 	return new jQuery.fn.init( selector, context );
+  // }
+  // jQuery.fn = jQuery.prototype = {
+  // 	// The current version of jQuery being used
+  // 	jquery: version,
+
+  // 	constructor: jQuery,
+
+  // 	// Start with an empty selector
+  // 	selector: "",
+
+  // 	// The default length of a jQuery object is 0
+  // 	length: 0,
+
+  // 	toArray: function() {
+  // 		return slice.call( this );
+  // 	}
+  // }
+  // $(),jQuery()就会创建一个jQuery实例
+  // $("#box")!==$("#box")
+  // 在jquery这个类的原型上定义了很多属性和方法,而通过选择器获取的每一个实例都可以使用这些方法:属性,css,文档操作,筛选,动画,事件
+  // jQuery.extend把它当做一个普通对象,在对象中增加了extand方法
+  // jQuery.fn.extend在它的原型上也增加了extend方法
+  // jQuery.extend = jQuery.fn.extend = function() {}
+  // 把jQuery当做一个普通对象,在自己的属性上增加了一些常用的方法,ajax,工具
+  // $.each
+  // extand:扩展,向类库中增加了一些其他常用方法
+  // 1)向jQuery属性名上扩展(完善类库,给类库增加核心的方法)
+  jQuery.extend({
+    aa: function () {
+      console.log('aa')
+    }
+  })
+  $.aa()
+  // 2)向jQuery原型上扩展(把它当做一个类) (编写一些基于jQuery插件)
+  jQuery.fn.extend({
+    bb: function () {
+      console.log('bb')
+    }
+  })
+  $().bb()
+  //
+</script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="stylesheet" href="normalize.css">
+  <!-- [if lt IE 9]>
+  <script src="html5.js"></script>
+  <![endif]-->
+  <style>
+    html, body {
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    ul {
+      list-style: none;
+
+    }
+
+    ul, li {
+      padding: 0;
+      margin: 0;
+    }
+
+    a {
+      color: #000;
+    }
+
+    .gWidth {
+      width: 960px;
+      margin: 0 auto;
+    }
+
+    header, .headerBg {
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 88px;
+      z-index: 2;
+    }
+
+    header {
+      box-shadow: 0 1px 1px #eee;
+      /*border-bottom: 1px solid #eee;*/
+    }
+
+    .headerBg {
+      z-index: 1;
+      background-color: #000;
+      opacity: 0.1;
+      filter: alpha(opacity=10);
+    }
+
+    .logo {
+      float: left;
+      margin-top: 19px;
+      font-size: 0;
+    }
+
+    .logo, .logo img {
+      height: 51px;
+    }
+
+    nav {
+      float: right;
+
+    }
+
+    nav li {
+      float: left;
+
+    }
+
+    nav li a {
+      position: relative;
+      display: block;
+      padding: 0 30px;
+      height: 88px;
+      line-height: 88px;
+      font-size: 18px;
+      color: #eee;
+    }
+
+    nav i {
+      /*居中显示*/
+      position: absolute;
+      display: block;
+      width: 0;
+      height: 88px;
+      top: 0;
+      left: 50%;
+      margin-left: 0;
+      background-color: #000;
+      filter: alpha(opacity=10);
+      opacity: 0.1;
+
+    }
+
+    nav li.cur a {
+      /*background-color: #fff;*/
+      color: #fff;
+    }
+
+    nav a:hover i {
+      width: 100%;
+      margin-left: -50%;
+      /*只有hover时才有动画*/
+      -webkit-transition: all .2s;
+      -o-transition: all .2s;
+      transition: all .2s;
+      /*手机端只需要webkit 因为手机端基本是webkit内核*/
+    }
+
+    /*BANNER*/
+    .banner {
+      height: 490px;
+      background-color: #ff6900;
+    }
+
+    /*响应式*/
+    @media all and (max-width: 760px) {
+      .gWidth {
+        width: 100%;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .logo {
+        float: none;
+        margin-left: 20px;
+        margin-top: 0;
+      }
+
+      header, .headerBg {
+        height: 46px;
+      }
+
+      .logo img {
+        height: 28px;
+        margin-top: 9px;
+      }
+    }
+  </style>
+
+</head>
+<body>
+<!-- <h1>http://old.zhufengpeixun.cn/qianduanjishuziliao/mobileDevelopment/2016-07-02/480.html</h1>
+	<a href="tel:15962137520">打给小胖子</a>
+	<a href="sms:15962137520">短信给小胖子</a>
+	<a href="mailto:1143303516@qq.com">邮件给小胖子</a> -->
+<!-- HEADER -->
+<header>
+  <div class="gWidth">
+    <h1 class="logo">
+      <a href=""><img src="img/logo.png" alt="">猎豹浏览器</a>
+    </h1>
+    <nav>
+      <ul class="clearfix">
+        <li class="cur"><a href="">首页<i></i></a></li>
+        <li><a href="">下载<i></i></a></li>
+        <li><a href="">下载<i></i></a></li>
+        <li><a href="">下载<i></i></a></li>
+      </ul>
+    </nav>
+  </div>
+
+</header>
+<div class="headerBg"></div>
+<!-- BANNER -->
+<div class="banner"></div>
+</body>
+</html>

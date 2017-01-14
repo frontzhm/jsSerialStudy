@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<div class="w1 w2 w3"></div>
+<div class="w2 w3"></div>
+<div class="w1 w2"></div>
+<div class="w1 w3"></div>
+<div class="w3"></div>
+<script src="../utils.js"></script>
+<script>
+  // getElementsByClassName(names)在ie6-8下不兼容
+  // 写一个类名 只要包含这个类名就可以
+  console.log(document.getElementsByClassName("w1"))
+  // 必须同时包含w1 w3 但是和样式的顺序以及空格是没有关系的
+  console.log(document.getElementsByClassName("w3       w1"))
+  // 没有类名,空集合
+  console.log(document.getElementsByClassName(""))
+  // 通过类名来获得元素集合
+  // className可能是一个 或者多个
+  // context 获取元素上下文 不传的话默认document
+  function getElementsByClass(className, context) {
+    context = context || document;// 默认值一般用这个语句
+    // 去除字符串的首尾空格 一定要赋值
+    className = className.replace(/(^ +| +$)/, "");
+    // 然后按空格分组
+    var classNameArr = className.split(/ +/g);
+    // 获取指定上下文所有元素的标签 获取每个标签的类名
+    var nodeList = context.getElementsByTagName("*");
+    var arr = [];
+    for (var i = 0, l = nodeList.length; i < l; i++) {
+      var cur = nodeList[i];
+
+      // 判断className是否含有多个类名 都包含cur才是想要的 否则就不是
+      var isOk = true;// 假设cur包含了所有类名
+      for (var k = 0; k < classNameArr.length; k++) {
+        var curClass = classNameArr[k];
+        var reg = new RegExp("(^| +)" + curClass + "( +|$)")
+        if (!reg.test(cur.className)) {
+          isOk = false;
+          break;
+        }
+
+      }
+      // 循环完了 依然是true 表示有想要的类名
+      if (isOk) {
+        arr.push(cur)
+      }
+
+    }
+    return arr;
+    // if(/^ *$/.test(className)){return [];}
+    //  var arr=[];
+    //  var classes = className.split(/ +/g);
+    //  function hasClasses (eleClass,classArr) {
+    //     for (var i = 0,l=classArr.length; i <l ; i++) {
+    //         var cur = classArr[i];
+    //         if(!utils.hasClass(eleClass,cur)){return false};
+    //     }
+    //     return true;
+    //  }
+
+  }
+  console.log(getElementsByClass("  w3    w1"))
+  function getElementsByClass(strClass, context) {
+    context = context || document;
+    // if("getComputedStyle" in window){
+    //    return Array.prototype.slice.call(context.getElementsByClassName(strClass));
+    // }else{
+    // ie6-8
+    var ary = [];
+    // 首尾去掉空格 然后以空格分组
+    var strClassAry = strClass.replace(/(^ +| +$)/, '').split(/ +/g);
+    var nodeList = context.getElementsByTagName("*");
+    for (var i = 0, l = nodeList.length; i < l; i++) {
+      var cur = nodeList[i];
+      var flag = true
+      for (var k = 0; k < strClassAry.length; k++) {
+        var curStrClass = strClassAry[k];
+        if (!utils.hasClass(cur, curStrClass)) {
+          flag = false;
+          break;
+        }
+      }
+      flag && (ary[ary.length] = cur);
+    }
+    return ary;
+
+    // }
+  }
+</script>
+</body>
+</html>

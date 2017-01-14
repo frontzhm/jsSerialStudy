@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<script>
+  var flag = "getComputedStyle" in window;
+  // prev:获取上一个哥哥节点
+  function prev(curEle) {
+    if (flag) {
+      return curEle.previousElementSibling;
+    } else {
+      // 低版本的话 获取上一个节点 判断是否为元素节点,不是一直往前找 直到找到元素节点,找不到的话null
+      var pre = curEle.previousSibling;
+      // while里是循环的条件
+      while (pre && pre.nodeType !== 1) {
+        pre = pre.previousSibling;
+      }
+      return pre
+    }
+  }
+</script>
+</body>
+</html>
