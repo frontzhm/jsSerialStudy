@@ -43,16 +43,19 @@
     olis[i].onmouseout = function () {
       this.style.backgroundColor = "white";
     };
+    olis[i].onclick = function () {
+      console.log(this)
+    };
   }
   // 绑定数据方法1:利用动态创建元素节点和把它追加到页面中的方式实现绑定
   // 优势:把需要动态绑定的内容一个个的追加到页面中,对原来的元素没有影响
   // 弊端:浏览器 每创建一个li就添加到页面中引发DOM回流,最后引发回流次数过多,影响性能
-  // for(var i=0,l=data.length;i<l;i++){
-  //   var cur = data[i];
-  //   var oLi = document.createElement("li");
-  //   oLi.innerHTML = "<span>"+(i+4)+"</span>"+cur.title;
-  //   ool1.appendChild(oLi);
-  // }
+  for(var i=0,l=data.length;i<l;i++){
+    var cur = data[i];
+    var oLi = document.createElement("li");
+    oLi.innerHTML = "<span>"+(i+4)+"</span>"+cur.title;
+    ool1.appendChild(oLi);
+  }
   // 绑定数据方法2:字符串拼接的方式:首先循环需要绑定的数据 然后把需要动态绑定的标签以字符串的方式拼接到一起,拼接完成之后 最后统一的添加页面中
   // 字符串拼接绑定数据是以后工作中最常用的一种绑定数据的方式 ->模板引擎数据绑定(jade ktemplate angular.source,backbone.source.....) ->原理就是这个
   // var str = "";
@@ -77,16 +80,16 @@
   // 
   // 
   // 绑定数据方法3:文档碎片:在有元素的情况下用文档碎片比方法一更好
-  var frg = document.createDocumentFragment();// 创建文档碎片,相当于临时创建一个容器
-  for (var i = 0, l = data.length; i < l; i++) {
-    var cur = data[i];
-    var oLi = document.createElement("li");
-    oLi.innerHTML = "<span>" + (i + 4) + "</span>" + cur.title;
-    frg.appendChild(oLi);
-  }
-  ool1.appendChild(frg);
-  // console.dir(frg)
-  frg = null;
+  // var frg = document.createDocumentFragment();// 创建文档碎片,相当于临时创建一个容器
+  // for (var i = 0, l = data.length; i < l; i++) {
+  //   var cur = data[i];
+  //   var oLi = document.createElement("li");
+  //   oLi.innerHTML = "<span>" + (i + 4) + "</span>" + cur.title;
+  //   frg.appendChild(oLi);
+  // }
+  // ool1.appendChild(frg);
+  // // console.dir(frg)
+  // frg = null;
 
 </script>
 </html>
