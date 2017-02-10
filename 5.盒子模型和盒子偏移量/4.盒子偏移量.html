@@ -5,48 +5,52 @@
   <meta charset="UTF-8">
   <title>Document</title>
   <style>
-    * {
-      padding: 0;
-      margin: 0;
-      font-size: 14px;
-    }
-
-    #outer {
-      width: 300px;
-      height: 300px;
-      padding: 30px;
-      margin: 30px;
-      border: 10px solid #000;
-      background-color: pink;
-    }
-
-    #inner {
-      width: 200px;
-      height: 200px;
-      padding: 30px;
-      margin: 30px;
-      border: 10px solid #000;
-      background-color: #69f;
-    }
-
-    #center {
-      width: 100px;
-      height: 100px;
-      padding: 30px;
-      margin: 30px;
-      border: 10px solid #000;
-      background-color: #6f9;
-    }
+  * {
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  #outer {
+    width: 300px;
+    height: 300px;
+    padding: 30px;
+    margin: 30px;
+    border: 10px solid #000;
+    background-color: pink;
+  }
+  
+  #inner {
+    width: 200px;
+    height: 200px;
+    padding: 30px;
+    margin: 30px;
+    border: 10px solid #000;
+    background-color: #69f;
+  }
+  
+  #center {
+    width: 100px;
+    height: 100px;
+    padding: 30px;
+    margin: 30px;
+    border: 10px solid #000;
+    background-color: #6f9;
+  }
+  
+  body {
+    border: 2px solid #ccc;
+  }
   </style>
 </head>
 
 <body>
-<div id="outer">
-  <div id="inner">
-    <div id="center"></div>
+  <div id="outer">
+    <div id="inner">
+      <div id="center"></div>
+    </div>
   </div>
-</div>
-<script>
+  <script>
   var outer = document.getElementById("outer"),
     inner = document.getElementById("inner"),
     center = document.getElementById("center");
@@ -57,9 +61,9 @@
   document.body.parentNode // html
   document.documentElement.parentNode // document
   document.parentNode // null   最顶级元素
-  //  null是值不存在 undefined 这个属性都不存在 未定义
-  //  2.offsetParent :父级参照物,在同一个平面中,最外层的元素是里面所有元素的父级参照物,和html层级结构没必然联系
-  //  一般来说 一个页面中所有元素的父级参照物都是body
+    //  null是值不存在 undefined 这个属性都不存在 未定义
+    //  2.offsetParent :父级参照物,在同一个平面中,最外层的元素是里面所有元素的父级参照物,和html层级结构没必然联系
+    //  一般来说 一个页面中所有元素的父级参照物都是body
   center.offsetParent // body
   inner.offsetParent // body
   outer.offsetParent // body
@@ -82,21 +86,21 @@
   // 获取的结果是一个对象 left距离body的左偏移 top..
   // 在标准的ie8浏览器中 我们使用offsetLeft就已经把父级的边框算进去了,就不需要我们自己加边框
   function offset(ele) {
-    var left = null, top = null, par = ele.offsetParent;
-    left += ele.offsetLeft;
-    top += ele.offsetTop;
+    var left = ele.offsetLeft,
+      top = ele.offsetTop,
+      par = ele.offsetParent;
     // 只要没有找到body 我们就把父级参照物的边框和偏移进行累加
     while (par) {
-      if (navigator.userAgent.indexOf("MSIE 8.0") !== -1) {
+      if (navigator.userAgent.indexOf("MSIE 8.0") === -1) {
         // 父级参照物的边框
         left += par.clientLeft;
         top += par.clientTop;
-      } else {
-        // 父级参照物本身的偏移
-        left += par.offsetLeft;
-        top += par.offsetTop;
-        par = par.offsetParent;
       }
+      // 父级参照物本身的偏移
+      left += par.offsetLeft;
+      top += par.offsetTop;
+      par = par.offsetParent;
+
 
     }
     return {
@@ -105,9 +109,7 @@
     };
   }
   console.log(offset(inner))
-
-
-</script>
+  </script>
 </body>
 
 </html>
