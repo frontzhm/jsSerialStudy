@@ -1,0 +1,10 @@
+@color: #f69;
+.transition(@param: all, @duration: 0.5s, @speed: linear, @delay: 0s) {
+  -webkit-transition: @arguments;
+  -moz-transition: @arguments;
+}
+
+.box {
+  backgound: @color;
+  .transition(@duration: 1s);
+}

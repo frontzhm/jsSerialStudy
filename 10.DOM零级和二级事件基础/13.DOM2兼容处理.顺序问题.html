@@ -3,33 +3,161 @@
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
+  <style>
+    .box {
+      width: 200px;
+      height: 200px;
+      background-color: greenyellow;
+    }
+  </style>
 </head>
 <body>
-  <script>
-    // 解决顺序问题:我们不用浏览器自带的事件池,而是自己模拟标准浏览器的事件池实现
+<div id="box" class="box"></div>
+<script>
+  var box = document.getElementById("box");
+  function fn1() {
+    console.log(1)
+  }
+  function fn2() {
+    console.log(2)
+  }
+  function fn3() {
+    console.log(3)
+  }
+  function fn4() {
+    console.log(4)
+  }
+  function fn5() {
+    console.log(5)
+  }
 
-    // on:创建事件池,并且把需要给当前元素绑定的方法依次增加到事件池中
-    function on(curEle, eventType, eventFn) {
-
+  function bind(curEle, eventType, eventFn) {
+    if ("addEventListener" in document) {
+      curEle.addEventListener(eventType, eventFn, false);
+      return;
     }
-    // off:在自己的事件池中,把某一个方法移除
-    function off(curEle, eventType, eventFn) {
-      var ary = curEle["myEvent"] + eventType;
-      // 属性不存在就创建
-      if (!ary) {
-        ary = [];
+    //    给eventFn化妆,并且把化妆前的照片贴在自己对应的脑门上
+    var tempFn = function () {
+      eventFn.call(curEle);
+    }
+    tempFn.photo = eventFn
+// 首先判断该自定义属性是否存在,不存在的话创建一个,由于要存储多个方法化妆后的结果,所以我们让其是一个数组
+
+    if (!curEle["myBind" + eventType]) {
+      curEle["myBind" + eventType] = [];
+    }
+//    解决重复问题:每次自己在往自定义属性对应的容器添加前看下是否已经有了,有了的话不用重新添加,同理也不会增加到事件池里
+    var ary = curEle["myBind" + eventType];
+    for (var i = 0; i < ary.length; i++) {
+      var cur = ary[i];
+      if (cur.photo === eventFn) {
+        return;
       }
-      var len = ary.length;
-      // 事件存在就不增加
-      for (var i = 0; i < len; i++) {
-        var cur = ary[i];
-        if (cur === eventFn) {
-          return;
-        }
-      }
-      ary[ary.length] = eventFn;
+    }
+    ary.push(tempFn);
+    curEle.attachEvent("on" + eventType, tempFn);
+  }
+  function unbind(curEle, eventType, eventFn) {
+    if (removeEventListener in curEle) {
+      curEle.removeEventListener(eventType, eventFn, false);
+      return;
     }
 
-  </script>
+//    私有作用域的问题来了 这里访问不到bind函数里面的私有变量tempFn,所以再次变成全局
+
+    var ary = curEle["myBind" + eventType];
+    for (var i = 0; i < ary.length; i++) {
+      var cur = ary[i];
+      if (cur.photo === eventFn) {
+        ary.splice(i, 1);// 找到后把自己存储的容器中对应的那项移除掉,再移除事件池中对应事件
+        curEle.detachEvent("on" + eventType, cur);
+        break;
+      }
+    }
+
+//    但是当再绑定另外一个函数的时候就会出问题,于是就必须能存多个,用自定义属性
+  }
+
+  // 解决顺序问题:我们不用浏览器自带的事件池,而是自己模拟标准浏览器的事件池实现
+
+  // on:创建事件池,并且把需要给当前元素绑定的方法依次增加到事件池中
+  function on(curEle, eventType, eventFn) {
+
+    // 属性不存在就创建
+    if (!curEle["myEvent" + eventType]) {
+      curEle["myEvent" + eventType] = [];
+    }
+    var ary = curEle["myEvent" + eventType];
+    var len = ary.length;
+    // 事件存在就不增加
+    for (var i = 0; i < len; i++) {
+      var cur = ary[i];
+      if (cur === eventFn) {
+        return;
+      }
+    }
+    ary[len] = eventFn;
+    // 执行on的时候,我们给当前元素绑定了一个点击的行为,当点击的时候执行run方法,run方法中的this是curEle,并且浏览器给run传递了一个mouseEvent对象
+    // curEle.addEventListener(eventType,run,false);
+    bind(curEle,eventType,run);
+  }
+  // off:在自己的事件池中,把某一个方法移除
+  function off(curEle, eventType, eventFn) {
+    var ary = curEle["myEvent" + eventType];
+    for (var i = 0; i < ary.length; i++) {
+      var cur = ary[i];
+      if (cur === eventFn) {
+        ary.splice(i,1);
+        break;
+      }
+    }
+  }
+  //    run:我们只给当前元素的点击行为绑定一个方法run,当触发点击的时候执行run方法,我们在run方法中根据自己存储的方法顺序分别的把这些方法执行
+
+  function run(e) {
+    // this指的是当前元素
+
+    // 获取自己事件池中绑定的那些方法并且让这些方法依次执行
+    e = e || window.event;
+
+    var flag = !!e.target;
+//    ie6-8不兼容e.target
+    if (!flag) {
+      e.target = e.target || e.srcElement;
+      e.pageX = e.clientX + (document.documentElement.scrollLeft || document.body.scrollLeft);
+      e.pageY = e.clientY + (document.documentElement.scrollTop || document.body.scrollTop);
+      e.preventDefault = function () {
+        e.returnValue = false;
+      }
+      e.stopPropagation = function () {
+        e.cancelBubble = true;
+      }
+    }
+//    var ary = curEle["myEvent" + eventType];
+    var ary = this["myEvent" + e.type];
+//    var ary = curEle["myEvent" + eventType];
+    for (var i = 0; i < ary.length; i++) {
+//        this值
+      ary[i].call(this,e);
+    }
+  }
+  on(box, "click", fn1)
+  on(box, "click", fn2)
+  on(box, "click", fn3)
+  on(box, "click", fn4)
+  on(box, "click", fn5)
+  var n=0;
+  function fn5() {
+    n++;
+    console.log(5);
+    if(n>=3){
+      off(box,"click",fn1)
+    }
+  }
+  on(box, "click", fn5)
+  console.log(box.myEventclick)
+
+
+</script>
 </body>
 </html>
