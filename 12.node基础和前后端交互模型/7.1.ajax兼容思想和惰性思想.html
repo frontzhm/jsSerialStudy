@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+  // 创建ajax对象,兼容所有浏览器
+  function createXHR() {
+    var xhr = null,
+      flag = false;
+    var ary = [
+      function() {
+        return new XMLHttpRequest;
+      },
+      function() {
+        return new ActiveXObject("Microsoft.XMLHttp");
+      },
+      function() {
+        return new ActiveXObject("Msxml2.XMLHttp");
+      },
+      function() {
+        return new ActiveXObject("Msxml3.XMLHttp");
+      }
+    ];
+    for (var i = 0; i < ary.length; i++) {
+      var curFn = ary[i];
+      try {
+        xhr = curFn();
+        flag = true;
+        // =>本次循环获取的方法执行没有出现错误:说明此方法是我想要的,我们下一次直接执行这个小方法即可,这就需要把createXHR重写为小方法(完成之后不需要再判断了,直接退出循环即可),覆盖原方法
+        createXHR = curFn;
+        break;
+      } catch (e) {
+        // 出现错误,继续执行下一次循环
+        continue;
+      }
+    }
+    if (!flag) {
+      throw new Error("your browser is not support ajax,please change your browser,try again!")
+    }
+    return xhr;
+  }
+  </script>
+  <script>
+  // 通过原型链学习
+  // var xhr = new XMLHttpRequest;
+  // var xhr = null;
+  // 为了兼容ie6及更低的版本,如果第一个不支持,则浏览器会报错,后来就不再支持,所以加try catch
+  /*if("XMLHttpRequest" in window){
+  	xhr = new XMLHttpRequest
+  }else if(new ActiveXObject("Microsoft.XMLHttp")){
+  	xhr = new ActiveXObject("Microsoft.XMLHttp");
+  }else if(new ActiveXObject("Msxml2.XMLHttp")){
+  	xhr = new ActiveXObject("Msxml2.XMLHttp");
+  }else if(new ActiveXObject("Msxml3.XMLHttp")){
+  	xhr = new ActiveXObject("Msxml3.XMLHttp");
+  }*/
+
+  /*  if ("XMLHttpRequest" in window) {
+      xhr = new XMLHttpRequest;
+    } else {
+      try {
+        xhr = new ActiveXObject("Microsoft.XMLHttp");
+      } catch (e) {
+        try {
+          xhr = new ActiveXObject("Msxml2.XMLHttp");
+        } catch (e) {
+          xhr = new ActiveXObject("Msxml3.XMLHttp");
+
+        }
+      }
+    }*/
+
+  // 每次发送请求都要这么写,索性写成一个方法
+  /*  function createXHR(){
+    	var xhr = null;
+    	if ("XMLHttpRequest" in window) {
+    	    xhr = new XMLHttpRequest;
+    	  } else {
+    	    try {
+    	      xhr = new ActiveXObject("Microsoft.XMLHttp");
+    	    } catch (e) {
+    	      try {
+    	        xhr = new ActiveXObject("Msxml2.XMLHttp");
+    	      } catch (e) {
+    	        xhr = new ActiveXObject("Msxml3.XMLHttp");
+
+    	      }
+    	    }
+    	  }
+    	  return xhr;
+    }
+
+    var xhr1 = createXHR();
+    var xhr2 = createXHR();*/
+  // 但是,其实只要第一次能判断出浏览器支持哪种方法,第二次就不需要判断了,所以再次优化
+
+
+  // js高阶编程技巧之"惰性思想":能执行一次就搞定的绝对不会执行多次
+  /*
+  *  以下属于高级单例模式,首先自执行函数形成不销毁的作用域(因为返回值是引用类型),然后就可以使用其中的方法,相比观察者模式,构造函数模式这是最常用的
+  
+  var utils = (function() {
+    var flag = "getComputedStyle" in window;
+
+    function getCss() {
+      if (flag) {} else {}
+    }
+    return {
+      getCss: getCss
+    }
+  })()
+ */
+  // 优化完之后的在上面的script
+  var xhr = null;
+  xhr = createXHR();
+  console.dir(xhr)
+  xhr.open("get", "data.txt?num=12", false);
+  /*
+HTTP METHOD:客户端向服务器端发送请求的方式
+以下的请求方式不管是哪一种,都可以向服务器传递和获取数据,而且从本质意义来讲,以下的方法是没有任何区别的
+例如:用post做的事情,get也能做.
+接下来讲的区别是约定俗成的规范
+ get:一般应用于服务器获取数据(给服务器的数据少,从服务器拿的东西少,项目中最常用的请求方式就是get)
+ 使用get请求,给服务器传递内容,我们一般都使用url问号传参的方式
+ eg:xhr.open("get", "data.txt?num=12",false);
+
+
+ post:一般应用于向服务器推送数据(给服务器的多,从服务器拿下来的少)
+ 使用post请求给服务器传递内容我们一般使用"请求主体的方式"
+ xhr.open("post",'data.txt');
+ xhr.send('{"name":"huahua","age":45}')
+ 传递的形式一般是json字符串
+
+
+ put:一般应用于给服务器上增加资源文件(上传图片功能)
+
+
+ delete:一般用于从服务器上删除资源文件
+
+
+ head:一般应用于只获取服务器的响应头信息
+
+
+get请求和post请求的区别:
+1."大小问题":get请求传递给服务器的内容存在大小的限制,而post理论上是没有限制的
+原因:get通过url传参给服务器,而每个浏览器对于url的长度存在限制,谷歌8kb,火狐7kb,ie2kb的长度限制,如果url的长度超过限制,浏览器会把超出的部分截取
+post:一般限制在2mb
+
+2."缓存的问题":get请求会出现缓存(这个缓存不一定是304),post是没有缓存的.
+因为get是url的方式,会让浏览器或者服务器端认为和上次发送的请求一致,所以有可能会直接返回上一次的内容,而不会更新内容
+在项目中,我们的get请求一般不会让其出现缓存,"清除缓存":在url的末尾追加一个随机数
+eg:xhr.open("get", "data.txt?num=12&_="+Math.random(),false);
+
+
+
+3."安全问题":一般来说get不安全,而post相对安全一些
+因为get是url的请求方式,有url劫持
+
+
+
+地址是后端人员给的 不用管
+
+接下来说同步编程和异步编程,重新建了文件
+
+  */
+
+
+
+
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && /^2\d{2}$/.test(xhr.status)) {
+      var data = xhr.responseText
+    }
+  }
+  xhr.send()
+  </script>
+</body>
+
+</html>

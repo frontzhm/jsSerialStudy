@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+  // 同步(sync)和异步(async)编程
+  // 大部分后台编程都是多线程同步,但是对于超大并发量是多线程异步更合适,但是这个比较难
+  //举个例子说明:
+  // 多线程同步:饭店里,有多个服务员(一个服务员表示一个线程),第一个客人来了,点了水煮鱼需要5min,于是一个服务员就要等5min,等到餐做好再端到客人面前.第二个客人来了,如果第一个服务员在等着,那么就第二个服务员服务,然后也是等着菜好才行.也就是如果接连来几个客人,因为服务员有限,就不会有人去服务.
+  // 单线程异步:就一个服务员,第一个客人点完餐后,记录下来需要5min,然后就去大厅候着,第二个服务员来了之后,继续服务,且记录点的菜需要3min,如果接连来了很多客人,服务员会一个一个的记录直到记录完毕,然后再去看谁的时间最短去端谁的菜,比如先上第二个客人3min的菜,但此时可能已经超过3min了.
+
+
+  // js是单线程的,我们最好使用异步编程
+  // 定时器是异步编程的
+  // 事件绑定是异步编程的
+  // 回调函数也可以理解是是异步编程的
+  // 在ajax中科院使用异步编程
+
+  // ajax中的同步:当ajax的任务开始(xhr.send)的时候,一直需要到readyState=4的时候,任务才结束,此时才可以处理其他的事情
+  // ajax中的异步:当ajax的任务开始(xhr.send)的时候,不需要到readyState=4的时候,依然可以处理其他的事情,并且只有当其他的任务完成后,我们在看是否到4,到达4的时候做些相关操作
+  /*		var xhr = new XMLHttpRequest;
+  		xhr.open("get","./data.txt",true);
+  		
+  		xhr.onreadystatechange = function(){
+  			// 这个写在open前会打印1,2,3,4
+  			// 写在open后会打印2,3,4
+  			// 因为open的时候状态码会变成2,如果之前没绑定事件固然不会输出
+  			console.log(xhr.readyState);
+  		}
+  		// 只有send之后,ajax的任务(向服务器发送请求的任务)才开始
+  		xhr.send(null);
+  		*/
+
+
+
+  /*  var xhr = new XMLHttpRequest;
+    xhr.open("get", "./data.txt", false);
+
+// 这里的时候state是1,只要open了,state就是1
+但因为是同步,xhr整个完成之后才会走下面的事件,也就会输出4了
+    xhr.onreadystatechange = function() {
+      // 只会输出4
+      console.log(xhr.readyState);
+    }
+    // 只有send之后,ajax的任务(向服务器发送请求的任务)才开始
+     xhr.send(null);*/
+
+  /*  var xhr = new XMLHttpRequest;
+    xhr.open("get", "./data.txt", true);
+    xhr.send(null);
+    xhr.onreadystatechange = function() {
+        // 2,3,4
+        console.log(xhr.readyState);
+      }*/
+
+  /*  var xhr = new XMLHttpRequest;
+    xhr.open("get", "./data.txt", false);
+    xhr.send(null);
+    xhr.onreadystatechange = function() {
+        // 事件不会被触发,因为在绑定事件前状态已经是4了
+        console.log(xhr.readyState);
+      }*/
+
+
+
+  var xhr = new XMLHttpRequest;
+
+  xhr.open("get", "./data.txt", true);
+  // 设置请求头信息,一定要在open之后设置
+  xhr.setRequestHeader("huahua","2015");
+  // 设置ajax请求的超时时间,防止请求时间过长,在用同步的时候可能用到
+  xhr.timeout = "1000";
+  xhr.onreadystatechange = function() {
+  		if(xhr.readyState ===2){
+  			// 获取服务器响应头信息
+  			xhr.getResponseHeader("Date");
+  			// new Date让格林时间变成北京时间
+  			console.log(new Date(time))
+  			// 虽然4的时候也可以获得,但是在2的时候时间差更小,经常在倒计时抢购的时候
+  		}
+      console.log(xhr.readyState);
+    }
+  xhr.send(null);
+  </script>
+</body>
+
+</html>

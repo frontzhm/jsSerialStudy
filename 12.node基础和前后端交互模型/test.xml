@@ -1,0 +1,10 @@
+<root>
+	<person>
+		<name>huahua</name>
+		<age>20</age>
+	</person>
+	<person>
+		<name>baobao</name>
+		<age>87</age>
+	</person>
+</root>
