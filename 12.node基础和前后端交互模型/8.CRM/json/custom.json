@@ -1,9 +1,1 @@
-[
-  {
-    "id": 1,
-    "name": "huahua",
-    "age": 4,
-    "phone":"13545677658",
-    "address":"昌平"
-  }
-]
+[{ "id": 1, "name": "huahua", "age": 4, "phone": "13545677658", "address": "昌平" }, { "id": 3, "name": "gugu", "age": 4, "phone": "13545677658", "address": "昌平" }]
