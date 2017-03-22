@@ -142,6 +142,7 @@ var server1 = http.createServer(function(req, res) {
     // 客户端的数据接受完毕
     req.on("end", function() {
       console.log(str);
+      console.log(1)
       if (str.length === 0) {
         result = {
           code: 1,
@@ -157,6 +158,7 @@ var server1 = http.createServer(function(req, res) {
       // 在现有的data中追加一个id:获取con中最后一项id,新的id是在原有基础上加1即可,判断原先有没有数据
       data["id"] = con.length === 0 ? 1 : parseFloat(con[con.length - 1]["id"]) + 1;
       con[con.length] = data;
+      console.log("content"+con)
       fs.writeFileSync(customPath, JSON.stringify(con), "utf-8");
       result = {
         code: 0,
@@ -196,10 +198,12 @@ var server1 = http.createServer(function(req, res) {
         res.end(JSON.stringify(result));
         return;
       }
+      console.log("en"+str)
       str = JSON.parse(str);
       var hasId = false;
       for (var i = 0; i < con.length; i++) {
         var cur = con[i];
+        console.log(cur)
         if (cur["id"] == str["id"]) {
           // 引用数据类型,var obj = {},其实是obj=xx01,xx01里面存的是{}
           // 基本数据类型,var str = "d",str就是"d"
@@ -210,9 +214,10 @@ var server1 = http.createServer(function(req, res) {
         }
       }
       // 没找到id
+      result = {};
       result.msg = "修改失败,修改的用户不存在"
       if (hasId) {
-        fs.writeFileSync(customPath, con, "utf-8");
+        fs.writeFileSync(customPath, JSON.stringify(con), "utf-8");
         result = {
           code: 0,
           msg: "修改成功"

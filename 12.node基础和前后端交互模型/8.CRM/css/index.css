@@ -76,6 +76,10 @@ a {
   float: left;
   font-size: 14px;
   text-align: center;
+  /*禁止换行*/
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .head {

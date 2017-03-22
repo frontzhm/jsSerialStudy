@@ -31,34 +31,91 @@
   </div>
   <script src="js/ajax.js"></script>
   <script>
+  String.prototype.queryURLParameter = function() {
+    var obj = {};
+    var reg = /([^?=&#]+)=([^?=&#]+)/g;
+    this.replace(reg, function() {
+      var key = arguments[1],
+        value = arguments[2];
+      obj[key] = value;
+    })
+    return obj;
+  }
   var
     userName = document.getElementById("userName"),
     userAge = document.getElementById("userAge"),
     userPhone = document.getElementById("userPhone"),
     userAddress = document.getElementById("userAddress"),
     submit = document.getElementById("submit");
-  submit.onclick = function () {
-  	var obj = {
-  		name:userName.value,
-  		age:userAge.value,
-  		phone:userPhone.value,
-  		address:userAddress.value
-  	}
-  	// add send ajax
-  	ajax({
-  		url:'/addInfo',
-  		type:'post',
-  		// 请求主体中的内容是json格式的字符串
-  		data:JSON.stringify(obj),
-  		success:function (jsonData) {
-  			if(jsonData && jsonData.code == 0){
-  				// 成功后跳转首页
-  				window.location.href = "index.html"
-  				return;
-  			}
-  			alert(jsonData.msg)
-  		}
-  	})
+
+  // 判断一下是修改还是增加:如果url后面传递了id就是修改,否则就是增加,这样的话我们加载页面的第一件事情就是获取url的id值
+  var
+    urlObj = window.location.href.queryURLParameter(),
+    customId = urlObj.id,
+    isEdit = !(typeof customId === "undefined");
+
+  // 如果是修改的话,首先获取客户信息,并显示在文本框中
+  if (isEdit) {
+    ajax({
+      url: "/getInfo?id=" + customId,
+      success: function(jsonData) {
+        console.log(jsonData)
+        if (jsonData && jsonData.code == 0) {
+          var data = jsonData.data;
+          userName.value = data.name;
+          userAge.value = data.age;
+          userAddress.value = data.address;
+          userPhone.value = data.phone;
+        }
+      }
+    });
+  }
+
+
+
+
+  submit.onclick = function() {
+    var obj = {
+      name: userName.value,
+      age: userAge.value,
+      phone: userPhone.value,
+      address: userAddress.value
+    }
+    if (isEdit) {
+      // update ajax
+      obj.id = customId;
+       ajax({
+         url: '/updateInfo',
+         type: 'post',
+         // 请求主体中的内容是json格式的字符串
+         data: JSON.stringify(obj),
+         success: function(jsonData) {
+           if (jsonData && jsonData.code == 0) {
+             // 成功后跳转首页
+             window.location.href = "index.html"
+             return;
+           }
+           alert(jsonData.msg)
+         }
+       });
+    } else {
+      // add send ajax
+      ajax({
+        url: '/addInfo',
+        type: 'post',
+        // 请求主体中的内容是json格式的字符串
+        data: JSON.stringify(obj),
+        success: function(jsonData) {
+          if (jsonData && jsonData.code == 0) {
+            // 成功后跳转首页
+            window.location.href = "index.html"
+            return;
+          }
+          alert(jsonData.msg)
+        }
+      });
+    }
+
   }
   </script>
 </body>
