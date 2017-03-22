@@ -1,0 +1,147 @@
+h1,
+h2,
+h3,
+ul,
+li,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+input{
+	display: inline-block;
+	outline: none;
+}
+
+
+html,
+body {
+  width: 100%;
+  color: #000;
+  font-size: 14px;
+  font-family: "microsoft yahei";
+  overflow-x: hidden;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+}
+
+.w50 {
+  width: 50px;
+}
+
+.w150 {
+  width: 150px;
+}
+
+.w200 {
+  width: 200px;
+}
+
+
+/*---index start----*/
+
+.box {
+  width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 2px solid green;
+}
+
+.link {
+  font-size: 16px;
+  display: block;
+  margin: 5px 0;
+}
+
+.link:hover {
+  color: green;
+  text-decoration: underline;
+}
+
+.head,
+.list li {
+  height: 35px;
+  line-height: 35px;
+}
+
+.head span,
+.list li span {
+  float: left;
+  font-size: 14px;
+  text-align: center;
+}
+
+.head {
+  background-color: green;
+}
+
+.head span {
+  font-weight: bold;
+  color: #fff;
+}
+
+.list li span {
+  float: left;
+}
+
+.list li:nth-child(even) {
+  background-color: #eee;
+}
+
+.list li:hover {
+  background-color: #f4f4f4;
+}
+
+.control a {
+  display: inline-block;
+  margin: 0 5px;
+}
+
+
+/*---- add start ----*/
+
+.box2{
+	margin: 20px auto;
+	padding: 20px;
+	width: 500px;
+	border: 1px solid #eee;
+}
+
+.box2 div{
+	height: 32px;
+	line-height: 32px;
+	margin: 10px auto;
+}
+
+.box2 div span{
+	display: inline-block;
+	width: 50px;
+	
+}
+.box2 div input{
+	width: 380px;
+	height: 30px;
+	border: 1px solid #ddd;
+	padding: 0 10px;
+}
+
+#userName,#userAge{
+	width: 190px;
+}
+
+.submit{
+	width: 200px;
+	margin: 10px auto;
+	text-align: center;
+	color: #fff;
+	cursor: pointer;
+	background-color: green;
+}
+

@@ -131,6 +131,7 @@ var server1 = http.createServer(function(req, res) {
 
   // 4)增加用户信息
   if (pathname === "/addInfo") {
+
     // 获取客户端通过请求主体传递进来的内容
     var str = ""
       // 所有的事件依然是异步编程
@@ -152,6 +153,7 @@ var server1 = http.createServer(function(req, res) {
         return;
       }
       var data = JSON.parse(str);
+      console.log(data)
       // 在现有的data中追加一个id:获取con中最后一项id,新的id是在原有基础上加1即可,判断原先有没有数据
       data["id"] = con.length === 0 ? 1 : parseFloat(con[con.length - 1]["id"]) + 1;
       con[con.length] = data;
@@ -165,6 +167,7 @@ var server1 = http.createServer(function(req, res) {
       return;
     });
     console.log("我会先执行")
+    return;
   }
   // 5)修改用户信息
   if (pathname === "/updateInfo") {

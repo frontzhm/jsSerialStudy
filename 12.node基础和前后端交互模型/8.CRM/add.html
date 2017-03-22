@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+  <div class="box2">
+    <div>
+      <span>姓名:</span>
+      <input type="text" id="userName">
+    </div>
+    <div>
+      <span>年龄:</span>
+      <input type="text" id="userAge">
+    </div>
+    <div>
+      <span>电话:</span>
+      <input type="text" id="userPhone">
+    </div>
+    <div>
+      <span>地址:</span>
+      <input type="text" id="userAddress">
+    </div>
+    <div id="submit" class="submit">
+      提交
+    </div>
+  </div>
+  <script src="js/ajax.js"></script>
+  <script>
+  var
+    userName = document.getElementById("userName"),
+    userAge = document.getElementById("userAge"),
+    userPhone = document.getElementById("userPhone"),
+    userAddress = document.getElementById("userAddress"),
+    submit = document.getElementById("submit");
+  submit.onclick = function () {
+  	var obj = {
+  		name:userName.value,
+  		age:userAge.value,
+  		phone:userPhone.value,
+  		address:userAddress.value
+  	}
+  	// add send ajax
+  	ajax({
+  		url:'/addInfo',
+  		type:'post',
+  		// 请求主体中的内容是json格式的字符串
+  		data:JSON.stringify(obj),
+  		success:function (jsonData) {
+  			if(jsonData && jsonData.code == 0){
+  				// 成功后跳转首页
+  				window.location.href = "index.html"
+  				return;
+  			}
+  			alert(jsonData.msg)
+  		}
+  	})
+  }
+  </script>
+</body>
+
+</html>
