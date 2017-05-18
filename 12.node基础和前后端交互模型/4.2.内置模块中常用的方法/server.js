@@ -2,7 +2,6 @@
 var
   http = require("http"),
   fs = require("fs"),
-  fs = require("fs"),
   // url模块中提供了一个方法,url.parse()用来解析url地址的
   url = require("url");
 // 超市相当于服务器,但还是需要服务员才能营业,可能需要很多个服务员(0-65535),并且贴胸牌识别

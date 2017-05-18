@@ -77,8 +77,8 @@
   xhr.timeout = "1000";
   xhr.onreadystatechange = function() {
   		if(xhr.readyState ===2){
-  			// 获取服务器响应头信息
-  			xhr.getResponseHeader("Date");
+  			// 获取服务器响应头信息，服务器时间是格林威治时间
+  			var time = xhr.getResponseHeader("Date");
   			// new Date让格林时间变成北京时间
   			console.log(new Date(time))
   			// 虽然4的时候也可以获得,但是在2的时候时间差更小,经常在倒计时抢购的时候
